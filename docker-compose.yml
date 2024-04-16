@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  caddy:
+    image: caddy
+    container_name: caddy
+    build: ./caddy
+    # environment:
+    #   - HOSTNAME=${HOSTNAME}
+    #   - BACKEND_URL=${BACKEND_URL}
+    #   - FRONTEND_URL=${FRONTEND_URL}
+    ports:
+      - 8000:8000
+    # depends_on:
+    #   backend:
+    #     condition: service_healthy
+    # networks:
+    #   - app-frontend
+    #   - app-backend
+    restart: always
+
+networks:
+  app-frontend:
+    name: app-frontend
+    driver: bridge
+  app-backend:
+    name: app-backend
+    driver: bridge
+
+volumes:
+  db-data:
+    name: db-data
+    driver: local
+  dev-backend:
+    name: dev-backend
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/backend
+      o: bind
