@@ -1,4 +1,10 @@
-# TODO: add clean of db and dep + cli colors and logs
+# Colors
+_END		= \033[0m
+_INFO		= \033[1;33m
+_BUILD		= \033[1;32m
+_REMOVE		= \033[1;31m
+
+# TODO: add clean of db and dep
 
 .PHONY: all
 all: build up
@@ -38,15 +44,15 @@ re: fclean all
 
 .PHONY: info
 info:
-	@echo "======================= COMPOSE ========================"
+	@echo "${_INFO}======================= COMPOSE ========================${_END}"
 	@docker compose ps
-	@echo "\n======================== IMAGES ========================"
+	@echo "\n${_INFO}======================== IMAGES ========================${_END}"
 	@docker images
-	@echo "\n====================== CONTAINERS ======================"
+	@echo "\n${_INFO}====================== CONTAINERS ======================${_END}"
 	@docker ps -a
-	@echo "\n======================== VOLUMES ======================="
+	@echo "\n${_INFO}======================== VOLUMES =======================${_END}"
 	@docker volume ls
-	@echo "\n======================== NETWORKS ======================"
+	@echo "\n${_INFO}======================== NETWORKS ======================${_END}"
 	@docker network ls
 
 .PHONY: help
