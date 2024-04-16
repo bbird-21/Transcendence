@@ -29,3 +29,7 @@ All mandatory parts are implemented, and some bonus features are also implemente
 
 - User authentication
 - User profile
+
+## Contributing
+For the commits we use [commitizen](https://commitizen-tools.github.io/commitizen)
+Thanks install and use it for contributing
