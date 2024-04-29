@@ -12,16 +12,16 @@ all: build up
 .PHONY: build
 build:
 #	@mkdir -p ./db/postgres
-	@docket compose build
+	@docker compose build
 
 # TODO: add an option for detach
 .PHONY: up
 up:
-	@docket compose up
+	@docker compose up
 
 .PHONY: down
 down:
-	@docket compose down --volumes
+	@docker compose down --volumes
 
 .PHONY: clean
 clean:
