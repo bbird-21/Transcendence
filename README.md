@@ -13,6 +13,12 @@ git clone git@github.com:shocquen/ft_transcendence.git
 cd ft_transcendence
 ```
 
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
 Then you can run the following command to start the project:
 
 ```bash
@@ -31,5 +37,6 @@ All mandatory parts are implemented, and some bonus features are also implemente
 - User profile
 
 ## Contributing
+
 For the commits we use [commitizen](https://commitizen-tools.github.io/commitizen)
 Thanks install and use it for contributing
