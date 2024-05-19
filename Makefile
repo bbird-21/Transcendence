@@ -17,7 +17,7 @@ build:
 # TODO: add an option for detach
 .PHONY: up
 up:
-	@docker compose up
+	@docker compose up -d
 
 .PHONY: down
 down:

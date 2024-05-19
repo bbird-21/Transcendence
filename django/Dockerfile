@@ -1,19 +1,10 @@
 # Use an official Python runtime as a parent image
-FROM python:3.8-slim-buster
+FROM python:3.12-alpine3.19
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set work directory
-WORKDIR /code
-
-# Install dependencies
-COPY requirements.txt /code/
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy project
-COPY . /code/
-
-# Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "your_project_name.wsgi:application"]
+WORKDIR /ft_transcendence
+COPY requirements.txt /ft_transcendence
+RUN pip3 install -r requirements.txt --no-cache-dir
+COPY . /ft_transcendence 
+WORKDIR ./ft_transcendence
+ENTRYPOINT [ "python3" ] 
+CMD [ "manage.py", "runserver", "0.0.0.0:8000" ]
