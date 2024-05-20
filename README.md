@@ -13,30 +13,22 @@ git clone git@github.com:shocquen/ft_transcendence.git
 cd ft_transcendence
 ```
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
 Then you can run the following command to start the project:
 
 ```bash
-docker-compose up
+make all
 ```
 
 ## Usage
 
-You can access the website at the following address: `localhost:3000`
-
-## Features
-
-All mandatory parts are implemented, and some bonus features are also implemented:
-
-- User authentication
-- User profile
+You can access the website at the following address: `localhost:8000`
 
 ## Contributing
 
 For the commits we use [commitizen](https://commitizen-tools.github.io/commitizen)
 Thanks install and use it for contributing
+
+## Dev tips
+Once the containers are runnings, thanks to the volume you can freely edit the code in the django folder, it follow in the django container
+**If you wanna use `manage.py`** you can use `docker compose exec django python manage.py <cmd>`
+*I know the command is quite long so use an alias*
