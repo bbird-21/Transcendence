@@ -37,11 +37,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+  
     # modules and plugins
     "django_prometheus",
-    # custom apps
-    "user.apps.UserConfig",
+    "allauth",
+    "allauth.account",
+    'allauth.socialaccount',
+  
+    # customs app
+    "fortytwo",
 ]
+
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT = 'home'
 
 # Order of middleware should matter
 MIDDLEWARE = [
@@ -54,6 +62,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+  
+    "allauth.account.middleware.AccountMiddleware",
     # prometheus middleware
     "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
@@ -63,7 +73,7 @@ ROOT_URLCONF = "ft_transcendence.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -93,6 +103,33 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'fortytwo': {
+        'APP': {
+            'client_id': os.getenv("FT_CLIENT"),
+            'secret': os.getenv("FT_SECRET"),
+        },
+        "SCOPE": [
+                "public",
+        ],
+
+        "AUTH_PARAMS": {
+                    "response_type": "code",
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

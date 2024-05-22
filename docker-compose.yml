@@ -31,7 +31,8 @@ services:
       DJANGO_DB_PASSWORD: ${POSTGRES_PASSWORD}
       DJANGO_DB_HOST: ${DJANGO_DB_HOST}
       DJANGO_DB_PORT: ${DJANGO_DB_PORT}
-      PGPASSWORD: ${POSTGRES_PASSWORD}
+      FT_CLIENT: ${FT_CLIENT}
+      FT_SECRET: ${FT_SECRET}
     networks:
       - app
     volumes:
