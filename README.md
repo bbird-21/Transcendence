@@ -29,6 +29,13 @@ For the commits we use [commitizen](https://commitizen-tools.github.io/commitize
 Thanks install and use it for contributing
 
 ## Dev tips
+
 Once the containers are runnings, thanks to the volume you can freely edit the code in the django folder, it follow in the django container
 **If you wanna use `manage.py`** you can use `docker compose exec django python manage.py <cmd>`
-*I know the command is quite long so use an alias*
+_I know the command is quite long so use an alias_
+
+If you need to generate a django secret key, you can use the following command:
+
+```bash
+python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
