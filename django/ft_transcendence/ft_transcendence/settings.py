@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # Daphne must be at the top of the list in order to enable an ASGI
+    "daphne",
     # default apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -37,19 +39,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-  
     # modules and plugins
     "django_prometheus",
     "allauth",
+    # "channels",
     "allauth.account",
-    'allauth.socialaccount',
-  
+    "allauth.socialaccount",
     # customs app
     "fortytwo",
+    "chat",
 ]
 
-LOGIN_REDIRECT_URL = 'home'
-ACCOUNT_LOGOUT_REDIRECT = 'home'
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_REDIRECT = "home"
 
 # Order of middleware should matter
 MIDDLEWARE = [
@@ -62,7 +64,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-  
     "allauth.account.middleware.AccountMiddleware",
     # prometheus middleware
     "django_prometheus.middleware.PrometheusAfterMiddleware",
@@ -105,10 +106,9 @@ DATABASES = {
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 ACCOUNT_EMAIL_REQUIRED = False
@@ -116,17 +116,16 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
-    'fortytwo': {
-        'APP': {
-            'client_id': os.getenv("FT_CLIENT"),
-            'secret': os.getenv("FT_SECRET"),
+    "fortytwo": {
+        "APP": {
+            "client_id": os.getenv("FT_CLIENT"),
+            "secret": os.getenv("FT_SECRET"),
         },
         "SCOPE": [
-                "public",
+            "public",
         ],
-
         "AUTH_PARAMS": {
-                    "response_type": "code",
+            "response_type": "code",
         },
     }
 }
@@ -171,3 +170,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+ASGI_APPLICATION = "ft_transcendence.asgi.application"

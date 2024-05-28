@@ -22,7 +22,8 @@ from core.views import Home
 urlpatterns = [
     path("fortytwo/", include("fortytwo.urls")),
     path("admin/", admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('', Home.as_view(), name='home'),
+    path("accounts/", include("allauth.urls")),
+    path("", Home.as_view(), name="home"),
     path("", include("django_prometheus.urls")),
+    path("chat/", include("chat.urls")),
 ]
