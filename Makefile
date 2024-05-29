@@ -20,7 +20,7 @@ up:
 
 .PHONY: down
 down:
-	@docker compose down --volumes
+	@docker compose down
 
 .PHONY: clean
 clean:
@@ -31,15 +31,8 @@ clean:
 	@docker volume rm $(docker volume ls -q) 2>/dev/null || true
 	@docker network rm $(docker network ls -q) 2>/dev/null || true
 
-.PHONY: fclean
-fclean: clean
-#	@rm -rf ./data/postgres
-#	@rm -rf backend/node_modules && rm -rf backend/dist || true
-#	@rm -rf frontend/node_modules && rm -rf frontend/dist || true
-#	@rm backend/uploads/* || true
-
 .PHONY: re
-re: fclean all
+re: clean all
 
 .PHONY: info
 info:
