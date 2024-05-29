@@ -1,2 +1,19 @@
 [tool.black]
 line-length = 79
+
+[tool.pylsp-mypy]
+enabled = true
+ignore_missing_imports = true
+mypy_path = "${HOME}/.venv/transcendence"
+
+[[tool.pylsp-mypy.overrides]]
+module = [
+  "allauth",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+  "allauth",
+]
+ignore_missing_imports = true
