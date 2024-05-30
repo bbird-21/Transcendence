@@ -11,7 +11,15 @@ services:
     networks:
       - app
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "$POSTGRES_USER", "-d", "$POSTGRES_DB"]
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-U",
+          "$POSTGRES_USER",
+          "-d",
+          "$POSTGRES_DB"
+        ]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -44,6 +52,15 @@ services:
     #   interval: 10s
     #   timeout: 3s
     #   retries: 3
+
+  redis:
+    container_name: redis
+    image: redis:7.2.5-alpine
+    networks:
+      - app
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning
 
   grafana:
     image: grafana/grafana:latest
@@ -79,7 +96,6 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
     restart: unless-stopped
-
   # caddy:
   #   image: caddy
   #   container_name: caddy
