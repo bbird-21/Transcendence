@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # modules and plugins
     "django_prometheus",
     "allauth",
+    "bootstrap5",
     # "channels",
     "allauth.account",
     "allauth.socialaccount",

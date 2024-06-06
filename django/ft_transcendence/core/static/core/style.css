@@ -1,0 +1,11 @@
+html{
+	scroll-behavior: smooth;
+}
+
+body{
+	background-color: aqua;
+}
+
+h1 {
+	color:white;
+}

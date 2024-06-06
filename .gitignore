@@ -13,3 +13,4 @@ db.sqlite3
 ### Commitzen ###
 package.json
 package-lock.json
+node_modules
