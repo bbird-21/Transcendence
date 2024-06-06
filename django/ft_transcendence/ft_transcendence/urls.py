@@ -24,8 +24,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     # path("", views.HomeTest.as_view(), name="hometest"),
-    path("home/", include("core.urls")),
-    path("", views.Home.as_view(), name="home"),
+    path("", include("core.urls")),
+    # path("", views.Home.as_view(), name="home"),
     path("", include("django_prometheus.urls")),
     path("chat/", include("chat.urls")),
 ]

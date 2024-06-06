@@ -5,7 +5,10 @@ def hometest(request):
     return render(request, "core/home-test.html")
 
 class Home(TemplateView):
-    template_name = 'home.html'
+    template_name = "core/home.html"
+
+def tennis(request):
+    return render(request, "core/tennis.html")
 
 # class HomeTest(TemplateView):
     # template_name = 'core/home-test.html'
