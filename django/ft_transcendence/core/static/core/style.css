@@ -1,3 +1,4 @@
+/* --- Background Video --- */
 .video-background {
   position: fixed;
   top: 0;
@@ -7,6 +8,8 @@
   object-fit: cover; /* Ensures the video covers the entire element */
   z-index: -1; /* Places the video behind other content */
 }
+
+/* --- Title Page --- */
 .content {
   position: relative;
   z-index: 1; /* Ensures the content is above the video */
@@ -22,15 +25,17 @@
   font-size: 50px;
   margin-bottom: 100px;
 }
+
 .move-up {
   margin-top: -400px; /* Adjust this value to move text upward */
 }
 .fade-in {
   opacity: 0; /* Initial opacity set to 0 */
-  animation: fadeInAnimation 1s ease-in forwards; /* Apply animation */
+  animation: fadeInAnimation 0.5s ease-in forwards; /* Apply animation */
   animation-delay: 1s; /* Delay the animation for 2 seconds */
 }
 
+/* Login Button */
 .login-button {
 	margin-top: 20px; /* Space between text and button */
 	display: flex;
@@ -46,7 +51,7 @@
   }
 
   .login-button:hover {
-	transform: scale(1.05); /* Slightly increase the size on hover */
+	transform: scale(1.10); /* Slightly increase the size on hover */
   }
 
 
@@ -61,7 +66,7 @@
 }
 
   .signup-button:hover {
-	transform: scale(1.05); /* Slightly increase the size on hover */
+	transform: scale(1.10); /* Slightly increase the size on hover */
   }
 
 .button-group {
@@ -75,3 +80,40 @@
 	margin: 0 100px; /* Add space around the buttons */
 	color:blueviolet;
 }
+
+/* Wave Effect */
+.box {
+	background:
+	  radial-gradient(100% 58% at top   ,white   99%,  #8a2be2 ) calc(0*100%/3) 0,
+	  radial-gradient(100% 58% at bottom,  #8a2be2  99%,white  ) calc(3*100%/3) 0,
+	  radial-gradient(100% 58% at top   ,white   99%,  #8a2be2 ) calc(6*100%/3) 0,
+	  radial-gradient(100% 58% at bottom,  #8a2be2  99%,white  ) calc(9*100%/3) 0
+	  #8a2be2 ;
+	background-size:50% 200%;
+	background-repeat:no-repeat;
+	-webkit-background-clip:text;
+	color:transparent;
+	background-clip:text;
+	display:inline-block;
+	padding:20px;
+	animation:
+	  move 1s infinite linear,
+	  up   5s infinite linear alternate;
+  }
+
+  @keyframes move {
+	to {
+	  background-position:
+		 calc(-6*100%/3) 0,
+		 calc(-3*100%/3) 0,
+		 calc(0*100%/3) 0,
+		 calc(3*100%/3) 0;
+	}
+  }
+
+  @keyframes up {
+	to {
+	  background-size:50% 142%;
+	}
+  }
+
