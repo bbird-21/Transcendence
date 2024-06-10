@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
     <div class="container fade-in move-up wave-container">
       <h1 class="text-white wave-text box">Cyber Pong</h1>
       <div class="button-group">
-        <a href="fortytwo.html" class="btn btn-primary login-button">
+        <a href="{% provider_login_url 'fortytwo' %}" class="btn btn-primary login-button">
           Log In <img src="{% static 'core/images/42.png' %}" alt="Login Icon">
         </a>
         <a href="signup.html" class="btn btn-secondary signup-button">Sign Up</a>
