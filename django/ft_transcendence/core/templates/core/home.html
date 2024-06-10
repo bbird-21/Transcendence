@@ -1,15 +1,33 @@
 {% load socialaccount %}
-
-<h1>Web App with OAuth2 Log In</h1>
+{% load static %}
 
 {% if user.is_authenticated %}
 
-<p>Welcome {{ user.email }}, you just logged in via your instance!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/style-home.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-message">
+            <h1>Welcome, {{ user.first_name }}!</h1>
+        </div>
+        <div class="button">
+          <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          <button type="submit">Log Out</button>
+          </form>
+        </div>
+    </div>
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  <button type="submit">Log Out</button>
-</form>
+
+</body>
+</html>
+
+
 
 {% else %}
 
