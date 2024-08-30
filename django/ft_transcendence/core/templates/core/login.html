@@ -1,0 +1,32 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/style.css' %}">
+  <title>Transcendence</title>
+</head>
+<body>
+  <video autoplay muted loop class="video-background">
+    <source src="{% static 'core/images/galaxy-background.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="content">
+    <div class="container fade-in move-up wave-container">
+      <h1 class="text-white wave-text box">Cyber Pong</h1>
+      <div class="button-group">
+        <a href="{% provider_login_url 'fortytwo' %}" class="btn btn-primary login-button">
+          Log In <img src="{% static 'core/images/42.png' %}" alt="Login Icon">
+        </a>
+        <a href="signup.html" class="btn btn-secondary signup-button">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

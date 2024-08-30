@@ -17,13 +17,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from core.views import Home
+from core import views
 
 urlpatterns = [
     path("fortytwo/", include("fortytwo.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", Home.as_view(), name="home"),
+    # path("", views.HomeTest.as_view(), name="hometest"),
+    path("", include("core.urls")),
+    # path("", views.Home.as_view(), name="home"),
     path("", include("django_prometheus.urls")),
     path("chat/", include("chat.urls")),
 ]
