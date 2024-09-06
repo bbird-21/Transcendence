@@ -10,6 +10,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'core/style.css' %}">
+
+  <link rel="stylesheet" href=
+  "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity=
+  "sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+
   <title>Transcendence</title>
 </head>
 <body>
@@ -18,13 +25,24 @@
     Your browser does not support the video tag.
   </video>
   <div class="content">
-    <div class="container fade-in move-up wave-container">
-      <h1 class="text-white wave-text box">Cyber Pong</h1>
+    <div class="fade-in move-up">
+      <h1 class="">CyberPong</h1>
       <div class="button-group">
-        <a href="{% provider_login_url 'fortytwo' %}" class="btn btn-primary login-button">
+        <!-- <a href="{% provider_login_url 'fortytwo' %}" class="btn btn-primary login-button">
           Log In <img src="{% static 'core/images/42.png' %}" alt="Login Icon">
-        </a>
-        <a href="signup.html" class="btn btn-secondary signup-button">Sign Up</a>
+        </a> -->
+
+        <form action="{% provider_login_url 'fortytwo' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-dark login-button ">Sign in With </button>
+        </form>
+
+
+        <form action="{% url 'account_login' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-dark login-button ">Sign up </button>
+        </form>
+
       </div>
     </div>
   </div>
