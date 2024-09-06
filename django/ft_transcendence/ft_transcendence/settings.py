@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = "home"
-ACCOUNT_LOGOUT_REDIRECT = "home"
+ACCOUNT_LOGOUT_REDIRECT = "login"
 
 # Order of middleware should matter
 MIDDLEWARE = [
@@ -131,7 +131,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SOCIALACCOUNT_LOGIN_ON_GET=True
+SOCIALACCOUNT_LOGIN_ON_GET=False
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -187,3 +187,18 @@ CHANNEL_LAYERS = {
     },
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://redis:6379",
+    }
+}
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SOCIALACCOUNT_STORE_TOKENS=True
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
+# Add Site Framework
+SITE_ID = 1
