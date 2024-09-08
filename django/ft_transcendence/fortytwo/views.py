@@ -5,7 +5,6 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2LoginView,
 )
 
-
 FT_API_BASE_URL = "https://api.intra.42.fr"
 
 class FortytwoOAuth2Adapter(OAuth2Adapter):

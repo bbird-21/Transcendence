@@ -9,42 +9,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/style.css' %}">
-
-  <link rel="stylesheet" href=
-  "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity=
-  "sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-          crossorigin="anonymous">
-
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
   <title>Transcendence</title>
 </head>
-<body>
-  <video autoplay muted loop class="video-background">
-    <source src="{% static 'core/images/galaxy-background.mp4' %}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <div class="content">
-    <div class="fade-in move-up">
-      <h1 class="">CyberPong</h1>
-      <div class="button-group">
-        <!-- <a href="{% provider_login_url 'fortytwo' %}" class="btn btn-primary login-button">
-          Log In <img src="{% static 'core/images/42.png' %}" alt="Login Icon">
-        </a> -->
-
-        <form action="{% provider_login_url 'fortytwo' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-dark login-button ">Sign in With </button>
-        </form>
-
-
-        <form action="{% url 'account_login' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-dark login-button ">Sign up </button>
-        </form>
-
+  <body>
+    <video autoplay muted loop class="video-background">
+      <source src="{% static 'core/images/galaxy-background.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <!-- <header class="transparent-header"> </header> -->
+    <div class="title">
+      <div class="title--fade-in title--move-up">
+        <h1 class="">CyberPong</h1>
       </div>
     </div>
-  </div>
-</body>
+    <div class="button-group">
+      <form action="{% provider_login_url 'fortytwo' %}" method="post">
+      {% csrf_token %}
+        <button type="submit" class="button-group__btn btn-dark login-button ">Sign in With </button>
+      </form>
+
+      <form action="{% url 'account_login' %}" method="post">
+      {% csrf_token %}
+        <button type="submit" class="button-group__btn btn-dark login-button ">Sign up </button>
+      </form>
+    </div>
+  </body>
 </html>
