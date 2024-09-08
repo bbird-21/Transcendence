@@ -16,14 +16,12 @@
             <h1>Welcome, {{ user.first_name }}!</h1>
         </div>
         <div class="button">
-          <form method="post" action="{% url 'account_logout' %}">
+          <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button type="submit">Log Out</button>
           </form>
         </div>
     </div>
-
-
 </body>
 </html>
 
