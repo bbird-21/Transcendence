@@ -4,7 +4,7 @@ h1, h2, h3, h4, h5, h6, p {
     padding: 0;
 }
 
-/* --- Background Video --- */
+/* ---------- Background Video ---------- */
 .video-background {
 	position: fixed;
 	top: 0;
@@ -15,63 +15,48 @@ h1, h2, h3, h4, h5, h6, p {
 	z-index: -1; /* Places the video behind other content */
   }
 
-  /* --- Title Page --- */
+/* ---------- Title Page ---------- */
   .title {
 	display: flex; /* Use Flexbox for centering */
-	z-index: 1; /* Ensures the content is above the video */
 	justify-content: center; /* Center content horizontally */
-	text-align: center; /* Center text inside the container */
+	align-items: center; /* Center text inside the container */
+	z-index: 1; /* Ensures the content is above the video */
+}
+
+/* Title's style */
+.title--move {
 	color:white;
 	font-family: 'Stacker', sans-serif; /* Google Font */
 	font-style: normal;
-	font-size: 50px;
-	margin-top: 2%;
+    font-size: 80px;
+    position: relative;
+    animation: moveToTop 2s ease forwards; /* 2s animation, only once */
 }
 
-.login-container {
+/* Moves title to the top of the page */
+@keyframes moveToTop {
+    0% {
+        transform: translateY(400px); /* Initial position in the middle */
+    }
+    100% {
+        transform: translateY(30px); /* Moves title to the top of the page */
+    }
+}
+
+/* ---------- Login Buttons ---------- */
+
+.login-buttons-container {
 	display: flex;
-	align-items: center; /* Center items horizontally */
 	justify-content: center; /* Center items vertically */
+	align-items: center; /* Center items horizontally */
 	gap: 5%; /* Space between image and text */
 	margin-top: 20%;
 }
-  /* .title--move-up {
-	margin-top: -1100px; /* Adjust this value to move text upward */
-  /*} */
-
-  /* .title--fade-in {
-	opacity: 0; /* Initial opacity set to 0 */
-	/*animation: fadeInAnimation 0.5s ease-in forwards; /* Apply animation */
-	/*animation-delay: 1s; /* Delay the animation for 2 seconds */
-  /*} */
-
-  /* Login Button */
-
-.login-form {
-	/* display: flex; */
-	margin-top: 50%; /* Space between text and button */
-	/* justify-content: center; */
-}
-
 
 .login-button {
-	  gap: 10px; /* Space between image and text */
-	  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and transform */
-	}
+	gap: 10px; /* Space between image and text */
+}
 
-	.login-button img {
-	  width: 50px; /* Adjust the size of the image */
-	  height: 50px;
-	  transition: filter 0.3s ease; /* Smooth transition for filter */
-	}
-
-	.login-button:hover {
-	  transform: scale(1.10); /* Slightly increase the size on hover */
-	}
-
-
-@keyframes fadeInAnimation {
-	to {
-	opacity: 1; /* End opacity set to 1 */
-	}
+.login-button:hover {
+	transform: scale(1.10); /* Slightly increase the size on hover */
 }
