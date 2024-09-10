@@ -28,6 +28,13 @@ h1, h2, h3, h4, h5, h6, p {
 	margin-top: 2%;
 }
 
+.login-container {
+	display: flex;
+	align-items: center; /* Center items horizontally */
+	justify-content: center; /* Center items vertically */
+	gap: 5%; /* Space between image and text */
+	margin-top: 20%;
+}
   /* .title--move-up {
 	margin-top: -1100px; /* Adjust this value to move text upward */
   /*} */
@@ -40,22 +47,14 @@ h1, h2, h3, h4, h5, h6, p {
 
   /* Login Button */
 
-.button-group {
-	display: flex;
-	margin-top: 15%; /* Space between text and button */
-	justify-content: center;
+.login-form {
+	/* display: flex; */
+	margin-top: 50%; /* Space between text and button */
+	/* justify-content: center; */
 }
 
-.button-group__btn {
-	display: flex;
-	height: 50px;
-	width: 200px;
-	border-radius: 30%;
-}
 
 .login-button {
-	  display: flex;
-	  align-items: center;
 	  gap: 10px; /* Space between image and text */
 	  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and transform */
 	}
@@ -71,27 +70,8 @@ h1, h2, h3, h4, h5, h6, p {
 	}
 
 
-
-  .signup-button {
-	  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and transform */
-  }
-
-	.signup-button:hover {
-	  transform: scale(1.10); /* Slightly increase the size on hover */
+@keyframes fadeInAnimation {
+	to {
+	opacity: 1; /* End opacity set to 1 */
 	}
-
-
-  .login-button,
-  .signup-button {
-	  display: inline-block; /* Ensure both buttons are on the same line */
-	  vertical-align: middle; /* Align buttons vertically */
-	  margin: 0 100px; /* Add space around the buttons */
-	  color:blueviolet;
-  }
-
-
-	@keyframes fadeInAnimation {
-	  to {
-		opacity: 1; /* End opacity set to 1 */
-	  }
-	}
+}
