@@ -1,44 +1,123 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Buttons with Same Action</title>
-    <link rel="stylesheet" href="{% static 'core/css/test.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout with Top Block</title>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      /* Center content horizontally */
+      align-items: center;
+      /* Center content vertically */
+      height: 100vh;
+      /* Full viewport height */
+      background-color: #f0f0f0;
+      position: relative;
+      /* Position relative for absolute positioning of top block */
+    }
+
+    .top-block {
+      position: absolute;
+      /* Position absolutely relative to the container */
+      top: 20px;
+      /* Distance from the top of the container */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      padding: 20px;
+      background-color: lightgreen;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .bottom-block {
+      /* Position of the block */
+      position: absolute;
+      bottom: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      /* Element Modificator */
+      background-color: rosybrown;
+      text-align: center;
+      width: 200px;
+      padding: 20px;
+    }
+
+
+    .bottom-right-block {
+      position:absolute;
+      /* transform: translateX(-50%); */
+      bottom: 3%;
+      right: 3%;
+      width: 200px;
+      padding: 20px;
+      background-color: blue;
+      border:1px solid #ddd;
+      text-align: center;
+      color:white;
+    }
+
+    .center-right-container {
+      display: flex;
+      gap: 20px;
+      /* Space between the blocks */
+    }
+
+    .center-block,
+    .right-block {
+      width: 200px;
+      /* Set width for the blocks */
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .center-block {
+      background-color: lightblue;
+    }
+
+    .right-block {
+      background-color: lightcoral;
+    }
+  </style>
 </head>
+
 <body>
 
-    <div class="login-container">
-        <!-- Multiple buttons -->
-        <button class="btn-primary login-button">Login 1</button>
-        <button class="btn-primary login-button">Login 2</button>
-        <button class="btn-primary login-button">Login 3</button>
-
-        <!-- Hidden form -->
-        <form id="login-form" class="hidden">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" class="btn-primary">Submit</button>
-        </form>
-
-    <script>
-        // Get all buttons with the "login-button" class
-        const loginButtons = document.querySelectorAll('.login-button');
-
-        // Loop through the buttons and add the same click event listener to each
-        loginButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Hide all login buttons
-                loginButtons.forEach(btn => btn.classList.add('hidden'));
-
-                // Show the form
-                document.getElementById('login-form').classList.remove('hidden');
-            });
-        });
-    </script>
+  <!-- Container for layout management -->
+  <div class="container">
+    <!-- Top block -->
+    <div class="top-block">
+      Top Block
     </div>
 
+    <!-- Container for center and right blocks -->
+    <div class="center-right-container">
+      <!-- Center block -->
+      <div class="center-block">
+        Center Block
+      </div>
+
+      <!-- Right block -->
+      <div class="right-block">
+        Right Block
+      </div>
+
+      <!-- Bottom Block-->
+       <div class="bottom-block">
+        Bottom block
+       </div>
+    </div>
+    <div class="bottom-right-block">
+        Bottom Right Block
+    </div>
+  </div>
+
 </body>
+
 </html>

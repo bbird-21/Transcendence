@@ -9,28 +9,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/navbar.css' %}">
 </head>
 <body>
-    <style>
-        body {
-            background-image: url("/static/core/images/bg-cyberpong.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 50%;
-        }
-    </style>
-    <div class="container">
-        <div class="welcome-message">
-            <h1>Welcome, {{ user.username }}!</h1>
-        </div>
-        <div class="button">
-          <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit">Log Out</button>
-          </form>
+    <span style="font-size:30px;cursor:pointer " class="burger-menu" onclick="openNav()">&#9776;</span>
+
+    <div id="SidenavID" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+    </div>
+    <div class="welcome-box">
+        <div class="white-box">
+            <div class="welcome-message">
+                <h1>Welcome {{ user.username }}!</h1>
+            </div>
+            <div class="button">
+                <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                    <button type="submit">Log Out</button>
+                </form>
+            </div>
         </div>
     </div>
+        <script src="/static/core/js/navbar.js"></script>
+
 </body>
 </html>
 
@@ -38,8 +43,12 @@
 
 {% else %}
 
-<p>Click Here to log in:</p>
-
-<a href="{% provider_login_url 'fortytwo' %}">Sign In</a>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=http://localhost:8000">
+    <title>Redirecting...</title>
+</head>
+</html>
 {% endif %}

@@ -1,15 +1,24 @@
 body {
+    background-image: url("/static/core/images/bg-cyberpong.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 80%;
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
+    height: 100vh;
+}
+.welcome-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    margin-top: 20%;
 }
 
-.container {
+.white-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,7 +30,7 @@ body {
 
 .welcome-message {
     display: flex;
-	align-items: center;
+    align-items: center;
     font-size: 24px;
     margin-bottom: 10px;
     color: #333;
@@ -45,4 +54,9 @@ body {
 
 .actions button:hover {
     background-color: #0056b3;
+}
+
+.button {
+    display: flex;
+
 }
