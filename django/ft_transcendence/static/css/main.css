@@ -3,3 +3,6 @@
   src: url("/static/fonts/Stacker-jE03l.ttf") format('truetype');
   }
 
+.hidden {
+  display: none;
+}

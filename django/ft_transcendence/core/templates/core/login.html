@@ -24,16 +24,90 @@
         <h1 class="">CyberPong</h1>
       </div>
     </div>
-    <div class="button-group">
+    <div class="login-container">
+
+      <!-- Hidden signin form -->
+      <form action="/" method="post" id="signin-form" class="hidden">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+      </form>
+
+      <!-- Hidden signup form -->
+      <form action="/signup/" method="post" id="signup-form" class="hidden">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+      </form>
+
       <form action="{% provider_login_url 'fortytwo' %}" method="post">
       {% csrf_token %}
         <button type="submit" class="button-group__btn btn-dark login-button ">Sign in With </button>
       </form>
 
-      <form action="{% url 'account_login' %}" method="post">
-      {% csrf_token %}
-        <button type="submit" class="button-group__btn btn-dark login-button ">Sign up </button>
-      </form>
+      <!-- <form action="{% url 'signup' %}" method="post">
+      {% csrf_token %} -->
+
+
+
+      <button class="login-button" id="signin-button">Login</button>
+      <button class="login-button" id="signup-button">Sign up </button>
+
+        <!-- Hidden login form -->
+        <!-- <form id="login-form" class="hidden">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit" class="btn-primary">Submit</button>
+        </form> -->
+
+        <!-- <button type="submit" class="button-group__btn btn-dark login-button" id="sign-button">Sign in </button> -->
+      <!-- </form> -->
+
+<!--
+      <script>
+          // JavaScript to handle the button click
+          document.getElementById('login-button').addEventListener('click', function() {
+              // Hide the "Login" button
+              this.classList.add('hidden');
+
+              // Show the login form
+              document.getElementById('login-form').classList.remove('hidden');
+          });
+      </script> -->
+
+      <!-- Handle multi button-->
+      <script>
+        // Get all buttons with the "login-button" class
+        const loginButtons = document.querySelectorAll('.login-button');
+
+        // Loop through the buttons and add the same click event listener to each
+        loginButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Hide all login buttons
+                loginButtons.forEach(btn => btn.classList.add('hidden'));
+                // Show the form
+                // document.getElementById('login-form').classList.remove('hidden');
+            });
+        });
+      </script>
+
+    <!-- Handle signin button-->
+    <script>
+        // JavaScript to handle the button click
+        document.getElementById('signin-button').addEventListener('click', function() {
+            // Show the login form
+            document.getElementById('signin-form').classList.remove('hidden');
+        });
+    </script>
+
+        <!-- Handle signup button-->
+        <script>
+          // JavaScript to handle the button click
+          document.getElementById('signup-button').addEventListener('click', function() {
+              // Show the login form
+              document.getElementById('signup-form').classList.remove('hidden');
+          });
+      </script>
     </div>
   </body>
 </html>

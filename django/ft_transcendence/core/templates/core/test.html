@@ -1,26 +1,44 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'core/test.css' %}">
-    <title>Transparent Header</title>
-
+    <title>Multiple Buttons with Same Action</title>
+    <link rel="stylesheet" href="{% static 'core/css/test.css' %}">
 </head>
 <body>
 
-    <header class="transparent-header">
-    </header>
+    <div class="login-container">
+        <!-- Multiple buttons -->
+        <button class="btn-primary login-button">Login 1</button>
+        <button class="btn-primary login-button">Login 2</button>
+        <button class="btn-primary login-button">Login 3</button>
 
-    <main>
-        <section class="content">
-            <h1>Welcome to Our Website</h1>
-            <p>This is the main content of the page. Scroll to see the effect.</p>
-        </section>
-    </main>
+        <!-- Hidden form -->
+        <form id="login-form" class="hidden">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+
+    <script>
+        // Get all buttons with the "login-button" class
+        const loginButtons = document.querySelectorAll('.login-button');
+
+        // Loop through the buttons and add the same click event listener to each
+        loginButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Hide all login buttons
+                loginButtons.forEach(btn => btn.classList.add('hidden'));
+
+                // Show the form
+                document.getElementById('login-form').classList.remove('hidden');
+            });
+        });
+    </script>
+    </div>
 
 </body>
 </html>
