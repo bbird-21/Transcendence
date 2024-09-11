@@ -4,9 +4,10 @@ body {
 
 .sidenav {
   height: 100%;
+  opacity: 80%;
   width: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   top: 0;
   left: 0;
   background-color: #111;
@@ -47,6 +48,8 @@ body {
   left: 20px;         /* Places it at the left */
   /* cursor: pointer; */
   display: flex;
+  opacity: 80%;
+  z-index: 10;
   /* flex-direction: column; */
   /* justify-content: space-around; */
 }
