@@ -14,66 +14,68 @@
   <title>Transcendence</title>
 </head>
   <body>
+  <!---------- Global container for layout management ---------->
+    <div class="login-page">
 
     <!---------- Background Video ---------->
-    <video autoplay muted loop class="video-background">
-      <source src="{% static 'core/images/galaxy-background.mp4' %}" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+      <video autoplay muted loop class="video-background">
+        <source src="{% static 'core/images/galaxy-background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
 
     <!---------- Title ---------->
-    <div class="title">
+      <div class="title">
         <h1 class="title--move">CyberPong</h1>
-    </div>
+      </div>
 
     <!---------- Login Buttons Container ---------->
-    <div class="login-buttons-container">
+      <div class="login-buttons-container">
 
       <!-- Hidden signin form -->
-      <form action="/" method="post" id="signin-form" class="hidden">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-      </form>
+        <form action="/" method="post" id="signin-form" class="hidden">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Submit">
+        </form>
 
       <!-- Hidden signup form -->
-      <form action="/signup/" method="post" id="signup-form" class="hidden">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-      </form>
+        <form action="/signup/" method="post" id="signup-form" class="hidden">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Submit">
+        </form>
 
     <!---------- Three Buttons ---------->
-      <form action="{% provider_login_url 'fortytwo' %}" method="post">
-      {% csrf_token %}
-        <button type="submit" class="button-group__btn btn-dark login-button ">Sign in With </button>
-      </form>
+        <form action="{% provider_login_url 'fortytwo' %}" method="post">
+        {% csrf_token %}
+          <button type="submit" class="button-group__btn btn-dark login-button ">Sign in With </button>
+        </form>
 
-      <button class="login-button" id="signin-button">Login</button>
-      <button class="login-button" id="signup-button">Sign up </button>
+        <button class="login-button" id="signin-button">Login</button>
+        <button class="login-button" id="signup-button">Sign up </button>
 
       <!-- Handle multi button-->
-      <script>
-        // Get all buttons with the "login-button" class
-        const loginButtons = document.querySelectorAll('.login-button');
+        <script>
+          // Get all buttons with the "login-button" class
+          const loginButtons = document.querySelectorAll('.login-button');
 
-        // Loop through the buttons and add the same click event listener to each
-        loginButtons.forEach(button => {
+          // Loop through the buttons and add the same click event listener to each
+          loginButtons.forEach(button => {
             button.addEventListener('click', function() {
               // Hide all login buttons
                 loginButtons.forEach(btn => btn.classList.add('hidden'));
             });
-        });
-      </script>
+          });
+        </script>
 
       <!-- Handle signin button-->
-      <script>
+        <script>
           // JavaScript to handle the button click
           document.getElementById('signin-button').addEventListener('click', function() {
               // Show the login form
               document.getElementById('signin-form').classList.remove('hidden');
           });
-      </script>
+        </script>
 
       <!-- Handle signup button-->
         <script>
@@ -84,5 +86,6 @@
           });
         </script>
       </div>
+    </div>
   </body>
 </html>
