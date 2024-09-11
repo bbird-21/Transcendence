@@ -1,0 +1,32 @@
+.profile {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20%;
+	height: 60%;
+	border-radius: 12px;
+	padding: 20px;
+    background-color: rgba(0, 0, 0, 1); /* Black background with 50% opacity */
+}
+
+.profile__title {
+	position:absolute;
+	top:3%;
+	left:2%;
+	font-family: 'Stacker', sans-serif; /* Google Font */
+	font-size: 50px;
+	color: white;
+	padding-left: 21px;
+}
+
+.profile__username {
+	position: absolute;
+	top: 15%;
+	left: 10%;
+	font-size: 30px;
+}
+
+.profile__password {
+
+}

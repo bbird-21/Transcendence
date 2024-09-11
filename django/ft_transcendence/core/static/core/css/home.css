@@ -1,13 +1,3 @@
-body {
-    background-image: url("/static/core/images/bg-cyberpong.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 80%;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    height: 100vh;
-}
 
 .welcome-box {
     display: flex;
