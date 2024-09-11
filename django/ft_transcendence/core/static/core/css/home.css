@@ -8,6 +8,7 @@ body {
     background-color: #f4f4f9;
     height: 100vh;
 }
+
 .welcome-box {
     display: flex;
     justify-content: center;
