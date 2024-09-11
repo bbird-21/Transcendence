@@ -8,6 +8,9 @@ h1, h2, h3, h4, h5, h6, p {
 	.login-page {
 		position: relative; /* Parent container */
 		height: 100vh; /* Container takes the full page */
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 /* ---------- Background Video ---------- */
@@ -23,10 +26,10 @@ h1, h2, h3, h4, h5, h6, p {
 
 /* ---------- Title Page ---------- */
 	.title {
-		display: flex; /* Use Flexbox for centering */
-		justify-content: center; /* Center content horizontally */
-		align-items: center; /* Center text inside the container */
+		position: absolute;
+		text-align: center;
 		z-index: 1; /* Ensures the content is above the video */
+		top: 0px;
 	}
 
 	/* Title's style */
@@ -51,18 +54,20 @@ h1, h2, h3, h4, h5, h6, p {
 
 /* ---------- Login Buttons ---------- */
 
-	.login-buttons-container {
-	display: flex;
-	justify-content: center; /* Center items vertically */
-	align-items: center; /* Center items horizontally */
-	gap: 5%; /* Space between image and text */
-	margin-top: 20%;
+	.buttons-group {
+		gap: 10px; /* Space between image and text */
 	}
 
-	.login-button {
-	gap: 10px; /* Space between image and text */
+	.buttons-group:hover {
+		transform: scale(1.10); /* Slightly increase the size on hover */
 	}
 
-	.login-button:hover {
-	transform: scale(1.10); /* Slightly increase the size on hover */
+	.login-buttons--top{
+		position: absolute;
+		top : 45%;
+	}
+
+	.login-buttons--bottom{
+		position: absolute;
+		bottom : 45%;
 	}

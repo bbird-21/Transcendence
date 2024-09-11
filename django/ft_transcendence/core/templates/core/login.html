@@ -28,31 +28,35 @@
         <h1 class="title--move">CyberPong</h1>
       </div>
 
-    <!---------- Login Buttons Container ---------->
-      <div class="login-buttons-container">
+    <!---------- Login Buttons ---------->
 
-      <!-- Hidden signin form -->
-        <form action="/" method="post" id="signin-form" class="hidden">
-          {% csrf_token %}
-          {{ form }}
-          <input type="submit" value="Submit">
-        </form>
-
-      <!-- Hidden signup form -->
-        <form action="/signup/" method="post" id="signup-form" class="hidden">
-          {% csrf_token %}
-          {{ form }}
-          <input type="submit" value="Submit">
-        </form>
-
-    <!---------- Three Buttons ---------->
-        <form action="{% provider_login_url 'fortytwo' %}" method="post">
+    <!-- Hidden signin form -->
+      <form action="/" method="post" id="signin-form" class="hidden">
         {% csrf_token %}
-          <button type="submit" class="button-group__btn btn-dark login-button ">Sign in With </button>
-        </form>
+        {{ form }}
+        <input type="submit" value="Submit">
+      </form>
 
-        <button class="login-button" id="signin-button">Login</button>
-        <button class="login-button" id="signup-button">Sign up </button>
+    <!-- Hidden signup form -->
+      <form action="/signup/" method="post" id="signup-form" class="hidden">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+      </form>
+
+    <!---------- 42 Button - Top button ---------->
+      <div class="login-buttons--top">
+        <form action="{% provider_login_url 'fortytwo' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="button-group__btn btn-dark buttons-group">Sign in With </button>
+        </form>
+      </div>
+    
+    <!---------- Login and Sign Up Button - Bottom Buttons ---------->
+      <div class="login-buttons--bottom">
+        <button class="buttons-group" id="signin-button">Login</button>
+        <button class="buttons-group" id="signup-button">Sign Up </button> 
+      </div>
 
       <!-- Handle multi button-->
         <script>
