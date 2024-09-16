@@ -17,15 +17,34 @@ from django.contrib.auth.decorators import login_required
 # --------- <login.html> ---------
 def login(request):
     if request.method == "POST":
-        form = SigninForm(request.POST)
-        if form.is_valid():
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+        signin_form = SigninForm(request.POST, prefix="signin")
+        signup_form = SignupForm(request.POST, prefix="signup")
+        if signin_form.is_valid():
+            user = authenticate(username=signin_form.cleaned_data['username'], password=signin_form.cleaned_data['password'])
             if user:
                 django_login(request, user)
                 return HttpResponseRedirect("/home")
+        elif signup_form.is_valid():
+            username = signup_form.cleaned_data["username"]
+            password = signup_form.cleaned_data["password"]
+            # process the data in signup_form.cleaned_data as required
+            signup_form.save()
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user = authenticate(username=username, password=password)
+            # A backend authenticated the credentials
+            if user is not None:
+                django_login(request, user)
+                return HttpResponseRedirect("/home/")
+                # username = signup_form.cleaned_data["username"]
+                # password = signup_form.cleaned_data["password"]
     else:
-        form = SigninForm()
-    return render(request, "core/login.html", {"form": form})
+        signin_form = SigninForm(prefix="signin")
+        signup_form = SignupForm(prefix="signup")
+    return render(request, "core/login.html", {
+        "signin_form": signin_form,
+        "signup_form": signup_form,
+    })
 
 def logout(request):
         django_logout(request)
@@ -69,11 +88,18 @@ def home(request):
 
 @login_required
 def profile(request):
-    return render(request, "core/profile.html")
+    if request.method == "POST":
+        form = UserProfileForm(request.POST)
+        if form.is_valid:
+            return HttpResponseRedirect("/home/")
+    else:
+        form = UserProfileForm()
+    return render(request, "core/profile.html", {"form": form})
 
 def test(request):
     return render(request, "core/test.html")
 
+@login_required
 def avatar(request):
     if request.method == "POST":
         form = UserProfileForm(request.POST)
