@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+  <!---------- Media Queries ---------->
+  <link rel="stylesheet" href="{% static 'core/css/media-queries/login_media-queries-width.css' %}" media="screen and (max-width: 600px)">
+  <link rel="stylesheet" href="{% static 'core/css/media-queries/login_media-queries-height.css' %}" media="screen and (max-height: 500px)">
+
   <title>Transcendence</title>
 </head>
   <body>
@@ -43,28 +47,29 @@
       </form>
 
     <!---------- Login Buttons ---------->
-
     <!--- 42 Button - Top button --->
+    <div class="container-buttons">
       <div class="login-buttons--top">
         <form action="{% provider_login_url 'fortytwo' %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="buttons-group">
-            Sign in with
+          <button type="submit" class="buttons-design">
+            Sign in with  
           <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
           </button>
         </form>
       </div>
-
+      
     <!--- Login and Sign Up Button - Bottom Buttons --->
       <div class="login-buttons--bottom">
-        <button class="buttons-group" id="signin-button">Login</button>
-        <button class="buttons-group" id="signup-button">Sign Up </button>
+        <button class="buttons-design" id="signin-button">Login</button>
+        <button class="buttons-design" id="signup-button">Sign Up </button> 
       </div>
+    </div>
 
       <!-- Hide buttons on click -->
         <script>
           // Get all buttons with the "login-button" class
-          const loginButtons = document.querySelectorAll('.buttons-group');
+          const loginButtons = document.querySelectorAll('.buttons-design');
 
           // Loop through the buttons and add the same click event listener to each
           loginButtons.forEach(button => {
