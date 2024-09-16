@@ -9,8 +9,10 @@ from django.shortcuts import render
 from .forms import NameForm
 from .forms import SignupForm
 from .forms import SigninForm
+from .forms import UserProfileForm
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # --------- <login.html> ---------
 def login(request):
@@ -30,7 +32,6 @@ def logout(request):
         return redirect('login')  # If user is not authenticated, redirect to home
 
 def signup(request):
-    print("SIGNUP")
     # if this is a POST request we need to process the form data
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
@@ -61,12 +62,24 @@ def signup(request):
 
 
 # --------- <home.html> ---------
+@login_required
 def home(request):
     user = request.user
     return render(request, "core/home.html", {"user": user})
 
+@login_required
 def profile(request):
     return render(request, "core/profile.html")
+
 def test(request):
     return render(request, "core/test.html")
+
+def avatar(request):
+    if request.method == "POST":
+        form = UserProfileForm(request.POST)
+        if form.is_valid:
+            return HttpResponseRedirect("/home/")
+    else:
+        form = UserProfileForm()
+    return render(request, "core/profile.html", {"form": form})
 

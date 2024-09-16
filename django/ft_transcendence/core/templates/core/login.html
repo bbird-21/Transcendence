@@ -49,16 +49,16 @@
         <form action="{% provider_login_url 'fortytwo' %}" method="post">
           {% csrf_token %}
           <button type="submit" class="buttons-group">
-            Sign in with  
+            Sign in with
           <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
           </button>
         </form>
       </div>
-    
+
     <!--- Login and Sign Up Button - Bottom Buttons --->
       <div class="login-buttons--bottom">
         <button class="buttons-group" id="signin-button">Login</button>
-        <button class="buttons-group" id="signup-button">Sign Up </button> 
+        <button class="buttons-group" id="signup-button">Sign Up </button>
       </div>
 
       <!-- Hide buttons on click -->

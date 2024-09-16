@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "core",
 ]
 
-LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "login"
 ACCOUNT_LOGOUT_REDIRECT = "login"
 
 # Order of middleware should matter
@@ -203,3 +204,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 # Add Site Framework
 SITE_ID = 1
+
+# Represents the base directory for storing uploaded media files.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
