@@ -61,7 +61,6 @@ def profile(request):
     if request.method == "POST":
         # This form update the existing UserProfile for the current user, instead of creating a new one
         form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        # form = UserProfileForm(request.POST)
         if form.is_valid:
             form.save()
             return HttpResponseRedirect("/home/")
@@ -70,7 +69,12 @@ def profile(request):
             form = UserProfileForm()
     else:
         form = UserProfileForm()
-    return render(request, "core/profile.html", {"form": form})
+        avatar_url = request.user.userprofile.avatar.url
+        print(f"avatar url : {avatar_url}")
+    return render(request, "core/profile.html", {
+        "form": form,
+        "avatar": avatar_url
+    })
 
 
 # ------------- Test Purpose ---------------
