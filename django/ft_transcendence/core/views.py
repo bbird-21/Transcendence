@@ -76,18 +76,9 @@ def profile(request):
 # ------------- Test Purpose ---------------
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import HotelForm
 
 # Create your views here.
 
 
 def test(request):
-    if request.method == 'POST':
-        form = HotelForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-            return redirect('core/success')
-    else:
-        form = HotelForm()
-    return render(request, 'core/test.html', {'form': form})
+    return render(request, 'core/test.html')

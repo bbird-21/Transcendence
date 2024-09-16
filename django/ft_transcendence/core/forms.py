@@ -3,7 +3,6 @@ from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from core.models import UserProfile
 from django.core.files.images import get_image_dimensions
 from core.models import UserProfile
 
