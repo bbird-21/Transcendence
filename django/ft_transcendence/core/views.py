@@ -59,12 +59,35 @@ def home(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        form = UserProfileForm(request.POST)
+        # This form update the existing UserProfile for the current user, instead of creating a new one
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        # form = UserProfileForm(request.POST)
         if form.is_valid:
+            form.save()
             return HttpResponseRedirect("/home/")
+        else:
+            print(form.errors)  # For debugging purposes
+            form = UserProfileForm()
     else:
         form = UserProfileForm()
     return render(request, "core/profile.html", {"form": form})
 
+
+# ------------- Test Purpose ---------------
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .forms import HotelForm
+
+# Create your views here.
+
+
 def test(request):
-    return render(request, "core/test.html")
+    if request.method == 'POST':
+        form = HotelForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect('core/success')
+    else:
+        form = HotelForm()
+    return render(request, 'core/test.html', {'form': form})
