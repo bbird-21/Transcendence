@@ -1,0 +1,40 @@
+/* Responsive Version - Max Width : 600px */
+
+/* ---------- Title Page ---------- */
+	.title {
+		position: absolute;
+		text-align: center;
+		z-index: 1; /* Ensures the content is above the video */
+		top: 1.5%; /* Title's position in the page (absolute position in a big container */
+	}
+
+	/* Title's style */
+	.title--move {
+		color:white;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-style: normal;
+		font-size: 10vw; /* Responsive Title */
+		position: relative;
+		animation: moveToTop 2s ease forwards; /* 2s animation, only once */
+	}
+
+/* ---------- Login Buttons ---------- */
+
+	.container-buttons{ /* Child container of parent login page */
+		position: absolute;
+		top : 32%;
+	}
+
+	/* 42 Button - Top button */
+	.login-buttons--top{
+		display: flex;
+		justify-content: center;
+		gap : 30px;
+		margin-bottom: 30px; /* Margin to add some space between top and bottom buttons */
+	}
+
+	/* Login and Sign Up Button - Bottom Buttons */
+	.login-buttons--bottom {
+		justify-content: center;
+		flex-direction: column;
+	}

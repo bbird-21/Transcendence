@@ -1,0 +1,7 @@
+/* Responsive Version - Max Height : 450px */
+
+.login-buttons--bottom {
+	justify-content: center;
+	flex-direction: row; /* Empile les boutons verticalement sur les petits écrans */
+    justify-content: space-between;
+}
