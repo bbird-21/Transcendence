@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6, p {
 		position: absolute;
 		text-align: center;
 		z-index: 1; /* Ensures the content is above the video */
-		top: 1.5%;
+		top: 1.5%; /* Title's position in the page (absolute position in a big container */
 	}
 
 	/* Title's style */
@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6, p {
 		color:white;
 		font-family: 'Stacker', sans-serif; /* Google Font */
 		font-style: normal;
-   		font-size: 80px;
+   		font-size: 70px;
     	position: relative;
     	animation: moveToTop 2s ease forwards; /* 2s animation, only once */
 	}
@@ -54,37 +54,42 @@ h1, h2, h3, h4, h5, h6, p {
         transform: translateY(400px); /* Initial position in the middle */
     }
     100% {
-        transform: translateY(30px); /* Moves title to the top of the page */
+        transform: translateY(14px); /* Moves title to the top of the page */
     }
 	}
 
 /* ---------- Login Buttons ---------- */
 
-	/* 42 Button - Top button */
-	.login-buttons--top{ 	/* Child container of parent login page */
+	.container-buttons{ /* Child container of parent login page */
 		position: absolute;
-		top : 42%;
+		top: 40%;
+	}
+	/* 42 Button - Top button */
+	.login-buttons--top{
+		display: flex;
+		justify-content: center;
+		margin-bottom: 30px; /* Margin to add some space between top and bottom buttons */
 	}
 
 	/* Login and Sign Up Button - Bottom Buttons */
 	.login-buttons--bottom{ /* Child container of parent container login page */
 		display: flex;
-		gap: 30px;
-		margin-top: 4%;
+		gap: 30px; /* space between the two buttons */
+		margin-bottom: 30px;
 	}
-
+	
 	/* Three buttons design */
-	.buttons-group {
+	.buttons-design {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: 5px;
-		font-size: 22px;
+		font-size: 25px;
 		text-align: center;
 		color: white;
 		border: 2px solid white;
 		border-radius: 12px;
-		padding: 8px 42px;
+		padding: 10px 42px; 
 		cursor: pointer;
 		transition: .5s;
 		background: #1A003E;
@@ -92,7 +97,7 @@ h1, h2, h3, h4, h5, h6, p {
 	}
 
 	/* smooth animation when the curser is hover the button */
-	.buttons-group:hover {
+	.buttons-design:hover {
 		color: black;
   		background-color: white;
 	}
@@ -108,8 +113,8 @@ h1, h2, h3, h4, h5, h6, p {
 		100% {
 			opacity: 100%; /* Buttons will appear progressively */
 		}
-		}
-
+	}	
+	
 	.logo-42 {
 		width: 2em; /* Width relative to the size of the police */
 		height: auto;
