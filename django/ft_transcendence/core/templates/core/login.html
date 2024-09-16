@@ -40,7 +40,7 @@
       </form>
 
     <!-- Hidden signup form -->
-      <form action="/signup/" method="post" id="signup-form" class="hidden">
+      <form action="/" method="post" id="signup-form" class="hidden">
         {% csrf_token %}
         {{ signup_form }}
         <input type="submit" value="Submit">

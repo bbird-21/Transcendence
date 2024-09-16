@@ -19,11 +19,13 @@
 				<div class="profile__username"> USERNAME </div>
 				<div class="profile__password"> EMAIL </div>
 			</div> -->
-			<form action="/avatar/" method="post" id="avatar-form">
+			<form action="/profile/" method="post" id="avatar-form" enctype="multipart/form-data">
 				{% csrf_token %}
-				{{ form }}
+				{{ form.as_p }}
 				<input type="submit" value="Submit">
 			</form>
+
+			<img src="{{ avatar }}" style="margin-right: 10px;" />
 		</div>
 
 
