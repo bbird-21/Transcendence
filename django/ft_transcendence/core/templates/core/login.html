@@ -31,14 +31,14 @@
     <!-- Hidden signin form -->
       <form action="/" method="post" id="signin-form" class="hidden">
         {% csrf_token %}
-        {{ form }}
+        {{ signin_form }}
         <input type="submit" value="Submit">
       </form>
 
     <!-- Hidden signup form -->
       <form action="/signup/" method="post" id="signup-form" class="hidden">
         {% csrf_token %}
-        {{ form }}
+        {{ signup_form }}
         <input type="submit" value="Submit">
       </form>
 
@@ -49,16 +49,16 @@
         <form action="{% provider_login_url 'fortytwo' %}" method="post">
           {% csrf_token %}
           <button type="submit" class="buttons-group">
-            Sign in with  
+            Sign in with
           <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
           </button>
         </form>
       </div>
-    
+
     <!--- Login and Sign Up Button - Bottom Buttons --->
       <div class="login-buttons--bottom">
         <button class="buttons-group" id="signin-button">Login</button>
-        <button class="buttons-group" id="signup-button">Sign Up </button> 
+        <button class="buttons-group" id="signup-button">Sign Up </button>
       </div>
 
       <!-- Hide buttons on click -->
@@ -81,6 +81,7 @@
           document.getElementById('signin-button').addEventListener('click', function() {
               // Show the login form
               document.getElementById('signin-form').classList.remove('hidden');
+              document.getElementById('signup-form').classList.add('hidden');
           });
         </script>
 
@@ -90,6 +91,7 @@
           document.getElementById('signup-button').addEventListener('click', function() {
               // Show the login form
               document.getElementById('signup-form').classList.remove('hidden');
+              document.getElementById('signin-form').classList.add('hidden');
           });
         </script>
       </div>
