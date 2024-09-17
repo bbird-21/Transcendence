@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 /* ---------- Login Buttons ---------- */
 
-	.container-buttons{ /* Child container of parent login page */
+	.container--login-buttons{ /* Child container of parent login page */
 		position: absolute;
 		top: 40%;
 	}
@@ -83,39 +83,83 @@ h1, h2, h3, h4, h5, h6, p {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 5px;
-		font-size: 25px;
 		text-align: center;
-		color: white;
+		font-size: 25px;
+		gap: 5px; /* space between text and 42 logo */	
+		color: white; /* text color */
+		background: #1A003E; /* background color */
 		border: 2px solid white;
+		padding: 10px 42px; /* padding between text and border */
 		border-radius: 12px;
-		padding: 10px 42px; 
-		cursor: pointer;
-		transition: .5s;
-		background: #1A003E;
-		animation: buttonsAppearance 3.2s ease forwards;
+		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		transition: .5s; /* smooth transition to buttons-design:hover */
+		animation: buttonsAppearance 3.2s ease forwards; /* buttons will appear when the title will be on the top of the page */
 	}
 
 	/* smooth animation when the curser is hover the button */
 	.buttons-design:hover {
-		color: black;
-  		background-color: white;
+		color: black; /* text color */
+  		background-color: white; /* background color */
 	}
-
-	/* Buttons will appear when the title will be at the top of the page */
-	@keyframes buttonsAppearance {
-		0% {
-			opacity: 0%; /* Buttons are invisible until the title's animation is over */
-		}
-		42%{
-			opacity: 0%;
-		}
-		100% {
-			opacity: 100%; /* Buttons will appear progressively */
-		}
-	}	
 	
 	.logo-42 {
 		width: 2em; /* Width relative to the size of the police */
 		height: auto;
+	}
+
+/* ---------- Login Forms ---------- */
+
+	.container--login-form{ /* Child container of parent login page */
+		position: absolute;
+		top: 38%;
+	}
+
+	/* username and password fields container */
+	.container--username-password-field{
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		gap: 30px;
+	}
+
+	.container--submit-button{
+		display: flex;
+		justify-content: center;
+		margin: 50px;
+	}
+
+	/* Username and Password field */
+	.username-password-field{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 22px;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 2px solid white;
+		padding: 8px 42px; /* padding between text and border */
+		border-radius: 12px; 
+	}
+
+	/* Submit button design */
+	.submit-button{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 20px;
+		text-align: center;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		padding: 10px 40px; /* padding between text and border */
+		border: 2px solid white;
+		border-radius: 12px;
+		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		transition: .5s; /* smooth transition to submit-button:hover */
+	}
+
+	/* smooth animation when the curser is hover the button */
+	.submit-button:hover{
+		color: black; /* text color */
+  		background-color: white; /* background color */
 	}
