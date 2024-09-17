@@ -36,8 +36,6 @@ def login(request):
             if user is not None:
                 django_login(request, user)
                 return HttpResponseRedirect("/home/")
-                # username = signup_form.cleaned_data["username"]
-                # password = signup_form.cleaned_data["password"]
     else:
         signin_form = SigninForm(prefix="signin")
         signup_form = SignupForm(prefix="signup")
