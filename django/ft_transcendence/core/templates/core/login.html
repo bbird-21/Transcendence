@@ -36,7 +36,7 @@
       <!-- Hidden Login Form -->
       <div class="container--login-form">
         <form action="/" method="post" id="signin-form" class="hidden">
-          <div class="container--user-informations-field">
+          <div class="container--username-password-field">
             {% csrf_token %}
             {{ signin_form }}          
           </div>
@@ -49,7 +49,7 @@
       <!-- Hidden Sign Up Form -->
       <div class="container--login-form">
         <form action="/" method="post" id="signup-form" class="hidden">
-          <div class="container--user-informations-field">
+          <div class="container--username-password-field">
             {% csrf_token %}
             {{ signup_form }}
           </div>

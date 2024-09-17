@@ -24,11 +24,11 @@ class SignupForm(ModelForm):
         fields = ["username", "password"]
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': 'user-informations-field',  # CSS class
+                'class': 'username-password-field',  # CSS class
                 'placeholder': 'username'            # HTML attribute placeolder
             }),
             'password': forms.PasswordInput(attrs={
-                'class': 'user-informations-field',   # CSS class
+                'class': 'username-password-field',   # CSS class
                 'placeholder': 'password'             # HTML attribute placeolder
             }),
         }
@@ -48,12 +48,12 @@ class SigninForm(forms.Form):
         self.fields['username'].label = ""  # Removes the label for username
         self.fields['password'].label = ""  # Removes the label for password
         
-    username = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'user-informations-field',    # CSS Class
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'username-password-field',    # CSS Class
         'placeholder': 'username'              # HTML attribute placeolder 
         }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'user-informations-field',    # CSS Class
+        'class': 'username-password-field',    # CSS Class
         'placeholder': 'password'              # HTML attribute placeolder 
         }))
 

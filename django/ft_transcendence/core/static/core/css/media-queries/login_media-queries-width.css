@@ -48,3 +48,17 @@
 		font-size: 4vw; /* Responsive buttons : button's size depends on the screen's size */
 		padding: 10px 42px; /* padding between text and border */
 	}
+
+/* ---------- Login Forms ---------- */
+
+	/* Username and Password field */
+	.username-password-field{
+		font-size: 18px;
+		padding: 8px 35px; /* padding between text and border */
+	}
+
+	/* Submit button design */
+	.submit-button{
+		font-size: 20px;
+		padding: 10px 38px; /* padding between text and border */
+	}
