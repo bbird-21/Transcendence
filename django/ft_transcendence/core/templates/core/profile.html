@@ -19,15 +19,25 @@
 				<div class="profile__username"> USERNAME </div>
 				<div class="profile__password"> EMAIL </div>
 			</div> -->
+			<p> Hello {{ user.username }} </p>
+
 			<form action="/profile/" method="post" id="avatar-form" enctype="multipart/form-data">
 				{% csrf_token %}
-				{{ form.as_p }}
+				{{ form }}
 				<input type="submit" value="Submit">
 			</form>
-
 			<img src="{{ avatar }}" style="margin-right: 10px;" />
-		</div>
+
+			{% if avatar_is_valid %}
+				<p> Hello</p>
+			{% else %}
+				<p> The specified file {{ avatar_name }} could not be uploaded. </
+				<p> Only files with the following extension are allowed : png jpg jpeg </p>
+				<p> The file should not exceed 20k </p>
+			{% endif %}
+			</div>
 
 
 	</body>
 </html>
+

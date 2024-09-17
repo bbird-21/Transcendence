@@ -3,7 +3,7 @@
 .env
 django/ft_transcendence/core/static/core/css/test.css
 django/ft_transcendence/core/templates/core/home.html
-django/ft_transcendence/core/media/
+
 ### Django ###
 *.log
 *.pot
@@ -12,6 +12,9 @@ __pycache__/
 local_settings.py
 db.sqlite3
 django/ft_transcendence/staticfiles
+django/ft_transcendence/core/migrations
+django/ft_transcendence/core/media
+django/ft_transcendence/media/
 
 ### Commitzen ###
 package.json

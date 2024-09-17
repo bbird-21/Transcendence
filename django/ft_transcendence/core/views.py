@@ -56,22 +56,22 @@ def home(request):
 
 @login_required
 def profile(request):
+    avatar_is_valid = True
     if request.method == "POST":
         # This form update the existing UserProfile for the current user, instead of creating a new one
         form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/home/")
+            return HttpResponseRedirect("/profile/")
         else:
+            avatar_is_valid = False
             print(form.errors)  # For debugging purposes
-            form = UserProfileForm()
-    else:
-        form = UserProfileForm()
-        avatar_url = request.user.userprofile.avatar.url
-        print(f"avatar url : {avatar_url}")
+    form = UserProfileForm()
+    avatar_url = request.user.userprofile.avatar.url
     return render(request, "core/profile.html", {
         "form": form,
-        "avatar": avatar_url
+        "avatar": avatar_url,
+        "avatar_is_valid": avatar_is_valid
     })
 
 
