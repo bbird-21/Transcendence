@@ -11,17 +11,27 @@ class NameForm(forms.Form):
     your_name = forms.CharField(label="Your name", max_length=100)
     second_name = forms.CharField(label="Second Name", max_length=100)
 
+# --------------- Sign Up Form ---------------
 class SignupForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''  # Remove help text for username
+        self.fields['username'].label = ""  # Removes the label for username
+        self.fields['password'].label = ""  # Removes the label for password
+
     class Meta:
         model = User
         fields = ["username", "password"]
         widgets = {
-            'password': forms.PasswordInput(),  # Hide password input
+            'username': forms.TextInput(attrs={
+                'class': 'user-informations-field',  # CSS class
+                'placeholder': 'username'            # HTML attribute placeolder
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'user-informations-field',   # CSS class
+                'placeholder': 'password'             # HTML attribute placeolder
+            }),
         }
-
-    def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwargs)
-        self.fields['username'].help_text = ''  # Remove help text for username
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(commit=False)
@@ -31,10 +41,21 @@ class SignupForm(ModelForm):
             user.save()
         return user
 
-
+# --------------- Login Form ---------------
 class SigninForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    def __init__(self, *args, **kwargs):
+        super(SigninForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = ""  # Removes the label for username
+        self.fields['password'].label = ""  # Removes the label for password
+        
+    username = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'user-informations-field',    # CSS Class
+        'placeholder': 'username'              # HTML attribute placeolder 
+        }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'user-informations-field',    # CSS Class
+        'placeholder': 'password'              # HTML attribute placeolder 
+        }))
 
     def clean(self):
         cleaned_data = super().clean()
