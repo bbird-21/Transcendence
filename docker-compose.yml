@@ -26,6 +26,7 @@ services:
 
   django:
     image: django
+    tty: true
     container_name: django
     build: ./django
     depends_on:
