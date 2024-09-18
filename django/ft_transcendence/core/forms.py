@@ -17,6 +17,8 @@ class SignupForm(ModelForm):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields['username'].help_text = ''  # Remove help text for username
         self.fields['username'].label = ""  # Removes the label for username
+        self.fields['username'].max_length = 10
+        self.fields['username'].widget.attrs.update({'maxlength': '10'})
         self.fields['password'].label = ""  # Removes the label for password
 
     class Meta:
@@ -47,14 +49,14 @@ class SigninForm(forms.Form):
         super(SigninForm, self).__init__(*args, **kwargs)
         self.fields['username'].label = ""  # Removes the label for username
         self.fields['password'].label = ""  # Removes the label for password
-        
+
     username = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'username-password-field',    # CSS Class
-        'placeholder': 'username'              # HTML attribute placeolder 
+        'placeholder': 'username'              # HTML attribute placeolder
         }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'username-password-field',    # CSS Class
-        'placeholder': 'password'              # HTML attribute placeolder 
+        'placeholder': 'password'              # HTML attribute placeolder
         }))
 
     def clean(self):
@@ -70,7 +72,7 @@ class SigninForm(forms.Form):
 
 
 # --------------- User Management ---------------
-class UserProfileForm(ModelForm):
+class AvatarForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ["avatar"]
@@ -98,3 +100,23 @@ class UserProfileForm(ModelForm):
             raise forms.ValidationError(
                 u'Avatar file size may not exceed 1Mo.')
         return avatar
+
+
+class UsernameForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UsernameForm, self).__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''  # Remove help text for username
+        self.fields['username'].label = ""  # Removes the label for username
+        self.fields['username'].max_length = 10
+        self.fields['username'].widget.attrs.update({'maxlength': '10'})
+
+    class Meta:
+        model = User
+        fields = ["username"]
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'username-password-field',  # CSS class
+                'placeholder': 'username'            # HTML attribute placeolder
+            })
+        }

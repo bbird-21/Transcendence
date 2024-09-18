@@ -8,6 +8,8 @@ from django.contrib import admin
 class UserProfile(models.Model):
     user   = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to="avatars/", default="avatar.png")
+    victory = models.IntegerField(default=0)
+    defeat = models.IntegerField(default=0)
     list_display = ['user', 'avatar']  # Customize fields to display
 
 @receiver(post_save, sender=User)

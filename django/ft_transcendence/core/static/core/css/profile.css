@@ -1,32 +1,135 @@
-.profile {
-	position: relative;
+/* Global Reset */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Arial', sans-serif;
+}
+
+/* Container */
+
+.container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 20%;
-	height: 60%;
-	border-radius: 12px;
-	padding: 20px;
-    background-color: rgba(0, 0, 0, 1); /* Black background with 50% opacity */
 }
 
-.profile__title {
-	position:absolute;
-	top:3%;
-	left:2%;
-	font-family: 'Stacker', sans-serif; /* Google Font */
-	font-size: 50px;
+.centered-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 1200px;
+	height: 800px;
+	/* margin: 0rem auto; */
+	/* margin-top: 8%; */
+	padding: 2rem;
+	background: rgba(255, 255, 255, 0.85);
+	border-radius: 10px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Info */
+.profile__info {
+	text-align: center;
+}
+
+.profile__title h1 {
+	font-size: 2.5rem;
+	color: #333;
+	margin-bottom: 1.5rem;
+}
+
+/* Stats */
+.profile__stats h2 {
+	font-size: 1.2rem;
+	color: #555;
+	margin-bottom: 0.5rem;
+}
+
+/* Forms */
+.form-box {
+	margin: 1rem auto;
+	padding: 1rem;
+	width: 100%;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	border: 1px solid #ddd;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+input[type="text"], input[type="file"], input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+.btn-submit {
+	background-color: #4CAF50;
 	color: white;
-	padding-left: 21px;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s;
 }
 
-.profile__username {
-	position: absolute;
-	top: 15%;
-	left: 10%;
-	font-size: 30px;
+.btn-submit:hover {
+	background-color: #45a049;
 }
 
-.profile__password {
+/* Avatar */
+.avatar-container {
+	margin-top: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
+.user-avatar {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	border: 3px solid #f1f1f1;
+}
+
+/* Messages */
+.valid-message {
+	color: #4CAF50;
+	font-weight: bold;
+}
+
+.error-message {
+	color: #f44336;
+	font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.container {
+		width: 90%;
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.profile__title h1 {
+		font-size: 2rem;
+	}
+	.profile__stats h2 {
+		font-size: 1rem;
+	}
+	.user-avatar {
+		width: 120px;
+		height: 120px;
+	}
+}
+
+.template-form {
+	display: flex;
+	gap:10%;
 }
