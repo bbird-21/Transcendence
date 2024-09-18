@@ -26,7 +26,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 
 
-# --------- <login.html> ---------
+# ---- <login.html> ---------------------
 def login(request):
     if request.method == "POST":
         signin_form = SigninForm(request.POST, prefix="signin")
@@ -60,7 +60,7 @@ def logout(request):
         django_logout(request)
         return redirect('login')  # If user is not authenticated, redirect to home
 
-# --------- <home.html> ---------
+# ---- <home.html> ----------------------
 @login_required
 def home(request):
     user = request.user
@@ -94,6 +94,10 @@ def profile(request):
         "userprofile": request.user.userprofile
     })
 
+
+# ---- <social.html> ---------------------------
+def social(request):
+    return render(request, "core/social.html")
 
 # ------------- Test Purpose ---------------
 
