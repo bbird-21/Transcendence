@@ -120,3 +120,13 @@ class UsernameForm(ModelForm):
                 'placeholder': 'username'            # HTML attribute placeolder
             })
         }
+
+class SearchUser(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(SearchUser, self).__init__(*args, **kwargs)
+        self.fields['username'].label = ""  # Removes the label for username
+
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'username-password-field',    # CSS Class
+        'placeholder': 'Search User'           # HTML attribute placeolder
+        }))
