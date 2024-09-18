@@ -13,7 +13,34 @@
 	</head>
 
 	<body>
+		<div class="background-image"></div>
+		<div class="container">
+			<div class="search">
+				<form action="/social/" method="post" class="form-box">
+					{% csrf_token %}
+					{{ search_form.as_p }}
+					<input type="submit" value="Search" class="btn-submit">
+				</form>
 
 
+				<p> {{ user.username }}</p>
+				<p> {{ user.id }}</p>
+				<ul class="all_users">
+				{% for user in allusers %}
+				{% if not user.is_superuser %}
+				{% if user != request.user %}
+				<h1> {{user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request>  </a></h1>
+
+				<li>{{ user.username }}</li>  <!-- Display each user's username -->
+				{% endif %}
+				{% endif %}
+				{% endfor %}
+				</ul>
+
+				{% for friend_request in allfriendrequests %}
+				<h1> {{user.username}} <a href="/accept_friend_request/{{user.id}}/"> accept friend request>  </a></h1>
+				{% endfor %}
+			</div>
+		</div>
 	</body>
 </html>
