@@ -1,18 +1,30 @@
-from django.views.generic import TemplateView
+# ---- Shorcuts -------------------------
 from django.shortcuts import render
 from django.shortcuts import redirect
+
+# ---- Authentication -------------------
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth import login as django_login
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+# ---- Forms ----------------------------
 from .forms import NameForm
 from .forms import SignupForm
 from .forms import SigninForm
-from .forms import UserProfileForm
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from .forms import AvatarForm
+from .forms import UsernameForm
+
+
+# ---- Decorators ----------------------
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+
+
+# ---- Etc ------------------------------
+from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
+
 
 # --------- <login.html> ---------
 def login(request):
@@ -55,32 +67,35 @@ def home(request):
     return render(request, "core/home.html", {"user": user})
 
 @login_required
+@never_cache
 def profile(request):
     avatar_is_valid = True
     if request.method == "POST":
         # This form update the existing UserProfile for the current user, instead of creating a new one
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if form.is_valid():
-            form.save()
+        avatar_form = AvatarForm(request.POST, request.FILES, instance=request.user.userprofile, prefix="avatar")
+        username_form = UsernameForm(request.POST, prefix="username", instance=request.user)
+        if 'avatar-avatar' in request.FILES and avatar_form.is_valid():
+            avatar_form.save()
+            return HttpResponseRedirect("/profile/")
+        elif username_form.is_valid:
+            username_form.save()
             return HttpResponseRedirect("/profile/")
         else:
             avatar_is_valid = False
-            print(form.errors)  # For debugging purposes
-    form = UserProfileForm()
+            print(avatar_form.errors)  # For debugging purposes
+    avatar_form = AvatarForm(prefix="avatar")
+    username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
     return render(request, "core/profile.html", {
-        "form": form,
+        "avatar_form": avatar_form,
+        "username_form": username_form,
         "avatar": avatar_url,
-        "avatar_is_valid": avatar_is_valid
+        "avatar_is_valid": avatar_is_valid,
+        "userprofile": request.user.userprofile
     })
 
 
 # ------------- Test Purpose ---------------
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-
-# Create your views here.
-
 
 def test(request):
     return render(request, 'core/test.html')

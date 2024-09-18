@@ -4,40 +4,59 @@
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- <link rel="stylesheet" href="{% static 'core/css/profile.css' %}"> -->
-		<link rel="stylesheet" href="{% static 'css/main.css' %}">
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<title>Profile Page</title>
+</head>
 
-	<body>
-		<div class="background-image"></div>
-		<div class="container">
-			<!-- <div class="profile">
-				<div class="profile__title"> My Profile </div>
-				<div class="profile__username"> USERNAME </div>
-				<div class="profile__password"> EMAIL </div>
-			</div> -->
-			<p> Hello {{ user.username }} </p>
+<body>
+	<div class="background-image"></div>
+	<div class="container">
+		<div class="centered-container">
+			<div class="profile__info">
+				<div class="profile__title">
+					<h1>Hello, {{ user.username }}</h1>
+				</div>
 
-			<form action="/profile/" method="post" id="avatar-form" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{ form }}
-				<input type="submit" value="Submit">
-			</form>
-			<img src="{{ avatar }}" style="margin-right: 10px;" />
+				<div class="profile__stats">
+					<h2>Victories: {{ userprofile.victory }}</h2>
+					<h2>Defeats: {{ userprofile.defeat }}</h2>
+				</div>
 
-			{% if avatar_is_valid %}
-				<p> Hello</p>
-			{% else %}
-				<p> The specified file {{ avatar_name }} could not be uploaded. </
-				<p> Only files with the following extension are allowed : png jpg jpeg </p>
-				<p> The file should not exceed 20k </p>
-			{% endif %}
+				<!-- Username Form -->
+				<div class="template-form">
+					<form action="/profile/" method="post" id="username-form" class="form-box">
+						{% csrf_token %}
+						{{ username_form.as_p }}
+						<input type="submit" value="Update Username" class="btn-submit">
+					</form>
+
+					<!-- Avatar Upload Form -->
+					<form action="/profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
+						{% csrf_token %}
+						{{ avatar_form.as_p }}
+						<input type="submit" value="Update Avatar" class="btn-submit">
+					</form>
+				</div>
+				<!-- Avatar Display -->
+				<div class="avatar-container">
+					<img src="{{ userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
+				</div>
+
+				<!-- Avatar validation messages -->
+				{% if avatar_is_valid %}
+					<p class="valid-message">Avatar is valid.</p>
+				{% else %}
+					<p class="error-message">The specified file {{ avatar_name }} could not be uploaded.</p>
+					<p class="error-message">Only files with the following extensions are allowed: png, jpg, jpeg.</p>
+					<p class="error-message">The file size should not exceed 20KB.</p>
+				{% endif %}
 			</div>
-
-
-	</body>
+		</div>
+	</div>
+</body>
 </html>
-

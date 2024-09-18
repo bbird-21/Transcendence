@@ -31,6 +31,9 @@ clean:
 	@docker volume rm $(docker volume ls -q) 2>/dev/null || true
 	@docker network rm $(docker network ls -q) 2>/dev/null || true
 
+.PHONY: reload
+reload: down up
+
 .PHONY: re
 re: clean all
 
