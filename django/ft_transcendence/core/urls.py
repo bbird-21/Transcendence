@@ -11,7 +11,7 @@ urlpatterns = [
 	path("social/", views.social, name="social"),
 	path("test/", views.test, name="test"),
 	path("send_friend_request/<int:userID>/", views.send_friend_request, name="send_friend_request"),
-	path("accept_friend_request/<int:requestID", views.accept_friend_request, name="accept_friend_request")
+	path("accept_friend_request/<int:requestID>/", views.accept_friend_request, name="accept_friend_request")
 ]
 
 if settings.DEBUG:

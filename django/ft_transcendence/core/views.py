@@ -100,7 +100,7 @@ def profile(request):
 # ---- <social.html> ---------------------------
 def search_user(request):
     allusers = User.objects.all()  # Get all users
-    allfriendrequests = FriendRequest.objects.all()
+    allfriendrequest = FriendRequest.objects.all()
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
@@ -113,7 +113,7 @@ def search_user(request):
     return render(request, "core/social.html", {
         "search_form": search_user_form,
         "allusers": allusers,
-        "allfriendrequests": allfriendrequests
+        "allfriendrequest": allfriendrequest
     })
 
 
@@ -139,7 +139,7 @@ def accept_friend_request(request, requestID):
         friend_request.to_user.friends.add(friend_request.from_user)
         friend_request.from_user.friends.add(friends.request.to_user)
         friend_request.delete()
-        return HttpResponse('friend request accepted')
+        return HttpResponseRedirect('/social/')
     else:
         return HttpResponse('friend request not accepted')
 

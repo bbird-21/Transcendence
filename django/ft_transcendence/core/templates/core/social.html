@@ -16,29 +16,44 @@
 		<div class="background-image"></div>
 		<div class="container">
 			<div class="search">
+				<h1> {{ user.username }} </h1>
+
 				<form action="/social/" method="post" class="form-box">
 					{% csrf_token %}
 					{{ search_form.as_p }}
 					<input type="submit" value="Search" class="btn-submit">
 				</form>
 
+				<!-- Waiting friend request -->
+				{% for friend_request in allfriendrequest %}
+					{% if user.username ==  friend_request.from_user.username %}
+				<h1> Request sent to {{ friend_request.to_user.username }} </h1>
+					{% endif %}
+				{% endfor %}
 
-				<p> {{ user.username }}</p>
-				<p> {{ user.id }}</p>
-				<ul class="all_users">
+				<!-- Send friend request -->
+				<!-- <ul class="all_users"> -->
+
+				<h1> Send friend request </h1>
 				{% for user in allusers %}
-				{% if not user.is_superuser %}
-				{% if user != request.user %}
-				<h1> {{user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request>  </a></h1>
+					{% for friend_request in allfriendrequest  %}
+						{% if friend_request.from_user.username != user.username %}
+							{% if not user.is_superuser %}
+								{% if user != request.user %}
+				<h1> {{user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request  </a></h1>
 
-				<li>{{ user.username }}</li>  <!-- Display each user's username -->
-				{% endif %}
-				{% endif %}
+								{% endif %}
+							{% endif %}
+						{% endif %}
+					{% endfor %}
 				{% endfor %}
 				</ul>
 
-				{% for friend_request in allfriendrequests %}
-				<h1> {{user.username}} <a href="/accept_friend_request/{{user.id}}/"> accept friend request>  </a></h1>
+
+				{% for friend_request in allfriendrequest %}
+					{% if user.username != friend_request.from_user.username %}
+				<h1> Accept friend request from <a href="/accept_friend_request/{{user.id}}/"> {{ friend_request.to_user.username }} </a></h1>
+					{% endif %}
 				{% endfor %}
 			</div>
 		</div>
