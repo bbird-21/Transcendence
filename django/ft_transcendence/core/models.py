@@ -30,3 +30,6 @@ def save_user_profile(sender, instance, **kwargs):
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(User, related_name="from_user", on_delete=models.CASCADE)
     to_user   = models.ForeignKey(User, related_name= "to_user", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"FriendRequest from {self.from_user.username} to {self.to_user.username}"
