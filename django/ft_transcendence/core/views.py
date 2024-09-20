@@ -99,8 +99,10 @@ def profile(request):
 
 # ---- <social.html> ---------------------------
 def search_user(request):
-    allusers = User.objects.all()  # Get all users
+    all_users = User.objects.all()  # Get all users
     allfriendrequest = FriendRequest.objects.all()
+    sent_friend_requests = request.user.from_user.values_list('to_user', flat=True)
+    user_without_friend_request = all_users.exclude(id__in=sent_friend_requests).exclude(id=request.user.id).exclude(is_superuser=True)
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
@@ -112,8 +114,9 @@ def search_user(request):
     search_user_form = SearchUser(prefix="search")
     return render(request, "core/social.html", {
         "search_form": search_user_form,
-        "allusers": allusers,
-        "allfriendrequest": allfriendrequest
+        "all_users": all_users,
+        "allfriendrequest": allfriendrequest,
+        "user_without_friend_request": user_without_friend_request
     })
 
 
