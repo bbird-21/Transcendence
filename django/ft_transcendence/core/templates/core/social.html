@@ -25,27 +25,16 @@
 				</form>
 
 				<!-- Waiting friend request -->
-				{% for friend_request in allfriendrequest %}
-					{% if user.username ==  friend_request.from_user.username %}
+				{% for friend_request in user.from_user.all %}
 				<h1> Request sent to {{ friend_request.to_user.username }} </h1>
-					{% endif %}
 				{% endfor %}
 
 				<!-- Send friend request -->
 				<!-- <ul class="all_users"> -->
 
 				<h1> Send friend request </h1>
-				{% for user in allusers %}
-					{% for friend_request in allfriendrequest  %}
-						{% if friend_request.from_user.username != user.username %}
-							{% if not user.is_superuser %}
-								{% if user != request.user %}
-				<h1> {{user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request  </a></h1>
-
-								{% endif %}
-							{% endif %}
-						{% endif %}
-					{% endfor %}
+				{% for current_user in user_without_friend_request %}
+					<h1> {{current_user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request  </a></h1>
 				{% endfor %}
 				</ul>
 
