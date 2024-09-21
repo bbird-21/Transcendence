@@ -24,24 +24,29 @@
 					<input type="submit" value="Search" class="btn-submit">
 				</form>
 
-				<!-- Waiting friend request -->
-				{% for friend_request in user.from_user.all %}
-				<h1> Request sent to {{ friend_request.to_user.username }} </h1>
+				<!-- Display all friends -->
+				<h1> All friends </h1>
+				{% for friend in all_friends %}
+					<h1> {{ friend.username }} </h1>
 				{% endfor %}
 
-				<!-- Send friend request -->
-				<!-- <ul class="all_users"> -->
+				<!-- Waiting Friend Request -->
+				{% for waiting_request in user.sender.all %}
+					<h1> Request sent to {{ waiting_request.receiver.username }} </h1>
+				{% endfor %}
 
+				<!-- Send Friend Request -->
 				<h1> Send friend request </h1>
-				{% for current_user in user_without_friend_request %}
-					<h1> {{current_user.username}} <a href="/send_friend_request/{{user.id}}/"> send friend request  </a></h1>
+				{% for friend_request in available_friend_request %}
+					<h1> {{friend_request.username}} <a href="/send_friend_request/{{friend_request.id}}/"> send friend request  </a></h1>
 				{% endfor %}
 				</ul>
 
-
-				{% for friend_request in allfriendrequest %}
-					{% if user.username != friend_request.from_user.username %}
-				<h1> Accept friend request from <a href="/accept_friend_request/{{user.id}}/"> {{ friend_request.to_user.username }} </a></h1>
+				<!-- Accept Friend Request-->
+				{% for friend_request in all_friend_request %}
+					<!-- If the user is not who sent the request -->
+					{% if  user.id != friend_request.sender.id %}
+					<h1> Accept friend request from <a href="/accept_friend_request/{{friend_request.id}}/"> {{ friend_request.sender.username }} </a></h1>
 					{% endif %}
 				{% endfor %}
 			</div>

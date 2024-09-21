@@ -98,11 +98,37 @@ def profile(request):
 
 
 # ---- <social.html> ---------------------------
+from django.db.models import Q
+
+@login_required
+@never_cache
 def search_user(request):
-    all_users = User.objects.all()  # Get all users
-    allfriendrequest = FriendRequest.objects.all()
-    sent_friend_requests = request.user.from_user.values_list('to_user', flat=True)
-    user_without_friend_request = all_users.exclude(id__in=sent_friend_requests).exclude(id=request.user.id).exclude(is_superuser=True)
+    # Get all users
+    all_users = User.objects.all()
+    all_friend_request = FriendRequest.objects.filter(receiver_id=request.user)
+    # Get all friend request that has been sent
+    sent_friend_requests = request.user.sender.values_list('receiver', flat=True)
+    # Get all friend request that has been received
+    received_friend_requests = request.user.receiver.values_list('sender', flat=True)
+    # Get all friends from the current user
+    all_friends = request.user.userprofile.friends.all()
+
+    # Try to implement this query for a code easier and maintain and modify.
+    # It will be (in theory) the value of sent/received_friend_requests
+    # friend_requests = FriendRequest.objects.filter(
+    #     Q(sender=request.user) | Q(receiver=request.user)
+    # )
+
+
+    # Exclude received and sent request
+    available_friend_request = (
+        all_users
+        .exclude(id__in=sent_friend_requests)
+        .exclude(id__in=received_friend_requests)
+        .exclude(id=request.user.id)
+        .exclude(is_superuser=True)
+        .exclude(id__in=all_friends)
+    )
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
@@ -115,34 +141,47 @@ def search_user(request):
     return render(request, "core/social.html", {
         "search_form": search_user_form,
         "all_users": all_users,
-        "allfriendrequest": allfriendrequest,
-        "user_without_friend_request": user_without_friend_request
+        "all_friend_request": all_friend_request,
+        "available_friend_request": available_friend_request,
+        "all_friends": all_friends
     })
 
-
+@login_required
+@never_cache
 def social(request):
     return (search_user(request))
     # return render(request, "core/social.html")
 
 @login_required
+@never_cache
 def send_friend_request(request, userID):
-    from_user = request.user
-    to_user   = User.objects.get(id=userID)
+    sender = request.user
+    receiver   = User.objects.get(id=userID)
     friend_request, created = FriendRequest.objects.get_or_create(
-        from_user=from_user, to_user=to_user)
+        sender=sender, receiver=receiver)
     if created:
-        return HttpResponse('friend request sent')
+        return redirect('/social/')
     else:
-        return HttpResponse('friend request was already sent')
+        return redirect('/social/')
+
 
 @login_required
+@never_cache
 def accept_friend_request(request, requestID):
-    friend = FriendRequest.objects.get(id=requestID)
-    if friend.to_user == request.user:
-        friend_request.to_user.friends.add(friend_request.from_user)
-        friend_request.from_user.friends.add(friends.request.to_user)
+    friend_request = FriendRequest.objects.get(id=requestID)
+    if friend_request.receiver == request.user:
+
+        # Get UserProfile objects for both sender and receiver
+        receiver_profile = friend_request.receiver.userprofile
+        sender_profile = friend_request.sender.userprofile
+
+        # Add each other as friends
+        receiver_profile.friends.add(friend_request.sender)  # Add User instance
+        sender_profile.friends.add(friend_request.receiver)  # Add User instance
+
+        # Optionally delete the friend request after accepting
         friend_request.delete()
-        return HttpResponseRedirect('/social/')
+        return search_user(request)
     else:
         return HttpResponse('friend request not accepted')
 

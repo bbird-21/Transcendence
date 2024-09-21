@@ -30,9 +30,9 @@ def save_user_profile(sender, instance, **kwargs):
 # Many-to-One (ForeignKey)
 class FriendRequest(models.Model):
     # Who sent the request
-    from_user = models.ForeignKey(User, related_name="from_user", on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name="sender", on_delete=models.CASCADE)
     # Who receive the request
-    to_user   = models.ForeignKey(User, related_name= "to_user", on_delete=models.CASCADE)
+    receiver   = models.ForeignKey(User, related_name= "receiver", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"FriendRequest from {self.from_user.username} to {self.to_user.username}"
+    # def __str__(self):
+    #     return f"FriendRequest from {self.sender.username} to {self.receiver.username}"
