@@ -185,6 +185,20 @@ def accept_friend_request(request, requestID):
     else:
         return HttpResponse('friend request not accepted')
 
+@login_required
+@never_cache
+def remove_friend(request, friendID):
+    all_friends = request.user.userprofile.friends.all()
+    for friend in all_friends:
+        if friend.id == friendID:
+            # Remove the friend from the request user
+            request.user.userprofile.friends.remove(friendID)
+            friend = User.objects.get(id=friendID)
+            # Remove the request user from the friend
+            friend.userprofile.friends.remove(request.user)
+            return redirect('/social/')
+    return HttpResponse("Can't remove this friend")
+
 # ------------- Test Purpose ---------------
 
 def test(request):
