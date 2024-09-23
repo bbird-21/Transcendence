@@ -29,11 +29,12 @@
 				{% for friend in all_friends %}
 					<h1> {{ friend.username }} </h1>
 				{% endfor %}
-
+				<br>
 				<!-- Waiting Friend Request -->
 				{% for waiting_request in user.sender.all %}
 					<h1> Request sent to {{ waiting_request.receiver.username }} </h1>
 				{% endfor %}
+				<br>
 
 				<!-- Send Friend Request -->
 				<h1> Send friend request </h1>
@@ -41,6 +42,7 @@
 					<h1> {{friend_request.username}} <a href="/send_friend_request/{{friend_request.id}}/"> send friend request  </a></h1>
 				{% endfor %}
 				</ul>
+				<br>
 
 				<!-- Accept Friend Request-->
 				{% for friend_request in all_friend_request %}
@@ -49,10 +51,29 @@
 					<h1> Accept friend request from <a href="/accept_friend_request/{{friend_request.id}}/"> {{ friend_request.sender.username }} </a></h1>
 					{% endif %}
 				{% endfor %}
+				<br>
 
 				<!-- Remove Friend -->
 				{% for friend in all_friends %}
 					<h1> Remove <a href="/remove_friend/{{friend.id}}/"> {{friend.username}} </a> </h1>
+				{% endfor %}
+				<br>
+
+				<!-- Block User -->
+				<h1> All users </h1>
+				{% for db_user in all_users %}
+					{% if not db_user.is_superuser %}
+					{% if db_user != user %}
+						<h1> Block <a href="/block_user/{{db_user.id}}"> {{db_user.username}} </a></h1>
+
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+				<br>
+
+				<h1> List of blocked users </h1>
+				{% for block_user in blocked_users %}
+					<h1> Unblock <a href="/unblock_user/{{block_user.id}}"> {{block_user.username}} </a></h1>
 				{% endfor %}
 			</div>
 		</div>

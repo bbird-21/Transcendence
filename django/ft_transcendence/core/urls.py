@@ -12,7 +12,10 @@ urlpatterns = [
 	path("test/", views.test, name="test"),
 	path("send_friend_request/<int:userID>/", views.send_friend_request, name="send_friend_request"),
 	path("accept_friend_request/<int:requestID>/", views.accept_friend_request, name="accept_friend_request"),
-	path("remove_friend/<int:friendID>/", views.remove_friend, name="remove_friend")
+	path("remove_friend/<int:friendID>/", views.remove_friend, name="remove_friend"),
+	path("block_user/<int:userID>/", views.block_user, name="block_user"),
+	path("unblock_user/<int:userID>/", views.unblock_user, name="unblock_user")
+
 ]
 
 if settings.DEBUG:
