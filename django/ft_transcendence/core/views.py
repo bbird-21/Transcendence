@@ -104,7 +104,8 @@ from django.db.models import Q
 @never_cache
 def search_user(request):
     # Get all users
-    all_users = User.objects.all()
+    blocked_users = request.user.userprofile.blocked_user.all()
+    all_users = User.objects.all().exclude(id__in=blocked_users)
     all_friend_request = FriendRequest.objects.filter(receiver_id=request.user)
     # Get all friend request that has been sent
     sent_friend_requests = request.user.sender.values_list('receiver', flat=True)
@@ -112,7 +113,6 @@ def search_user(request):
     received_friend_requests = request.user.receiver.values_list('sender', flat=True)
     # Get all friends from the current user
     all_friends = request.user.userprofile.friends.all()
-
     # Try to implement this query for a code easier and maintain and modify.
     # It will be (in theory) the value of sent/received_friend_requests
     # friend_requests = FriendRequest.objects.filter(
@@ -128,14 +128,13 @@ def search_user(request):
         .exclude(id=request.user.id)
         .exclude(is_superuser=True)
         .exclude(id__in=all_friends)
+        .exclude(id__in=blocked_users)
     )
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
             user_search = search_user_form.cleaned_data["username"]
-            print(f"user search : {user_search}")
             user_list = User.objects.filter(username__contains=user_search)
-            print(f"user_list {user_list}")
             return HttpResponseRedirect("/social/")
     search_user_form = SearchUser(prefix="search")
     return render(request, "core/social.html", {
@@ -143,6 +142,7 @@ def search_user(request):
         "all_users": all_users,
         "all_friend_request": all_friend_request,
         "available_friend_request": available_friend_request,
+        "blocked_users": blocked_users,
         "all_friends": all_friends
     })
 
@@ -189,6 +189,7 @@ def accept_friend_request(request, requestID):
 @never_cache
 def remove_friend(request, friendID):
     all_friends = request.user.userprofile.friends.all()
+
     for friend in all_friends:
         if friend.id == friendID:
             # Remove the friend from the request user
@@ -198,6 +199,55 @@ def remove_friend(request, friendID):
             friend.userprofile.friends.remove(request.user)
             return redirect('/social/')
     return HttpResponse("Can't remove this friend")
+
+def user_is_friend(request, userID):
+    all_friends = request.user.userprofile.friends.all()
+
+    for friend in all_friends:
+        if friend.id == userID:
+            return True
+    return False
+
+def delete_pending_friend_request(request, userID):
+    friend_request_receiver = FriendRequest.objects.filter(Q(receiver_id=request.user.id) | Q(sender_id=userID)).first()
+    friend_request_sender   = FriendRequest.objects.filter(Q(receiver_id=userID) | Q(sender_id=request.user.id)).first()
+
+    if friend_request_receiver:
+        friend_request_receiver.delete()
+    elif friend_request_sender:
+        friend_request_sender.delete()
+
+
+@login_required
+@never_cache
+def block_user(request, userID):
+    # Check if the user is a friend or not : None, RemoveFriend
+    if user_is_friend(request, userID):
+        remove_friend(request, userID)
+
+    # Check if a friend request exist for this userID : None, Delete FriendRequest
+    delete_pending_friend_request(request, userID)
+
+    # Retrieve the blocked user
+    user_to_block = User.objects.get(id=userID)
+
+    # Set this user in blocked_user for the both
+    request.user.userprofile.blocked_user.add(userID)
+    user_to_block.userprofile.blocked_user.add(request.user.id)
+
+    return redirect('/social/')
+
+@login_required
+@never_cache
+def unblock_user(request, userID):
+    # Retrieve the blocked user
+    user_to_block = User.objects.get(id=userID)
+
+    # Remove block from user
+    request.user.userprofile.blocked_user.remove(userID)
+    user_to_block.userprofile.blocked_user.remove(request.user.id)
+
+    return redirect('/social/')
 
 # ------------- Test Purpose ---------------
 

@@ -16,6 +16,7 @@ class UserProfile(models.Model):
     victory = models.IntegerField(default=0)
     defeat = models.IntegerField(default=0)
     friends = models.ManyToManyField(User, blank=True, related_name="userprofile_friends") # And here
+    blocked_user = models.ManyToManyField(User, blank=True, related_name="blocked_user")
     list_display = ['user', 'avatar']  # Customize fields to display
 
 @receiver(post_save, sender=User)
