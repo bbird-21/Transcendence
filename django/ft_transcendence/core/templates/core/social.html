@@ -49,6 +49,11 @@
 					<h1> Accept friend request from <a href="/accept_friend_request/{{friend_request.id}}/"> {{ friend_request.sender.username }} </a></h1>
 					{% endif %}
 				{% endfor %}
+
+				<!-- Remove Friend -->
+				{% for friend in all_friends %}
+					<h1> Remove <a href="/remove_friend/{{friend.id}}/"> {{friend.username}} </a> </h1>
+				{% endfor %}
 			</div>
 		</div>
 	</body>
