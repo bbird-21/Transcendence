@@ -4,78 +4,177 @@
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
-		<link rel="stylesheet" href="{% static 'css/main.css' %}">
-		<title>Profile Page</title>
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/social.css' %}">
+    <title>Profile Page - {{ user.username }}</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-	<body>
-		<div class="background-image"></div>
-		<div class="container">
-			<div class="search">
-				<h1> {{ user.username }} </h1>
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
 
-				<form action="/social/" method="post" class="form-box">
-					{% csrf_token %}
-					{{ search_form.as_p }}
-					<input type="submit" value="Search" class="btn-submit">
-				</form>
+        .form-box {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
 
-				<!-- Display all friends -->
-				<h1> All friends </h1>
-				{% for friend in all_friends %}
-					<h1> {{ friend.username }} </h1>
-				{% endfor %}
-				<br>
-				<!-- Waiting Friend Request -->
-				{% for waiting_request in user.sender.all %}
-					<h1> Request sent to {{ waiting_request.receiver.username }} </h1>
-				{% endfor %}
-				<br>
+        .form-box input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
 
-				<!-- Send Friend Request -->
-				<h1> Send friend request </h1>
-				{% for friend_request in available_friend_request %}
-					<h1> {{friend_request.username}} <a href="/send_friend_request/{{friend_request.id}}/"> send friend request  </a></h1>
-				{% endfor %}
-				</ul>
-				<br>
+        .form-box input[type="text"].error-input {
+            border-color: red;
+        }
 
-				<!-- Accept Friend Request-->
-				{% for friend_request in all_friend_request %}
-					<!-- If the user is not who sent the request -->
-					{% if  user.id != friend_request.sender.id %}
-					<h1> Accept friend request from <a href="/accept_friend_request/{{friend_request.id}}/"> {{ friend_request.sender.username }} </a></h1>
-					{% endif %}
-				{% endfor %}
-				<br>
+        .submit-button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-				<!-- Remove Friend -->
-				{% for friend in all_friends %}
-					<h1> Remove <a href="/remove_friend/{{friend.id}}/"> {{friend.username}} </a> </h1>
-				{% endfor %}
-				<br>
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
 
-				<!-- Block User -->
-				<h1> All users </h1>
-				{% for db_user in all_users %}
-					{% if not db_user.is_superuser %}
-					{% if db_user != user %}
-						<h1> Block <a href="/block_user/{{db_user.id}}"> {{db_user.username}} </a></h1>
+        .friend-list {
+            list-style: none;
+            padding: 0;
+        }
 
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-				<br>
+        .friend-list li {
+            margin: 10px 0;
+        }
 
-				<h1> List of blocked users </h1>
-				{% for block_user in blocked_users %}
-					<h1> Unblock <a href="/unblock_user/{{block_user.id}}"> {{block_user.username}} </a></h1>
-				{% endfor %}
-			</div>
-		</div>
-	</body>
+        .friend-list a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .friend-list a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .block-user {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+	<div class="background-image"></div>
+    <div class="container">
+        <div class="search">
+            <h1>Welcome, {{ user.username }}</h1>
+
+            <form action="/social/" method="post" class="form-box">
+                {% csrf_token %}
+                {{ search_form.as_p }}
+                <input type="submit" value="Search" class="submit-button">
+            </form>
+
+            {% if not user_found %}
+                <p class="error-message">The user <strong>{{ searched_username }}</strong> could not be found.</p>
+            {% endif %}
+
+            <div class="section">
+                <h2>All Friends</h2>
+                <ul class="friend-list">
+                    {% for friend in all_friends %}
+                        <li>{{ friend.username }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Waiting Friend Requests</h2>
+                <ul class="friend-list">
+                    {% for waiting_request in user.sender.all %}
+                        <li>Request sent to {{ waiting_request.receiver.username }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Available Friend Requests</h2>
+                <ul class="friend-list">
+                    {% for friend_request in available_friend_request %}
+                        <li>{{ friend_request.username }} <a href="/send_friend_request/{{ friend_request.id }}">Send Friend Request</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Accept Friend Requests</h2>
+                <ul class="friend-list">
+                    {% for friend_request in all_friend_request %}
+                        {% if user.id != friend_request.sender.id %}
+                            <li>Accept friend request from <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Remove Friend</h2>
+                <ul class="friend-list">
+                    {% for friend in all_friends %}
+                        <li>Remove <a href="/remove_friend/{{ friend.id }}">{{ friend.username }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>All Users</h2>
+                <ul class="friend-list">
+                    {% for db_user in all_users %}
+                        {% if not db_user.is_superuser and db_user != user %}
+                            <li class="block-user">Block <a href="/block_user/{{ db_user.id }}">{{ db_user.username }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Blocked Users</h2>
+                <ul class="friend-list">
+                    {% for block_user in blocked_users %}
+                        <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

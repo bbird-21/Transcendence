@@ -70,7 +70,7 @@ def home(request):
 
 @login_required
 @never_cache
-def profile(request):
+def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":
         # This form update the existing UserProfile for the current user, instead of creating a new one
@@ -88,12 +88,21 @@ def profile(request):
     avatar_form = AvatarForm(prefix="avatar")
     username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
-    return render(request, "core/profile.html", {
+    return render(request, "core/my_profile.html", {
         "avatar_form": avatar_form,
         "username_form": username_form,
         "avatar": avatar_url,
         "avatar_is_valid": avatar_is_valid,
         "userprofile": request.user.userprofile
+    })
+
+# @login_required
+# @never_cache
+def user_profile(request, profileID):
+    print(f"user profile : {profileID}")
+    user_profile = User.objects.get(username=profileID)
+    return render(request, "core/user_profile.html", {
+        "user_profile": user_profile
     })
 
 
@@ -102,25 +111,13 @@ from django.db.models import Q
 
 @login_required
 @never_cache
-def search_user(request):
-    # Get all users
+def social(request, searched_username="", user_found=True):
     blocked_users = request.user.userprofile.blocked_user.all()
     all_users = User.objects.all().exclude(id__in=blocked_users)
     all_friend_request = FriendRequest.objects.filter(receiver_id=request.user)
-    # Get all friend request that has been sent
     sent_friend_requests = request.user.sender.values_list('receiver', flat=True)
-    # Get all friend request that has been received
     received_friend_requests = request.user.receiver.values_list('sender', flat=True)
-    # Get all friends from the current user
     all_friends = request.user.userprofile.friends.all()
-    # Try to implement this query for a code easier and maintain and modify.
-    # It will be (in theory) the value of sent/received_friend_requests
-    # friend_requests = FriendRequest.objects.filter(
-    #     Q(sender=request.user) | Q(receiver=request.user)
-    # )
-
-
-    # Exclude received and sent request
     available_friend_request = (
         all_users
         .exclude(id__in=sent_friend_requests)
@@ -130,27 +127,27 @@ def search_user(request):
         .exclude(id__in=all_friends)
         .exclude(id__in=blocked_users)
     )
+    
+    search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
-            user_search = search_user_form.cleaned_data["username"]
-            user_list = User.objects.filter(username__contains=user_search)
-            return HttpResponseRedirect("/social/")
-    search_user_form = SearchUser(prefix="search")
+            searched_username = search_user_form.cleaned_data["username"]
+            searched_user = User.objects.filter(username=searched_username).first()
+            if searched_user is None:
+                    user_found = False
+            else:
+                return redirect(f'/profile/{searched_user}')
     return render(request, "core/social.html", {
         "search_form": search_user_form,
         "all_users": all_users,
         "all_friend_request": all_friend_request,
         "available_friend_request": available_friend_request,
         "blocked_users": blocked_users,
-        "all_friends": all_friends
+        "all_friends": all_friends,
+        "searched_username": searched_username,
+        "user_found": user_found
     })
-
-@login_required
-@never_cache
-def social(request):
-    return (search_user(request))
-    # return render(request, "core/social.html")
 
 @login_required
 @never_cache
