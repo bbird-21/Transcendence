@@ -96,18 +96,33 @@ def my_profile(request):
         "userprofile": request.user.userprofile
     })
 
-# @login_required
-# @never_cache
-def user_profile(request, profileID):
-    print(f"user profile : {profileID}")
-    user_profile = User.objects.get(username=profileID)
-    return render(request, "core/user_profile.html", {
-        "user_profile": user_profile
-    })
-
-
 # ---- <social.html> ---------------------------
 from django.db.models import Q
+
+# @login_required
+# @never_cache
+def user_profile(request, username):
+    user_profile = User.objects.get(username=username)
+    friend_request_receiver = request.user.receiver.all()
+    friend_request_sender   = request.user.sender.all()
+
+    has_friend_request = False
+    # Is there friend request that the user has received from user_profile
+    for received in friend_request_receiver:
+        if received.sender == user_profile:
+            has_friend_request = True
+            break
+    
+    # Is there friend request that the user has send to user_profile
+    for send in friend_request_sender:
+        if send.receiver == user_profile:
+            has_friend_request = True
+            break
+    return render(request, "core/user_profile.html", {
+        "user_profile": user_profile,
+        "has_friend_request": has_friend_request
+    })
+
 
 @login_required
 @never_cache
@@ -133,11 +148,13 @@ def social(request, searched_username="", user_found=True):
         search_user_form = SearchUser(request.POST, prefix="search")
         if search_user_form.is_valid():
             searched_username = search_user_form.cleaned_data["username"]
-            searched_user = User.objects.filter(username=searched_username).first()
-            if searched_user is None:
-                    user_found = False
-            else:
-                return redirect(f'/profile/{searched_user}')
+            try:
+                searched_user = User.objects.get(username=searched_username)
+            except User.DoesNotExist:
+                user_found = False
+                return redirect('/social/', searched_username=searched_username, user_found=user_found)
+            if user_found:
+                return redirect(f'/profile/{searched_user.username}')
     return render(request, "core/social.html", {
         "search_form": search_user_form,
         "all_users": all_users,
@@ -157,7 +174,8 @@ def send_friend_request(request, userID):
     friend_request, created = FriendRequest.objects.get_or_create(
         sender=sender, receiver=receiver)
     if created:
-        return redirect('/social/')
+        previous_url = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(previous_url)
     else:
         return redirect('/social/')
 
@@ -178,9 +196,17 @@ def accept_friend_request(request, requestID):
 
         # Optionally delete the friend request after accepting
         friend_request.delete()
-        return search_user(request)
-    else:
-        return HttpResponse('friend request not accepted')
+        previous_url = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(previous_url)
+
+@login_required
+@never_cache
+def denied_friend_request(request, requestID):
+    friend_request = FriendRequest.objects.get(id=requestID)
+    if friend_request.receiver == request.user:
+        friend_request.delete()
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    return HttpResponseRedirect(previous_url)
 
 @login_required
 @never_cache
