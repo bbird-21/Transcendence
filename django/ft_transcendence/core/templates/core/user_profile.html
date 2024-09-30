@@ -1,0 +1,38 @@
+{% load static %}
+{% load socialaccount %}
+{% include 'core/sidenav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<title>Profile Page</title>
+</head>
+
+<body>
+	<div class="background-image"></div>
+	<div class="container">
+		<div class="centered-container">
+			<div class="profile__info">
+				<div class="profile__title">
+					<h1> {{ user_profile.username }} </h1>
+				</div>
+
+				<div class="profile__stats">
+					<h2>Victories: {{ user_profile.userprofile.victory }}</h2>
+					<h2>Defeats: {{ user_profile.userprofile.defeat }}</h2>
+				</div>
+
+				<!-- Avatar Display -->
+				<div class="avatar-container">
+					<img src="{{ userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
