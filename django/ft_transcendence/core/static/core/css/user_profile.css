@@ -1,13 +1,4 @@
-/* Global Reset */
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font-family: 'Arial', sans-serif;
-}
-
 /* Container */
-
 .container {
 	display: flex;
 	justify-content: center;
@@ -132,4 +123,23 @@ input[type="text"], input[type="file"], input[type="password"] {
 .template-form {
 	display: flex;
 	gap:10%;
+}
+
+/* Relationship */
+.relationship {
+    display: flex;                       /* Use flexbox for layout */
+    justify-content: space-between;      /* Space out the items */
+    align-items: center;                 /* Align items vertically */
+    margin-top: 1rem;
+	gap:10px;                   /* Optional: Adds some space above */
+}
+
+.direct-message, .add-friend {
+    flex: 1;                             /* Both containers will take equal width */
+    display: flex;                       /* Use flexbox for internal alignment */
+    justify-content: center;             /* Center the button or text */
+}
+
+.add-friend {
+    text-align: center;                  /* Center aligns the text */
 }

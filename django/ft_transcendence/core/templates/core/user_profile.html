@@ -5,42 +5,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
-	<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
-	<link rel="stylesheet" href="{% static 'css/main.css' %}">
-	<title>Profile Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/user_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Profile Page</title>
 </head>
 
 <body>
-	<div class="background-image"></div>
-	<div class="container">
-		<div class="centered-container">
-			<div class="profile__info">
-				<div class="profile__title">
-					<h1> {{ user_profile.username }} </h1>
-				</div>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="centered-container">
+            <div class="profile__info">
+                <div class="profile__title">
+                    <h1>{{ user_profile.username }}</h1>
+                </div>
 
-				<div class="profile__stats">
-					<h2>Victories: {{ user_profile.userprofile.victory }}</h2>
-					<h2>Defeats: {{ user_profile.userprofile.defeat }}</h2>
-				</div>
+                <div class="profile__stats">
+                    <h2>Victories: {{ user_profile.userprofile.victory }}</h2>
+                    <h2>Defeats: {{ user_profile.userprofile.defeat }}</h2>
+                </div>
 
-                {% if not has_friend_request  %}
-                <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-submit">Send Friend Request</button>
-                </form>
-                {% else %}
-					<input type="submit" value="Request has been submit" class="btn-submit">
-                {% endif %}
+                <div class="relationship">
+					<div class="friend-request">
+						{% if not is_friend and not has_friend_request %}
+						<form action="/send_friend_request/{{ user_profile.id }}/" method="post">
+							{% csrf_token %}
+							<button type="submit" class="btn-submit">Send Friend Request</button>
+						</form>
+						{% elif has_friend_request %}
+							<input type="submit" value="Request has been submitted" class="btn-submit" disabled>
+						{% else %}
+							<p> {{ user_profile.username }} is your friend </p>
+							{% endif %}
+					</div>
+						{% if is_friend %}
+						<div class="direct-message">
+							<form action="{% url 'send_direct_message' user_profile.id %}" method="post">
+								{% csrf_token %}
+								<button type="submit" class="btn-submit">Send Direct Message</button>
+							</form>
+						</div>
+						{% else %}
+						<div class="add-friend">
+							<p>Add this friend to send a direct message</p>
+						</div>
+						{% endif %}
+                </div>
+
                 <!-- Avatar Display -->
-				<div class="avatar-container">
-					<img src="{{ userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="avatar-container">
+                    <img src="{{ userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
