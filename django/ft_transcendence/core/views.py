@@ -112,7 +112,7 @@ def user_profile(request, username):
         if received.sender == user_profile:
             has_friend_request = True
             break
-    
+
     # Is there friend request that the user has send to user_profile
     for send in friend_request_sender:
         if send.receiver == user_profile:
@@ -142,7 +142,7 @@ def social(request, searched_username="", user_found=True):
         .exclude(id__in=all_friends)
         .exclude(id__in=blocked_users)
     )
-    
+
     search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
@@ -166,6 +166,7 @@ def social(request, searched_username="", user_found=True):
         "user_found": user_found
     })
 
+# ---- Friend Request ---------------------------
 @login_required
 @never_cache
 def send_friend_request(request, userID):
@@ -232,8 +233,8 @@ def user_is_friend(request, userID):
     return False
 
 def delete_pending_friend_request(request, userID):
-    friend_request_receiver = FriendRequest.objects.filter(Q(receiver_id=request.user.id) | Q(sender_id=userID)).first()
-    friend_request_sender   = FriendRequest.objects.filter(Q(receiver_id=userID) | Q(sender_id=request.user.id)).first()
+    friend_request_receiver = friend_request_sender = FriendRequest.objects.filter(receiver_id=request.user.id, sender_id=userID).first()
+    friend_request_sender   = friend_request_sender = FriendRequest.objects.filter(receiver_id=userID, sender_id=request.user.id).first()
 
     if friend_request_receiver:
         friend_request_receiver.delete()
