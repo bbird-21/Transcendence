@@ -103,25 +103,33 @@ from django.db.models import Q
 # @never_cache
 def user_profile(request, username):
     user_profile = User.objects.get(username=username)
+    is_friend = False
+    has_friend_request = False
     friend_request_receiver = request.user.receiver.all()
     friend_request_sender   = request.user.sender.all()
 
-    has_friend_request = False
+    # Is userprofile a friend
+    for friend in request.user.userprofile.friends.all():
+        if friend.id == user_profile.id:
+            is_friend = True
     # Is there friend request that the user has received from user_profile
     for received in friend_request_receiver:
         if received.sender == user_profile:
             has_friend_request = True
             break
-
     # Is there friend request that the user has send to user_profile
     for send in friend_request_sender:
         if send.receiver == user_profile:
             has_friend_request = True
             break
-    return render(request, "core/user_profile.html", {
+
+    context = {
         "user_profile": user_profile,
-        "has_friend_request": has_friend_request
-    })
+        "has_friend_request": has_friend_request,
+        "is_friend": is_friend
+    }
+
+    return render(request, "core/user_profile.html", context)
 
 
 @login_required
@@ -278,7 +286,7 @@ def unblock_user(request, userID):
 
     return redirect('/social/')
 
-# ------------- Test Purpose ---------------
+# ---- Test Purpose ---------------------
 
 def test(request):
     return render(request, 'core/test.html')
