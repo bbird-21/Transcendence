@@ -42,7 +42,8 @@
                 <h2>Waiting Friend Requests</h2>
                 <ul class="friend-list">
                     {% for waiting_request in user.sender.all %}
-                        <li>Request sent to {{ waiting_request.receiver.username }}</li>
+                        <li>Request sent to {{ waiting_request.receiver.username }} <a href="/delete_current_user_friend_request/"> ❌ </a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>

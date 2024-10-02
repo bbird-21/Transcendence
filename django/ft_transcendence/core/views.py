@@ -241,6 +241,11 @@ def delete_pending_friend_request(request, userID):
     elif friend_request_sender:
         friend_request_sender.delete()
 
+def delete_current_user_friend_request(request):
+    friend_request = FriendRequest.objects.get(sender__id=request.user.id)
+    friend_request.delete()
+
+    return redirect('/social/')
 
 @login_required
 @never_cache
