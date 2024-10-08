@@ -101,7 +101,7 @@ from django.db.models import Q
 
 # @login_required
 # @never_cache
-def user_profile(request, username):
+def profile(request, username):
     user_profile = User.objects.get(username=username)
     is_friend = False
     has_friend_request = False
@@ -129,7 +129,7 @@ def user_profile(request, username):
         "is_friend": is_friend
     }
 
-    return render(request, "core/user_profile.html", context)
+    return render(request, "core/profile.html", context)
 
 
 @login_required

@@ -27,6 +27,7 @@
                     <h2>Defeats: {{ user_profile.userprofile.defeat }}</h2>
                 </div>
 
+                {% if user_profile.id != user.id %}
                 <div class="relationship">
 					<div class="friend-request">
 						{% if not is_friend and not has_friend_request %}
@@ -53,7 +54,7 @@
 						</div>
 						{% endif %}
                 </div>
-
+                {% endif %}
                 <!-- Avatar Display -->
                 <div class="avatar-container">
                     <img src="{{ user_profile.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
