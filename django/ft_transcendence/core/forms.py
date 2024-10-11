@@ -20,6 +20,13 @@ class SignupForm(ModelForm):
         self.fields['username'].max_length = 10
         self.fields['username'].widget.attrs.update({'maxlength': '10'})
         self.fields['password'].label = ""  # Removes the label for password
+        self.fields['password2'].label = ""  # Removes the label for password
+
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm your password',
+        'class': 'username-password-field'
+        }),
+    )
 
     class Meta:
         model = User
@@ -43,18 +50,39 @@ class SignupForm(ModelForm):
             user.save()
         return user
 
+    def cmp_passwords(self):
+        password1 = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords do not match")
+        return password2
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+        cleaned_data['signup_invalid_credentials'] = False
+        self.cmp_passwords()
+        if len(password) < 6:
+            raise forms.ValidationError("The password must contains at least 6 characters")
+        return cleaned_data
+
+
 # --------------- Login Form ---------------
 class SigninForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SigninForm, self).__init__(*args, **kwargs)
-        self.fields['username'].label = ""  # Removes the label for username
-        self.fields['password'].label = ""  # Removes the label for password
 
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'username-password-field',    # CSS Class
+    username = forms.CharField(
+        label="",  # Removes the label for username
+        widget=forms.TextInput(attrs={
+        'class': 'username-password-field invalid_credentials',    # CSS Class
         'placeholder': 'username'              # HTML attribute placeolder
         }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
+    password = forms.CharField(
+        label="",  # Removes the label for username
+        widget=forms.PasswordInput(attrs={
         'class': 'username-password-field',    # CSS Class
         'placeholder': 'password'              # HTML attribute placeolder
         }))
@@ -67,7 +95,7 @@ class SigninForm(forms.Form):
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
-                raise forms.ValidationError("Invalid login credentials")
+                raise forms.ValidationError("Incorrect Username or Password")
         return cleaned_data
 
 
