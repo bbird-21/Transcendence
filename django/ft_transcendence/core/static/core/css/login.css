@@ -40,12 +40,15 @@ h1, h2, h3, h4, h5, h6, p {
 
 	/* Title's style */
 	.title--move {
+    	position: relative;
+    	animation: moveToTop 2s ease forwards; /* 2s animation, only once */
+	}
+
+	.title--style {
 		color:white;
 		font-family: 'Stacker', sans-serif; /* Google Font */
 		font-style: normal;
    		font-size: 70px;
-    	position: relative;
-    	animation: moveToTop 2s ease forwards; /* 2s animation, only once */
 	}
 
 	/* Moves title to the top of the page */
@@ -133,6 +136,24 @@ h1, h2, h3, h4, h5, h6, p {
 		justify-content: center;
 		flex-direction: column;
 		gap: 30px;
+	}
+
+	/* Error Message Container */
+	.errorlist {
+		gap : 1px;
+		font-size: 1rem !important;
+		background: linear-gradient(135deg, rgba(255, 0, 0, 0.7), rgba(200, 0, 0, 0.7)); /* Red gradient with 70% opacity */
+		color: white; /* White text */
+		padding: 10px 15px; /* Padding inside the block */
+		border-radius: 8px; /* Rounded corners */
+		text-align: center; /* Center the text */
+		font-size: 1.2rem; /* Increase font size */
+		margin: 20px 0; /* Add margin above and below the block */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle 3D effect */
+	}
+
+	.errorlist {
+		list-style: none;
 	}
 
 	.container--submit-button{

@@ -27,28 +27,40 @@
         Your browser does not support the video tag.
       </video>
 
-    <!---------- Title ---------->
+    <!---------- Invalid Signin Credentials ---------->
+    {% if signin_invalid_credentials %}
       <div class="title">
-        <h1 class="title--move">CyberPong</h1>
+        <h1 class="title--style">CyberPong</h1>
       </div>
-    
-    <!---------- Hide Forms, Show Login Buttons only ---------->
-      <!-- Hidden Login Form -->
+
+      <div class="error-message-container">
+        <p>{{ error_message }}</p>
+      </div>
+
       <div class="container--login-form">
-        <form action="/" method="post" id="signin-form" class="hidden">
+        <form action="/" method="post" id="signin-form">
           <div class="container--username-password-field">
             {% csrf_token %}
-            {{ signin_form }}          
+            {{ signin_form }}
           </div>
           <div class="container--submit-button">
             <input type="submit" value="Submit" class="submit-button">
           </div>
         </form>
       </div>
+    </div>
+  </body>
+</html>
 
-      <!-- Hidden Sign Up Form -->
+
+    <!---------- Invalid Signup Credentials ---------->
+    {% elif signup_invalid_credentials %}
+      <div class="title">
+        <h1 class="title--style">CyberPong</h1>
+      </div>
+
       <div class="container--login-form">
-        <form action="/" method="post" id="signup-form" class="hidden">
+        <form action="/" method="post" id="signup-form">
           <div class="container--username-password-field">
             {% csrf_token %}
             {{ signup_form }}
@@ -58,61 +70,99 @@
           </div>
         </form>
       </div>
-    <!---------- Login Buttons ---------->
-      <!-- 42 Button - Top button -->
-      <div class="container--login-buttons">
-        <div class="login-buttons--top">
-          <form action="{% provider_login_url 'fortytwo' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="buttons-design">
-              Sign in with  
-            <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
-            </button>
-          </form>
-        </div>
-        
-      <!-- Login and Sign Up Button - Bottom Buttons -->
-        <div class="login-buttons--bottom">
-          <button class="buttons-design" id="signin-button">Login</button>
-          <button class="buttons-design" id="signup-button">Sign Up </button> 
-        </div>
-      </div>
-
-    <!---------- Show Forms only, Hide Login Buttons ---------->
-      <!-- Hide buttons on click -->
-      <script>
-        // Get all buttons with the "login-button" class
-        const loginButtons = document.querySelectorAll('.buttons-design');
-
-        // Loop through the buttons and add the same click event listener to each
-        loginButtons.forEach(button => {
-          button.addEventListener('click', function() {
-          // Hide all login buttons
-            loginButtons.forEach(btn => btn.classList.add('hidden'));
-            loginButtons.forEach(btn => btn.classList.remove('buttons-design'));
-          });
-        });
-      </script>
-
-      <!-- Show Login Form -->
-      <script>
-        // JavaScript to handle the button click
-        document.getElementById('signin-button').addEventListener('click', function() {
-          // Show the login form
-          document.getElementById('signin-form').classList.remove('hidden');
-          document.getElementById('signup-form').classList.add('hidden');
-        });
-      </script>
-
-      <!-- Show Sign Up Form -->
-      <script>
-        // JavaScript to handle the button click
-        document.getElementById('signup-button').addEventListener('click', function() {
-          // Show the login form
-          document.getElementById('signup-form').classList.remove('hidden');
-          document.getElementById('signin-form').classList.add('hidden');
-        });
-      </script>
     </div>
   </body>
 </html>
+
+
+    {% else %}
+    <div class="title">
+      <h1 class="title--style title--move">CyberPong</h1>
+    </div>
+
+        <!---------- Hide Forms, Show Login Buttons only ---------->
+        <!-- Hidden Login Form -->
+        <div class="container--login-form">
+          <form action="/" method="post" id="signin-form" class="hidden">
+            <div class="container--username-password-field">
+              {% csrf_token %}
+              {{ signin_form }}
+            </div>
+            <div class="container--submit-button">
+              <input type="submit" value="Submit" class="submit-button">
+            </div>
+          </form>
+        </div>
+
+        <!-- Hidden Sign Up Form -->
+        <div class="container--login-form">
+          <form action="/" method="post" id="signup-form" class="hidden">
+            <div class="container--username-password-field">
+              {% csrf_token %}
+              {{ signup_form }}
+            </div>
+            <div class="container--submit-button">
+              <input type="submit" value="Submit" class="submit-button">
+            </div>
+          </form>
+        </div>
+      <!---------- Login Buttons ---------->
+        <!-- 42 Button - Top button -->
+        <div class="container--login-buttons">
+          <div class="login-buttons--top">
+            <form action="{% provider_login_url 'fortytwo' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="buttons-design 42-button">
+                Sign in with
+              <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
+              </button>
+            </form>
+          </div>
+
+        <!-- Login and Sign Up Button - Bottom Buttons -->
+          <div class="login-buttons--bottom">
+            <button class="buttons-design" id="signin-button">Login</button>
+            <button class="buttons-design" id="signup-button">Sign Up </button>
+          </div>
+        </div>
+
+      <!---------- Show Forms only, Hide Login Buttons ---------->
+        <!-- Hide buttons on click -->
+        <script>
+          // Get all buttons with the "js-buttons" class
+          const loginButtons = document.querySelectorAll('.buttons-design');
+
+          // Loop through the buttons and add the same click event listener to each
+          loginButtons.forEach(button => {
+            if (!button.classList.contains('42-button')) {
+              button.addEventListener('click', function() {
+              // Hide all login buttons
+                loginButtons.forEach(btn => btn.classList.add('hidden'));
+                loginButtons.forEach(btn => btn.classList.remove('buttons-design'));
+              });
+            }
+          });
+        </script>
+        <!-- Show Login Form -->
+        <script>
+          // JavaScript to handle the button click
+          document.getElementById('signin-button').addEventListener('click', function() {
+            // Show the login form
+            document.getElementById('signin-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+          });
+        </script>
+
+        <!-- Show Sign Up Form -->
+        <script>
+          // JavaScript to handle the button click
+          document.getElementById('signup-button').addEventListener('click', function() {
+            // Show the login form
+            document.getElementById('signup-form').classList.remove('hidden');
+            document.getElementById('signin-form').classList.add('hidden');
+          });
+        </script>
+      </div>
+  </body>
+</html>
+{% endif %}

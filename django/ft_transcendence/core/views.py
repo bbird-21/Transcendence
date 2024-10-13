@@ -31,32 +31,44 @@ from django.views.generic import TemplateView
 # ---- <login.html> ---------------------
 def login(request):
     if request.method == "POST":
-        signin_form = SigninForm(request.POST, prefix="signin")
-        signup_form = SignupForm(request.POST, prefix="signup")
-        if signin_form.is_valid():
-            user = authenticate(username=signin_form.cleaned_data['username'], password=signin_form.cleaned_data['password'])
-            if user:
-                django_login(request, user)
-                return HttpResponseRedirect("/home")
-        elif signup_form.is_valid():
-            username = signup_form.cleaned_data["username"]
-            password = signup_form.cleaned_data["password"]
-            # process the data in signup_form.cleaned_data as required
-            signup_form.save()
-            user = User.objects.get(username=username)
-            user.set_password(password)
-            user = authenticate(username=username, password=password)
-            # A backend authenticated the credentials
-            if user is not None:
-                django_login(request, user)
-                return HttpResponseRedirect("/home/")
+        if "signin-username" in request.POST:
+            signin_form = SigninForm(request.POST, prefix="signin")
+            if signin_form.is_valid():
+                user = authenticate(username=signin_form.cleaned_data['username'], password=signin_form.cleaned_data['password'])
+                if user:
+                    django_login(request, user)
+                    return HttpResponseRedirect("/home/")
+            else:
+                return render(request, "core/login.html", {
+                    "signin_invalid_credentials": True,
+                    "signin_form": signin_form
+                })
+        elif "signup-username" in request.POST:
+            signup_form = SignupForm(request.POST, prefix="signup")
+            if not signup_form.is_valid():
+                return render(request, "core/login.html", {
+                    "signup_invalid_credentials": True,
+                    "signup_form": signup_form
+                })
+            else:
+                username = signup_form.cleaned_data["username"]
+                password = signup_form.cleaned_data["password"]
+                signup_form.save()
+                user = User.objects.get(username=username)
+                user.set_password(password)
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    django_login(request, user)
+                    return HttpResponseRedirect("/home/")
+        else:
+            return HttpResponseRedirect('/login/')
     else:
         signin_form = SigninForm(prefix="signin")
         signup_form = SignupForm(prefix="signup")
-    return render(request, "core/login.html", {
-        "signin_form": signin_form,
-        "signup_form": signup_form,
-    })
+        return render(request, "core/login.html", {
+            "signin_form": signin_form,
+            "signup_form": signup_form,
+        })
 
 def logout(request):
         django_logout(request)
@@ -102,7 +114,7 @@ from django.db.models import Q
 
 @login_required
 @never_cache
-def user_profile(request, username):
+def profile(request, username):
     user_profile = User.objects.get(username=username)
     is_friend = False
     has_friend_request = False
@@ -132,7 +144,7 @@ def user_profile(request, username):
         "room_name": room_name
     }
 
-    return render(request, "core/user_profile.html", context)
+    return render(request, "core/profile.html", context)
 
 
 @login_required
