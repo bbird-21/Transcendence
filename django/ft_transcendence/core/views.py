@@ -108,6 +108,7 @@ def user_profile(request, username):
     has_friend_request = False
     friend_request_receiver = request.user.receiver.all()
     friend_request_sender   = request.user.sender.all()
+    room_name = f"{user_profile.id}{request.user.id}"
 
     # Is userprofile a friend
     for friend in request.user.userprofile.friends.all():
@@ -127,7 +128,8 @@ def user_profile(request, username):
     context = {
         "user_profile": user_profile,
         "has_friend_request": has_friend_request,
-        "is_friend": is_friend
+        "is_friend": is_friend,
+        "room_name": room_name
     }
 
     return render(request, "core/user_profile.html", context)
