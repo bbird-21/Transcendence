@@ -64,6 +64,7 @@ def logout(request):
 
 # ---- <home.html> ----------------------
 @login_required
+@never_cache
 def home(request):
     user = request.user
     return render(request, "core/home.html", {"user": user})
@@ -99,8 +100,8 @@ def my_profile(request):
 # ---- <social.html> ---------------------------
 from django.db.models import Q
 
-# @login_required
-# @never_cache
+@login_required
+@never_cache
 def user_profile(request, username):
     user_profile = User.objects.get(username=username)
     is_friend = False
