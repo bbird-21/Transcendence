@@ -112,7 +112,7 @@
           <div class="login-buttons--top">
             <form action="{% provider_login_url 'fortytwo' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="buttons-design">
+              <button type="submit" class="buttons-design 42-button">
                 Sign in with
               <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
               </button>
@@ -129,19 +129,20 @@
       <!---------- Show Forms only, Hide Login Buttons ---------->
         <!-- Hide buttons on click -->
         <script>
-          // Get all buttons with the "login-button" class
+          // Get all buttons with the "js-buttons" class
           const loginButtons = document.querySelectorAll('.buttons-design');
 
           // Loop through the buttons and add the same click event listener to each
           loginButtons.forEach(button => {
-            button.addEventListener('click', function() {
-            // Hide all login buttons
-              loginButtons.forEach(btn => btn.classList.add('hidden'));
-              loginButtons.forEach(btn => btn.classList.remove('buttons-design'));
-            });
+            if (!button.classList.contains('42-button')) {
+              button.addEventListener('click', function() {
+              // Hide all login buttons
+                loginButtons.forEach(btn => btn.classList.add('hidden'));
+                loginButtons.forEach(btn => btn.classList.remove('buttons-design'));
+              });
+            }
           });
         </script>
-
         <!-- Show Login Form -->
         <script>
           // JavaScript to handle the button click
