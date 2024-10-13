@@ -27,7 +27,7 @@
                     <h2>Defeats: {{ user_profile.userprofile.defeat }}</h2>
                 </div>
 
-                {% if user_profile.id != user.id %}
+                {% if request.user.id != user_profile.id %}
                 <div class="relationship">
 					<div class="friend-request">
 						{% if not is_friend and not has_friend_request %}
@@ -43,7 +43,7 @@
 					</div>
 						{% if is_friend %}
 						<div class="direct-message">
-							<form action="{% url 'send_direct_message' user_profile.id %}" method="post">
+							<form action="{% url 'room' room_name %}" method="post">
 								{% csrf_token %}
 								<button type="submit" class="btn-submit">Send Direct Message</button>
 							</form>
