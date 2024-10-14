@@ -26,7 +26,7 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-
+from chat.models import Chat
 
 # ---- <login.html> ---------------------
 def login(request):
@@ -120,6 +120,13 @@ def profile(request, username):
     has_friend_request = False
     friend_request_receiver = request.user.receiver.all()
     friend_request_sender   = request.user.sender.all()
+    # room_name = f"{user_profile.id}{request.user.id}"
+    from_user = request.user.id
+    to_user = user_profile.id
+
+    # chat, created = Chat.objects.filter(Q(fromUser_id=13, toUser_id=25) | Q(fromUser_id=25, toUser_id=13)).get_or_create(fromUser_id=13,toUser_id=25)
+    chat = get_or_create_chat(request, user_profile)
+    room_name = chat.id
 
     # Is userprofile a friend
     for friend in request.user.userprofile.friends.all():
@@ -139,10 +146,26 @@ def profile(request, username):
     context = {
         "user_profile": user_profile,
         "has_friend_request": has_friend_request,
-        "is_friend": is_friend
+        "is_friend": is_friend,
+        "room_name": room_name
     }
 
     return render(request, "core/profile.html", context)
+
+
+@login_required
+def get_or_create_chat(request, chatWithUser):
+    refUser = request.user
+
+    chat = Chat.objects.filter(
+            Q(fromUser=refUser, toUser=chatWithUser) |
+            Q(fromUser=chatWithUser, toUser=refUser)
+        ).first()
+
+    if not chat:
+        Chat.objects.create(fromUser=request.user, toUser=chatWithUser)
+
+    return chat
 
 
 @login_required

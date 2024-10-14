@@ -39,7 +39,7 @@
                 <h2>All Friends</h2>
                 <ul class="friend-list">
                     {% for friend in all_friends %}
-                        <li>{{ friend.username }}</li>
+                        <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -54,14 +54,14 @@
                 </ul>
             </div>
 
-            <div class="section">
+            <!-- <div class="section">
                 <h2>Available Friend Requests</h2>
                 <ul class="friend-list">
                     {% for friend_request in available_friend_request %}
                         <li>{{ friend_request.username }} <a href="/send_friend_request/{{ friend_request.id }}">Send Friend Request</a></li>
                     {% endfor %}
                 </ul>
-            </div>
+            </div> -->
 
             <div class="section">
                 <h2>Accept Friend Requests</h2>
@@ -83,7 +83,7 @@
                 </ul>
             </div>
 
-            <div class="section">
+            <!-- <div class="section">
                 <h2>All Users</h2>
                 <ul class="friend-list">
                     {% for db_user in all_users %}
@@ -92,7 +92,7 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-            </div>
+            </div> -->
 
             <div class="section">
                 <h2>Blocked Users</h2>

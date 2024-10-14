@@ -16,6 +16,9 @@ django/ft_transcendence/core/migrations
 django/ft_transcendence/core/media
 django/ft_transcendence/media/
 
+### DB ###
+django/ft_transcendence/chat/migrations/
+
 ### Commitzen ###
 package.json
 package-lock.json
