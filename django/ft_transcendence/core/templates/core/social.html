@@ -33,7 +33,7 @@
                 <h2>All Friends</h2>
                 <ul class="friend-list">
                     {% for friend in all_friends %}
-                        <li>{{ friend.username }}</li>
+                        <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
                     {% endfor %}
                 </ul>
             </div>
