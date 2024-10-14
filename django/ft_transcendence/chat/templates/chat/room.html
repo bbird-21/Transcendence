@@ -1,3 +1,8 @@
+{% load static %}
+{% load socialaccount %}
+{% include 'core/sidenav.html' %}
+
+
 <!DOCTYPE html>
 <html>
 
@@ -10,9 +15,14 @@
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+
+    <h1> room_name : {{ room_name }}</h1>
+
     {{ room_name|json_script:"room-name" }}
+    {{ userID|json_script:"userID" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const userID   = JSON.parse(document.getElementById('userID').textContent);
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -20,6 +30,9 @@
             + '/ws/chat/'
             + roomName
             + '/'
+            + userID
+            + '/'
+
         );
 
         chatSocket.onmessage = function (e) {
@@ -38,11 +51,15 @@
             }
         };
 
-        document.querySelector('#chat-message-submit').onclick = function (e) {
+        document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                "message": message,
+                "refChat" : roomName,
+                "author" : userID,
+                "type" : 0,
+                "extraData" : ""
             }));
             messageInputDom.value = '';
         };
