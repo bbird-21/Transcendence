@@ -6,8 +6,8 @@ This is the final project of School 42 common core.
 How to get started:
 
 ```bash
-git clone git@github.com:shocquen/ft_transcendence.git
-cd ft_transcendence
+git@github.com:bbird-21/Transcendence.git
+cd Transcendence
 ```
 ### config dotenv
 Make sure to look .env.template and make a .env file from it
