@@ -19,17 +19,6 @@ h1, h2, h3, h4, h5, h6, p {
 		align-items: center;
 	}
 
-/* ---------- Background Video ---------- */
-	.video-background {
-		position: fixed; /* Background video will stay at this position no matter what */
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		object-fit: cover; /* Ensures the video covers the entire element */
-		z-index: -1; /* Places the video behind other content */
- 	}
-
 /* ---------- Title Page ---------- */
 	.title {
 		position: absolute;

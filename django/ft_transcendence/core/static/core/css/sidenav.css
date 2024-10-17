@@ -43,13 +43,13 @@ body {
 }
 
 .burger-menu {
+  display: flex;
   position: absolute; /* Makes it possible to place it anywhere */
   top: 20px;          /* Places it at the top */
-  left: 20px;         /* Places it at the left */
-  /* cursor: pointer; */
-  display: flex;
+  left: 25px;         /* Places it at the left */
+  font-size: 40px;
+  color : white;
   opacity: 80%;
+  cursor: pointer;
   z-index: 10;
-  /* flex-direction: column; */
-  /* justify-content: space-around; */
 }
