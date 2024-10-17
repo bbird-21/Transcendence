@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from chat.models import Chat
+from chat.models import Chat, Message
 from django.db.models import Q
+
 @login_required
 def index(request):
     return render(request, "chat/index.html")
@@ -21,5 +22,5 @@ def room(request, room_name, userID):
 
 # ---- Direct Message -------------------
 @login_required
-def send_direct_message(request, userID):
+def direct_message(request):
     return render(request, "chat/direct_message.html")
