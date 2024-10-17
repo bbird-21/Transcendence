@@ -155,6 +155,6 @@ class SearchUser(forms.Form):
         self.fields['username'].label = ""  # Removes the label for username
 
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'username-password-field',    # CSS Class
+        # 'class': 'username-password-field',    # CSS Class
         'placeholder': 'Search User'           # HTML attribute placeolder
         }))
