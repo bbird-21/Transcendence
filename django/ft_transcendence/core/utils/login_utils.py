@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.http import HttpResponseRedirect
-from .forms import SignupForm, SigninForm
+from core.forms import SignupForm, SigninForm
 from django.shortcuts import render
 
 def create_user(request, signup_form):
