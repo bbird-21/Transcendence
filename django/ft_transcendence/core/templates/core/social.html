@@ -27,17 +27,26 @@
             
             <!---------- All Friends Button ---------->
             <div class="social-bar--friends">
-                <button type="submit" class="social-bar--buttons" data-info="all_friends">All Friends</button>
+                <button type="submit" class="social-bar--buttons" data-info="all_friends">
+                    <img src="{% static 'core/images/allfriends2-logo.png' %}" class="social--logos">
+                    All Friends
+                </button>
             </div>
 
             <!---------- Pending Requests Button ---------->
             <div class="social-bar--pending-requests">
-                <button type="submit" class="social-bar--buttons" data-info="pending_requests">Pending</button>
+                <button type="submit" class="social-bar--buttons" data-info="pending_requests">
+                    <img src="{% static 'core/images/pending-logo.png' %}" class="social--logos">
+                    Pending
+                </button>
             </div>
             
             <!---------- Blocked Users Button ---------->
             <div class="social-bar--blocked">
-                <button type="submit" class="social-bar--buttons" data-info="blocked_users">Blocked</button>
+                <button type="submit" class="social-bar--buttons" data-info="blocked_users">
+                    <img src="{% static 'core/images/blocked-logo.png' %}" class="social--logos">
+                    Blocked
+                </button>
             </div>
 
             <!---------- Search User Field ---------->
@@ -46,9 +55,6 @@
                     <form action="/social/" method="post" class="">
                         {% csrf_token %}
                         {{ search_form.as_p }}
-                        <div class="social-bar--submit-button">
-                            <input type="submit" value="Search" class="social-bar--buttons">
-                        </div>
                     </form>
 
                     {% if not user_found %}
@@ -57,6 +63,9 @@
                 </div>
             </div>
         </div>
+
+        <!---------- thin line under social bar ---------->
+        <hr class="social-bar--line">
 
         <!---------- Info Container : displays either friends list, pending requests or blocked users ---------->
         <div class="social--info-container" id="infoContainer"></div>
@@ -73,7 +82,7 @@
         function loadContent(dataType) {
             let content = '';
 
-            // Check the type of data and generate the corresponding HTML content
+            // Check the type of data and inject the corresponding HTML content
             if (dataType === 'all_friends') {
                 content = `
                     <h3>All Friends</h3>
@@ -123,7 +132,7 @@
     </script> 
 
     
-       <!-- <script>
+        <!-- <script>
             // Get all buttons with the "social-bar--buttons" class
             const socialButtons = document.querySelectorAll('.social-bar--buttons');
 
@@ -176,7 +185,6 @@
                             </button>
                         </div>
             -->
-
             <!-- <div class="section">
                 <h2>All Users</h2>
                 <ul class="friend-list">

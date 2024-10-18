@@ -14,8 +14,9 @@
 		position: fixed;
 		display: flex;
 		justify-content: space-between;
-		width: 60%;
-		top: 3%;
+		width: 75%;
+		top: 4%;
+		left: 15%;
 		border-radius: 20%;
 		border: 0px solid white;
 	}
@@ -27,12 +28,12 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		font-size: 14px;
-		gap: 5px; /* space between text and 42 logo */
+		font-size: 21px;
+		gap: 17px; /* space between text and logos */
 		color: white; /* text color */
 		background: #1A003E; /* background color */
 		border: 1px solid white;
-		padding: 5px 35px; /* padding between text and border */
+		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
 		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
 		transition: .5s; /* smooth transition to buttons-design:hover */
@@ -40,8 +41,13 @@
 
 	/* smooth animation when the curser is hover the button */
 	.social-bar--buttons:hover {
-			color: black; /* text color */
-			background-color: white; /* background color */
+		color: black; /* text color */
+		background-color: white; /* background color */
+	}
+
+	.social--logos{
+		width: 1.5em; /* Width relative to the size of the police */
+		height: auto;
 	}
 
 	/* ----- All Friends Button ----- */
@@ -52,18 +58,40 @@
 
 	/* ----- Search User Field ----- */
 
-	.social-bar--search-user{
+	.social--search-username-field{
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 18px;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 2px solid white;
+		padding: 8px 30px; /* padding between text and border */
+		margin-top: 8px;
+		border-radius: 12px;
 	}
 
-	.social-bar--submit-button{
+	/* ----- thin line under social bar ----- */
+	.social-bar--line{
+		position: fixed;
 		display: flex;
 		justify-content: center;
+		top: 14%;
+		width: 52%;
+		height: 1px;
+		background-color: white;
+		border: none;
 	}
 
 	/* ---------- 	Info Container : displays either friends list, pending requests or blocked users ---------- */
 
 	.social--info-container{
-		
+		position: relative;
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80%;
+		height: 90%;
+		border: 0px solid white;
 	}
