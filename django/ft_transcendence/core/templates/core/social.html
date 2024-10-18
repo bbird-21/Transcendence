@@ -24,42 +24,28 @@
 
         <!---------- Social Buttons on top of the page ---------->
         <div class="social-bar">
-
+            
             <!---------- All Friends Button ---------->
             <div class="social-bar--friends">
-                <button type="submit" class="social-bar--buttons">
+                <button type="submit" class="social-bar--buttons" data-info="all_friends">
+                    <img src="{% static 'core/images/allfriends2-logo.png' %}" class="social--logos">
                     All Friends
-                    <div class="friend-list hidden social-bar--buttons">
-                        {% for friend in all_friends %}
-                            <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
-                        {% endfor %}
-                    </div>
                 </button>
             </div>
 
             <!---------- Pending Requests Button ---------->
             <div class="social-bar--pending-requests">
-                <button type="submit" class="social-bar--buttons">
+                <button type="submit" class="social-bar--buttons" data-info="pending_requests">
+                    <img src="{% static 'core/images/pending-logo.png' %}" class="social--logos">
                     Pending
-                    <div class="friend-list hidden social-bar--buttons">
-                        {% for friend_request in all_friend_request %}
-                            {% if user.id != friend_request.sender.id %}
-                                <li>Accept friend request from <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
                 </button>
             </div>
             
             <!---------- Blocked Users Button ---------->
             <div class="social-bar--blocked">
-                <button type="submit" class="social-bar--buttons">
+                <button type="submit" class="social-bar--buttons" data-info="blocked_users">
+                    <img src="{% static 'core/images/blocked-logo.png' %}" class="social--logos">
                     Blocked
-                    <div class="friend-list hidden social-bar--buttons">
-                        {% for block_user in blocked_users %}
-                            <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
-                        {% endfor %}
-                    </div>
                 </button>
             </div>
 
@@ -69,9 +55,6 @@
                     <form action="/social/" method="post" class="">
                         {% csrf_token %}
                         {{ search_form.as_p }}
-                        <div class="social-bar--submit-button">
-                            <input type="submit" value="Search" class="social-bar--buttons">
-                        </div>
                     </form>
 
                     {% if not user_found %}
@@ -79,28 +62,98 @@
                     {% endif %}
                 </div>
             </div>
-
         </div>
+
+        <!---------- thin line under social bar ---------->
+        <hr class="social-bar--line">
+
+        <!---------- Info Container : displays either friends list, pending requests or blocked users ---------->
+        <div class="social--info-container" id="infoContainer"></div>
     </div>
 
-        <!-- Hide buttons on click -->
-        <script>
-            // Get all buttons with the "js-buttons" class
+    <script>
+        // Get all buttons with the "social-bar--buttons" class
+        const socialButtons = document.querySelectorAll('.social-bar--buttons');
+
+        // Get the container where the informations will be displayed
+        const infoContainer = document.getElementById('infoContainer');
+
+        // Function to load content based on button click
+        function loadContent(dataType) {
+            let content = '';
+
+            // Check the type of data and inject the corresponding HTML content
+            if (dataType === 'all_friends') {
+                content = `
+                    <h3>All Friends</h3>
+                    <ul>
+                        {% for friend in all_friends %}
+                            <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
+                        {% endfor %}
+                    </ul>
+                `;
+            } else if (dataType === 'pending_requests') {
+                content = `
+                    <h3>Pending Requests</h3>
+                    <ul>
+                        {% for friend_request in all_friend_request %}
+                            {% if user.id != friend_request.sender.id %}
+                                <li>Accept friend request from <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                `;
+            } else if (dataType === 'blocked_users') {
+                content = `
+                    <h3>Blocked Users</h3>
+                    <ul>
+                        {% for block_user in blocked_users %}
+                            <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                `;
+            }
+
+            // Display the content in the container
+            infoContainer.innerHTML = content;
+        }
+
+        // Loop through the buttons and add the click event listener to each
+        socialButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the data-info attribute to determine which content to load
+                const dataType = button.getAttribute('data-info');
+                
+                // Load the corresponding content into the info container
+                loadContent(dataType);
+            });
+        });
+    </script> 
+
+    
+        <!-- <script>
+            // Get all buttons with the "social-bar--buttons" class
             const socialButtons = document.querySelectorAll('.social-bar--buttons');
+
+            // Get the container where informations will be displayed
+            const infoContainer = document.getElementById('infoContainer');
     
             // Loop through the buttons and add the same click event listener to each
             socialButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                // Hide all login buttons
-                    console.log("remove button")
+                    // Récupérer les informations stockées dans l'attribut "data-info"
+                    const info = button.getAttribute('data-info');
                     socialButtons.forEach(btn => btn.classList.remove('hidden'));
                     socialButtons.forEach(btn => btn.classList.add('social-bar--buttons'));
+
+                    // Afficher les informations dans le conteneur
+                    infoContainer.textContent = info;
                 });
             });
-        </script>   
-
-
-        <!-- <div class="search-user">
+        </script> 
+        
+        <div class="search-user">
             <h1>Welcome, {{ user.username }}</h1>
             <form action="/social/" method="post" class="form-box">
                 {% csrf_token %}
@@ -132,7 +185,6 @@
                             </button>
                         </div>
             -->
-
             <!-- <div class="section">
                 <h2>All Users</h2>
                 <ul class="friend-list">
