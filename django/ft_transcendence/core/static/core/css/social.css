@@ -1,45 +1,97 @@
 /* ---------- Global container for layout management ---------- */
 
-.social-container {
-	position: relative; /* Parent container */
-	display: flex;
-	justify-content: center;
-	height: 100vh; /* Container takes the full page */
-	width: 100vw;
-}
+	.social-container {
+		position: relative; /* Parent container */
+		display: flex;
+		justify-content: center;
+		height: 100vh; /* Container takes the full page */
+		width: 100vw;
+	}
 
 /* ---------- Social Bar on top of the page ---------- */
 
-.social-bar{
-	position: absolute;
-	display: flex;
-	justify-content: space-between;
-	width: 90%;
-	top: 3%;
-	border-radius: 20%;
-	border: 0px solid white;
-}
+	.social-bar{
+		position: fixed;
+		display: flex;
+		justify-content: space-between;
+		width: 75%;
+		top: 4%;
+		left: 15%;
+		border-radius: 20%;
+		border: 0px solid white;
+	}
 
-/* ---------- All Friends Button ---------- */
+	/* ---------- Social Bar Buttons ---------- */
 
-.social-bar--friends{
-	position: relative;
-	display: flex;
-	justify-content: center;
-}
+	.social-bar--buttons{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 21px;
+		gap: 17px; /* space between text and logos */
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 1px solid white;
+		padding: 8px 30px; /* padding between text and border */
+		border-radius: 12px;
+		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		transition: .5s; /* smooth transition to buttons-design:hover */
+	}
 
-/* ---------- Pending Requests Button ---------- */
+	/* smooth animation when the curser is hover the button */
+	.social-bar--buttons:hover {
+		color: black; /* text color */
+		background-color: white; /* background color */
+	}
 
-/* ---------- Blocked Users Button ---------- */
+	.social--logos{
+		width: 1.5em; /* Width relative to the size of the police */
+		height: auto;
+	}
 
-/* ---------- Search User Field ---------- */
+	/* ----- All Friends Button ----- */
 
-.social-bar--search-user{
-	display: flex;
-	justify-content: center;
-}
+	/* ----- Pending Requests Button ----- */
 
-.social-bar--submit-button{
-	display: flex;
-	justify-content: center;
-}
+	/* ----- Blocked Users Button ----- */
+
+	/* ----- Search User Field ----- */
+
+	.social--search-username-field{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 18px;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 2px solid white;
+		padding: 8px 30px; /* padding between text and border */
+		margin-top: 8px;
+		border-radius: 12px;
+	}
+
+	/* ----- thin line under social bar ----- */
+	.social-bar--line{
+		position: fixed;
+		display: flex;
+		justify-content: center;
+		top: 14%;
+		width: 52%;
+		height: 1px;
+		background-color: white;
+		border: none;
+	}
+
+	/* ---------- 	Info Container : displays either friends list, pending requests or blocked users ---------- */
+
+	.social--info-container{
+		position: relative;
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80%;
+		height: 90%;
+		border: 0px solid white;
+	}
