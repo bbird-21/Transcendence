@@ -24,6 +24,7 @@ def get_social_data(request):
     sent_friend_requests = request.user.sender.values_list('receiver', flat=True)
     received_friend_requests = request.user.receiver.values_list('sender', flat=True)
     all_friends = request.user.userprofile.friends.all()
+    all_friend_request = FriendRequest.objects.filter(receiver_id=request.user)
 
     available_friend_requests = (
         all_users
@@ -41,7 +42,8 @@ def get_social_data(request):
         'received_friend_requests': received_friend_requests,
         'all_friends': all_friends,
         'available_friend_requests': available_friend_requests,
-		'all_users': all_users
+		'all_users': all_users,
+        'all_friend_request': all_friend_request
     }
 
 

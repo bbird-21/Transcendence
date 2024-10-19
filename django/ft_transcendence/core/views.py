@@ -135,7 +135,6 @@ def profile(request, username):
 @never_cache
 def social(request, searched_username="", user_found=True):
     context = get_social_data(request)
-    print(f"user found : {user_found}")
     search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")
