@@ -13,10 +13,11 @@
 	.social-bar{
 		position: fixed;
 		display: flex;
-		justify-content: space-between;
-		width: 75%;
+		justify-content: center;
+		width: 90vw;
 		top: 4%;
-		left: 15%;
+		left: 10%;
+		gap : 12%;
 		border-radius: 20%;
 		border: 0px solid white;
 	}
@@ -36,7 +37,7 @@
 		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
 		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
-		transition: .5s; /* smooth transition to buttons-design:hover */
+		transition: .4s; /* smooth transition to buttons-design:hover */
 	}
 
 	/* smooth animation when the curser is hover the button */
@@ -50,14 +51,13 @@
 		height: auto;
 	}
 
-	/* ----- All Friends Button ----- */
+	/* on click animation : buttons will stay white depending on the section where you click */
+	.buttons-active{
+		color: black; /* text color */
+		background-color: white; /* background color */
+	}
 
-	/* ----- Pending Requests Button ----- */
-
-	/* ----- Blocked Users Button ----- */
-
-	/* ----- Search User Field ----- */
-
+	/* Search User Field Design */
 	.social--search-username-field{
 		display: flex;
 		justify-content: center;
@@ -67,7 +67,7 @@
 		color: white; /* text color */
 		background: #1A003E; /* background color */
 		border: 2px solid white;
-		padding: 8px 30px; /* padding between text and border */
+		padding: 8px 25px; /* padding between text and border */
 		margin-top: 8px;
 		border-radius: 12px;
 	}
@@ -78,10 +78,20 @@
 		display: flex;
 		justify-content: center;
 		top: 14%;
-		width: 52%;
 		height: 1px;
 		background-color: white;
 		border: none;
+		animation: underlineAppearance 2.2s ease forwards; /* animations takes place only once, when we open the page. The underline will grow in 2.5 */
+	}
+
+	/* Underline will appear and grow progressively */
+	@keyframes underlineAppearance {
+		0% {
+			width: 0%;
+		}
+		100% {
+			width: 48%;
+		}
 	}
 
 	/* ---------- 	Info Container : displays either friends list, pending requests or blocked users ---------- */
@@ -91,7 +101,7 @@
 		display: flex;
 		justify-content: center;
 		top : 10%;
-		width: 80%;
-		height: 90%;
+		width: 80vw;
+		height: 90vh;
 		border: 0px solid white;
 	}
