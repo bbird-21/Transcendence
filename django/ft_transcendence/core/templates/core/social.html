@@ -56,12 +56,12 @@
                         {% csrf_token %}
                         {{ search_form.as_p }}
                     </form>
-
+    
                     {% if not user_found %}
                         <p class="error-message">The user <strong>{{ searched_username }}</strong> could not be found.</p>
                     {% endif %}
                 </div>
-            </div>
+            </div>     
         </div>
 
         <!---------- thin line under social bar ---------->
@@ -119,16 +119,26 @@
             infoContainer.innerHTML = content;
         }
 
-        // Loop through the buttons and add the click event listener to each
+        // Loop through the buttons
+        function handleButtonClick(event) {
+            // Remove class 'buttons-active' from all the buttons
+            socialButtons.forEach(button => button.classList.remove('buttons-active'));
+
+            // Add class 'buttons-active' on click
+            event.target.classList.add('buttons-active');
+
+            // Get the data-info attribute to determine which content to load
+            const dataType = event.target.getAttribute('data-info');
+
+            // Load the corresponding content into the info container
+            loadContent(dataType);
+        }
+
+        // add the click event listener to each
         socialButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Get the data-info attribute to determine which content to load
-                const dataType = button.getAttribute('data-info');
-                
-                // Load the corresponding content into the info container
-                loadContent(dataType);
-            });
+            button.addEventListener('click', handleButtonClick);
         });
+
     </script> 
 
     
