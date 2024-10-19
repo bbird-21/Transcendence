@@ -1,5 +1,10 @@
-const roomName = JSON.parse(document.getElementById('room-name').textContent);
-const userID   = JSON.parse(document.getElementById('userID').textContent);
+const roomName 			= JSON.parse(document.getElementById('room-name').textContent);
+const userID   			= JSON.parse(document.getElementById('userID').textContent);
+const receiverUsername 	= JSON.parse(document.getElementById('receiver_username').textContent);
+const senderUsername   	= JSON.parse(document.getElementById('sender_username').textContent);
+
+console.log(receiverUsername)
+console.log(senderUsername)
 
 const chatSocket = new WebSocket(
 	'ws://'

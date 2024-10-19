@@ -28,18 +28,18 @@ from django.contrib.auth import logout as django_logout
 
 
 # --- Utils -----------------------------
-from .profile_utils import (
+from .utils.profile_utils import (
     get_or_create_chat,
     _has_friend_request_,
     _is_friend_
 )
-from .login_utils import (
+from .utils.login_utils import (
     create_user,
     sign_in_strategy,
     sign_up_strategy,
     login_page
 )
-from .social_utils import (
+from .utils.social_utils import (
     send_friend_request,
     accept_friend_request,
     denied_friend_request,
@@ -135,7 +135,6 @@ def profile(request, username):
 @never_cache
 def social(request, searched_username="", user_found=True):
     context = get_social_data(request)
-    print(f"user found : {user_found}")
     search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
         search_user_form = SearchUser(request.POST, prefix="search")

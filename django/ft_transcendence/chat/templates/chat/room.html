@@ -17,9 +17,13 @@
     <input id="chat-message-submit" type="button" value="Send">
 
     <h1> room_name : {{ room_name }}</h1>
+    <h1> Sender : {{ sender_username }}</h1>
+    <h1> Receiver : {{ receiver_username }}</h1>
 
     {{ room_name|json_script:"room-name" }}
     {{ userID|json_script:"userID" }}
+    {{ sender_username|json_script:"sender_username" }}
+    {{ receiver_username|json_script:"receiver_username" }}
 
     <script src="/static/chat/js/chat.js"></script>
 
