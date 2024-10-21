@@ -29,7 +29,7 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		font-size: 21px;
+		font-size: 22px;
 		gap: 17px; /* space between text and logos */
 		color: white; /* text color */
 		background: #1A003E; /* background color */
@@ -37,13 +37,13 @@
 		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
 		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
-		transition: .4s; /* smooth transition to buttons-design:hover */
+		transition: .5s; /* smooth transition to buttons-design:hover */
 	}
 
 	/* smooth animation when the curser is hover the button */
 	.social-bar--buttons:hover {
-		color: black; /* text color */
-		background-color: white; /* background color */
+		color: #1A003E; /* text color */
+		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
 	}
 
 	.social--logos{
@@ -53,8 +53,14 @@
 
 	/* on click animation : buttons will stay white depending on the section where you click */
 	.buttons-active{
-		color: black; /* text color */
-		background-color: white; /* background color */
+		color: #1A003E; /* text color */
+		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+		transition: .5s; 
+	}
+
+	.social--logo-clicked{
+		width: 1.5em; /* Width relative to the size of the police */
+		height: auto;
 	}
 
 	/* Search User Field Design */

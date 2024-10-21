@@ -27,15 +27,15 @@
             
             <!---------- All Friends Button ---------->
             <div class="social-bar--friends">
-                <button type="submit" class="social-bar--buttons" data-info="all_friends">
-                    <img src="{% static 'core/images/allfriends2-logo.png' %}" class="social--logos">
-                    All Friends
+                <button type="submit" class="social-bar--buttons" data-info="all_friends" data-img-clicked="{% static 'core/images/friends-logo-dark.png' %}">
+                    <img src="{% static 'core/images/friends-logo.png' %}" class="social--logos">
+                    Friends
                 </button>
             </div>
 
             <!---------- Pending Requests Button ---------->
             <div class="social-bar--pending-requests">
-                <button type="submit" class="social-bar--buttons" data-info="pending_requests">
+                <button type="submit" class="social-bar--buttons" data-info="pending_requests" data-img-clicked="{% static 'core/images/pending-logo-dark.png' %}">
                     <img src="{% static 'core/images/pending-logo.png' %}" class="social--logos">
                     Pending
                 </button>
@@ -43,7 +43,7 @@
             
             <!---------- Blocked Users Button ---------->
             <div class="social-bar--blocked">
-                <button type="submit" class="social-bar--buttons" data-info="blocked_users">
+                <button type="submit" class="social-bar--buttons" data-info="blocked_users" data-img-clicked="{% static 'core/images/blocked-logo-dark.png' %}">
                     <img src="{% static 'core/images/blocked-logo.png' %}" class="social--logos">
                     Blocked
                 </button>
@@ -65,7 +65,7 @@
         </div>
 
         <!---------- thin line under social bar ---------->
-        <hr class="social-bar--line">
+        <hr class="social-bar--line"> 
 
         <!---------- Info Container : displays either friends list, pending requests or blocked users ---------->
         <div class="social--info-container" id="infoContainer"></div>
@@ -121,25 +121,50 @@
 
         // Loop through the buttons
         function handleButtonClick(event) {
-            // Remove class 'buttons-active' from all the buttons
-            socialButtons.forEach(button => button.classList.remove('buttons-active'));
+        
+        // Remove class 'buttons-active' from all the buttons
+        socialButtons.forEach(button => {button.classList.remove('buttons-active');
 
-            // Add class 'buttons-active' on click
-            event.target.classList.add('buttons-active');
+        // Reset the logo to the original image
+        const imgElement = button.querySelector('img');
+        const originalSrc = button.getAttribute('data-img-original');
+        if (imgElement && originalSrc) {
+            imgElement.src = originalSrc;
+        }
+        });
 
-            // Get the data-info attribute to determine which content to load
-            const dataType = event.target.getAttribute('data-info');
+        // Add class 'buttons-active' on click
+        const clickedButton = event.currentTarget;
+        clickedButton.classList.add('buttons-active');
 
-            // Load the corresponding content into the info container
-            loadContent(dataType);
+        // Change the logo image to the clicked version
+        const imgElement = clickedButton.querySelector('img');
+        const clickedImgSrc = clickedButton.getAttribute('data-img-clicked');
+        if (imgElement && clickedImgSrc) {
+            imgElement.src = clickedImgSrc;
+            imgElement.classList.add('social--logo-clicked'); // clicked logos
         }
 
-        // add the click event listener to each
+        // Get the data-info attribute to determine which content to load
+        const dataType = clickedButton.getAttribute('data-info');
+
+        // Load the corresponding content into the info container
+        loadContent(dataType);
+        }
+
+        // Store original image source
         socialButtons.forEach(button => {
+            const imgElement = button.querySelector('img');
+            if (imgElement) {
+                button.setAttribute('data-img-original', imgElement.src); // Save the original image
+            }
+
+            // add the click event listener to each button
             button.addEventListener('click', handleButtonClick);
         });
 
     </script> 
+
 
     
         <!-- <script>
