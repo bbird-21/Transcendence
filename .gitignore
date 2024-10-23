@@ -14,7 +14,6 @@ db.sqlite3
 django/ft_transcendence/staticfiles
 django/ft_transcendence/core/migrations
 django/ft_transcendence/core/media
-django/ft_transcendence/media/
 
 ### DB ###
 django/ft_transcendence/chat/migrations/
