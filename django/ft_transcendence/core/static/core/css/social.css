@@ -29,7 +29,8 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		font-size: 22px;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-size: 18px;
 		gap: 17px; /* space between text and logos */
 		color: white; /* text color */
 		background: #1A003E; /* background color */
@@ -78,12 +79,49 @@
 		border-radius: 12px;
 	}
 
+	/* ---------- Info Container : displays either friends list, pending requests or blocked users ---------- */
+
+	.social--info-container{
+		position: relative;
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80vw;
+		height: 90vh;
+	}
+
+	/* ----- Titles under the buttons ----- */
+	.social--title{
+		position: absolute;
+		text-align: center;
+		z-index: 1; /* Ensures the content is above the video */
+		top: 2.5%; /* Title's position in the page (absolute position in a big container */
+	}
+
+	.social--title-style{
+		color:white;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-style: normal;
+   		font-size: 20px;
+		animation: titleAppearance 1.3s ease forwards;
+	}
+
+	/* Title will appear progressively */
+	@keyframes titleAppearance {
+		0% {
+			opacity: 0%;
+		}
+		100% {
+			opacity: 100%;
+		}
+	}		
+
 	/* ----- thin line under social bar ----- */
 	.social-bar--line{
 		position: fixed;
 		display: flex;
 		justify-content: center;
-		top: 14%;
+		top: 17%;
 		height: 1px;
 		background-color: white;
 		border: none;
@@ -98,16 +136,34 @@
 		100% {
 			width: 48%;
 		}
-	}
+	}	
 
-	/* ---------- 	Info Container : displays either friends list, pending requests or blocked users ---------- */
-
-	.social--info-container{
-		position: relative;
+	.social--display-list{
+		position: absolute;
 		display: flex;
 		justify-content: center;
-		top : 10%;
-		width: 80vw;
-		height: 90vh;
-		border: 0px solid white;
+		top: 18%;
+	}
+
+	.social--user-profile-link{
+		display: flex;
+		flex-wrap: wrap; /* Handle users on several lines. Flexbox will organize automaticaly elements on new lines when maximal width will be reached */
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.social--user-profile-container{
+		margin: 10px;
+		padding: 10px;
+		border: 1px solid white;
+		border-radius: 10px;
+		text-align: center;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.social--user-profile-container a {
+		text-decoration: none;
+		color: white;
+		font-weight: bold;
 	}

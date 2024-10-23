@@ -64,9 +64,6 @@
             </div>     
         </div>
 
-        <!---------- thin line under social bar ---------->
-        <hr class="social-bar--line"> 
-
         <!---------- Info Container : displays either friends list, pending requests or blocked users ---------->
         <div class="social--info-container" id="infoContainer"></div>
     </div>
@@ -85,16 +82,28 @@
             // Check the type of data and inject the corresponding HTML content
             if (dataType === 'all_friends') {
                 content = `
-                    <h3>All Friends</h3>
-                    <ul>
-                        {% for friend in all_friends %}
-                            <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
-                        {% endfor %}
-                    </ul>
+            <div class="social--title">
+                <h3 class="social--title-style">All Friends</h3>
+            </div>
+            <hr class="social-bar--line">
+            <div class='social--display-list'>
+                <ul class='social--user-profile-link'>
+                    {% for friend in all_friends %}
+                        <li class="social--user-profile-container">
+                            <h1> {{ friend.userprofile.avatar.url }} </h1>
+                            <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
+                            <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
                 `;
             } else if (dataType === 'pending_requests') {
                 content = `
-                    <h3>Pending Requests</h3>
+                <div class="social--title">
+                    <h3 class="social--title-style">Pending Requests</h3>
+                </div>
+                <hr class="social-bar--line">
                     <ul>
                         {% for friend_request in all_friend_request %}
                             {% if user.id != friend_request.sender.id %}
@@ -105,7 +114,10 @@
                 `;
             } else if (dataType === 'blocked_users') {
                 content = `
-                    <h3>Blocked Users</h3>
+                <div class="social--title">
+                    <h3 class="social--title-style">Blocked Users</h3>
+                </div>
+                <hr class="social-bar--line">
                     <ul>
                         {% for block_user in blocked_users %}
                             <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
