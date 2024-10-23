@@ -92,10 +92,10 @@
 
 	/* ----- Titles under the buttons ----- */
 	.social--title{
-		position: absolute;
+		position: fixed;
 		text-align: center;
 		z-index: 1; /* Ensures the content is above the video */
-		top: 2.5%; /* Title's position in the page (absolute position in a big container */
+		top: 13%; /* Title's position in the page (absolute position in a big container */
 	}
 
 	.social--title-style{
@@ -138,32 +138,61 @@
 		}
 	}	
 
+	/* ----- Full Friend list Container ----- */
 	.social--display-list{
 		position: absolute;
 		display: flex;
 		justify-content: center;
+		width: 100vw;
 		top: 18%;
 	}
 
-	.social--user-profile-link{
+	/* ----- Container for all users ----- */
+	.social--all-users-profile{
 		display: flex;
+		justify-content: center;
 		flex-wrap: wrap; /* Handle users on several lines. Flexbox will organize automaticaly elements on new lines when maximal width will be reached */
 		list-style: none;
 		padding: 0;
 		margin: 0;
 	}
 
-	.social--user-profile-container{
-		margin: 10px;
-		padding: 10px;
+	/* ----- Container for one user ----- */
+	.social--each-user-profile-container{
+		margin: 4%; /* space beetween elements */
+		padding: 10px 25px; /* padding between text and border */
+		background-color: #1A003E;
 		border: 1px solid white;
 		border-radius: 10px;
 		text-align: center;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	}
 
-	.social--user-profile-container a {
+	/* Link to the user (click on the username) */
+	.social--each-user-profile-container a {
 		text-decoration: none;
 		color: white;
+		font-size: 18px;
 		font-weight: bold;
+	}
+
+	/* ----- Avatar Container ----- */
+	.social--user-profile-avatar{
+		display: flex;
+		justify-content: center;
+		padding: 20px;
+	}
+	
+	/* Avatar Image */
+	.social--user-avatar-img{
+		width: 5em; /* Width relative to the size of the police */
+		height: auto;
+		border-radius: 50px;
+	}
+
+	/* ----- Username + Link to Profile Page ----- */
+	.social--user-profile-username{
+		display: flex;
+		justify-content: center;
+		padding-bottom: 20px;
 	}

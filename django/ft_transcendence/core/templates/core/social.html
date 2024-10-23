@@ -13,7 +13,7 @@
     <title>Profile Page - {{ user.username }}</title>
 </head>
 
-<body>
+<body class="scroll">
     <!---------- Global container for layout management ---------->
     <div class="social-container">
         <!---------- Background Video ---------->
@@ -87,12 +87,15 @@
             </div>
             <hr class="social-bar--line">
             <div class='social--display-list'>
-                <ul class='social--user-profile-link'>
+                <ul class='social--all-users-profile'>
                     {% for friend in all_friends %}
-                        <li class="social--user-profile-container">
-                            <h1> {{ friend.userprofile.avatar.url }} </h1>
-                            <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar"/>
-                            <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
+                        <li class="social--each-user-profile-container">
+                            <div class='social--user-profile-avatar'>
+                                <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                            </div>
+                            <div class="social--user-profile-username">
+                                <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>

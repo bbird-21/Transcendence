@@ -44,9 +44,9 @@ body {
 
 .burger-menu {
   display: flex;
-  position: absolute; /* Makes it possible to place it anywhere */
-  top: 20px;          /* Places it at the top */
-  left: 25px;         /* Places it at the left */
+  position: fixed; 
+  top: 2%;          /* Places it at the top */
+  left: 2%;         /* Places it at the left */
   font-size: 40px;
   color : white;
   opacity: 80%;
