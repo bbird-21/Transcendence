@@ -95,14 +95,14 @@
 		position: fixed;
 		text-align: center;
 		z-index: 1; /* Ensures the content is above the video */
-		top: 13%; /* Title's position in the page (absolute position in a big container */
+		top: 14%; /* Title's position in the page (absolute position in a big container */
 	}
 
 	.social--title-style{
 		color:white;
 		font-family: 'Stacker', sans-serif; /* Google Font */
 		font-style: normal;
-   		font-size: 20px;
+   		font-size: 21px;
 		animation: titleAppearance 1.3s ease forwards;
 	}
 
@@ -121,7 +121,7 @@
 		position: fixed;
 		display: flex;
 		justify-content: center;
-		top: 17%;
+		top: 18%;
 		height: 1px;
 		background-color: white;
 		border: none;
@@ -144,7 +144,7 @@
 		display: flex;
 		justify-content: center;
 		width: 100vw;
-		top: 18%;
+		top: 16%;
 	}
 
 	/* ----- Container for all users ----- */
