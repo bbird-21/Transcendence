@@ -36,5 +36,5 @@ class Message(models.Model):
     def __str__(self):
         return u'%s - %d' % (self.refChat,self.type)
 
-    def last_10_messages(chat):
-        return Message.objects.filter(refChat=chat).order_by('-createdAt')[:10]
+    def all_messages(chat):
+        return Message.objects.filter(refChat=chat).order_by('createdAt')
