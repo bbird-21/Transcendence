@@ -4,6 +4,7 @@ from chat.models import Chat, Message
 from django.db.models import Q
 from django.contrib.auth.models import User
 import json
+from django.utils.safestring import mark_safe
 
 @login_required
 def index(request):
