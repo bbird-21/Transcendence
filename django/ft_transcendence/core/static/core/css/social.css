@@ -90,6 +90,26 @@
 		height: 90vh;
 	}
 
+	/* ----- Animation to make Lists appear progressively ----- */
+	.social--container-animation{
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80vw;
+		height: 90vh;
+		animation: infocontainerAppearance 1.3s ease forwards;
+	}
+
+	/* Friends List will appear progressively */
+	@keyframes infocontainerAppearance {
+		0% {
+			opacity: 0%;
+		}
+		100% {
+			opacity: 100%;
+		}
+	}		
+
 	/* ----- Titles under the buttons ----- */
 	.social--title{
 		position: fixed;
@@ -163,7 +183,7 @@
 		padding: 10px 25px; /* padding between text and border */
 		background-color: #1A003E;
 		border: 1px solid white;
-		border-radius: 10px;
+		border-radius: 20px;
 		text-align: center;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	}
@@ -173,7 +193,6 @@
 		text-decoration: none;
 		color: white;
 		font-size: 18px;
-		font-weight: bold;
 	}
 
 	/* ----- Avatar Container ----- */
@@ -196,3 +215,38 @@
 		justify-content: center;
 		padding-bottom: 20px;
 	}
+
+	/* ----- Buttons Chat + Game Container ----- */
+	.social--user-profile-buttons{
+		display: flex;
+		justify-content: center;
+		margin: 5px;
+		margin-bottom: 15px;
+		gap: 15px;
+	}
+
+	/* Buttons Design */
+	.social--user-profile-buttons-design{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #1A003E; /* background color */
+		border: 1px solid white;
+		padding: 8px 10px; /* padding between logo and border */
+		border-radius: 50px;
+		cursor: pointer;
+		transition: .5;
+	}
+
+	.social--user-profile-buttons-design:hover {
+		background: linear-gradient(to right, #DC91C2, #EEC881);
+	}
+
+	.social--buttons-section-logos{
+		width: 1.7em; /* Width relative to the size of the police */
+		height: auto;
+	}
+
+	
+
+
