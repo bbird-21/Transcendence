@@ -13,7 +13,7 @@
     <title>Profile Page - {{ user.username }}</title>
 </head>
 
-<body>
+<body class="scroll">
     <!---------- Global container for layout management ---------->
     <div class="social-container">
         <!---------- Background Video ---------->
@@ -64,11 +64,69 @@
             </div>     
         </div>
 
-        <!---------- thin line under social bar ---------->
-        <hr class="social-bar--line"> 
-
-        <!---------- Info Container : displays either friends list, pending requests or blocked users ---------->
+        <!---------- Info Container : displays either friends list, pending requests or blocked users - Has to be empty by default to make sure that nothing will be displayed at first ---------->
         <div class="social--info-container" id="infoContainer"></div>
+
+        <!---------- Templates for each button content ---------->
+        <!---------- Friends Section ---------->
+        <template id="all-friends-template">
+            <div class="social--container-animation">
+                <div class="social--title">
+                    <h3 class="social--title-style">All Friends</h3>
+                </div>
+                <hr class="social-bar--line">
+                <div class='social--display-list'>
+                    <ul class='social--all-users-profile'>
+                        {% for friend in all_friends %}
+                            <li class="social--each-user-profile-container">
+                                <div class='social--user-profile-avatar'>
+                                    <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                </div>
+                                <div class="social--user-profile-username">
+                                    <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
+                                </div>
+                                <div class="social--user-profile-buttons">
+                                    <button type="submit" class="social--user-profile-buttons-design">
+                                        <img src="{% static 'core/images/chat-logo.png' %}" class="social--buttons-section-logos">
+                                    </button>
+                                    <button type="submit" class="social--user-profile-buttons-design">
+                                        <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
+                                    </button>
+                                </div>                            
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </template>
+
+        <!---------- Pending Requests Section ---------->
+        <template id="pending-requests-template">
+            <div class="social--title">
+                <h3 class="social--title-style">Pending Requests</h3>
+            </div>
+            <hr class="social-bar--line">
+            <ul>
+                {% for friend_request in all_friend_request %}
+                    {% if user.id != friend_request.sender.id %}
+                        <li>Accept friend request from <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </template>
+
+            <!---------- Blocked Users Section ---------->
+        <template id="blocked-users-template">
+            <div class="social--title">
+                <h3 class="social--title-style">Blocked Users</h3>
+            </div>
+            <hr class="social-bar--line">
+                <ul>
+                {% for block_user in blocked_users %}
+                    <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
+                {% endfor %}
+            </ul>
+        </template>
     </div>
 
     <script>
@@ -78,45 +136,15 @@
         // Get the container where the informations will be displayed
         const infoContainer = document.getElementById('infoContainer');
 
-        // Function to load content based on button click
-        function loadContent(dataType) {
-            let content = '';
-
-            // Check the type of data and inject the corresponding HTML content
-            if (dataType === 'all_friends') {
-                content = `
-                    <h3>All Friends</h3>
-                    <ul>
-                        {% for friend in all_friends %}
-                            <li> <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a></li>
-                        {% endfor %}
-                    </ul>
-                `;
-            } else if (dataType === 'pending_requests') {
-                content = `
-                    <h3>Pending Requests</h3>
-                    <ul>
-                        {% for friend_request in all_friend_request %}
-                            {% if user.id != friend_request.sender.id %}
-                                <li>Accept friend request from <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                `;
-            } else if (dataType === 'blocked_users') {
-                content = `
-                    <h3>Blocked Users</h3>
-                    <ul>
-                        {% for block_user in blocked_users %}
-                            <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
-                        {% endfor %}
-                    </ul>
-
-                `;
+        // Function to load the corresponding template based on button click
+        function loadContent(templateId) {
+            const template = document.getElementById(templateId);
+            if (template) {
+                // Clones template's content and displays it in the container
+                const content = template.content.cloneNode(true);
+                infoContainer.innerHTML = ''; // Erase actual content
+                infoContainer.appendChild(content); // add cloned content in the parent container (infoContainer) -> make template's content visible on click
             }
-
-            // Display the content in the container
-            infoContainer.innerHTML = content;
         }
 
         // Loop through the buttons
@@ -125,31 +153,37 @@
         // Remove class 'buttons-active' from all the buttons
         socialButtons.forEach(button => {button.classList.remove('buttons-active');
 
-        // Reset the logo to the original image
-        const imgElement = button.querySelector('img');
-        const originalSrc = button.getAttribute('data-img-original');
-        if (imgElement && originalSrc) {
-            imgElement.src = originalSrc;
-        }
-        });
+            // Reset the logo to the original image
+            const imgElement = button.querySelector('img');
+            const originalSrc = button.getAttribute('data-img-original');
+            if (imgElement && originalSrc) {
+                imgElement.src = originalSrc;
+            }
+            });
 
-        // Add class 'buttons-active' on click
-        const clickedButton = event.currentTarget;
-        clickedButton.classList.add('buttons-active');
+            // Add class 'buttons-active' on click
+            const clickedButton = event.currentTarget;
+            clickedButton.classList.add('buttons-active');
 
-        // Change the logo image to the clicked version
-        const imgElement = clickedButton.querySelector('img');
-        const clickedImgSrc = clickedButton.getAttribute('data-img-clicked');
-        if (imgElement && clickedImgSrc) {
-            imgElement.src = clickedImgSrc;
-            imgElement.classList.add('social--logo-clicked'); // clicked logos
-        }
+            // Change the logo image to the clicked version
+            const imgElement = clickedButton.querySelector('img');
+            const clickedImgSrc = clickedButton.getAttribute('data-img-clicked');
+            if (imgElement && clickedImgSrc) {
+                imgElement.src = clickedImgSrc;
+                imgElement.classList.add('social--logo-clicked'); // clicked logos
+            }
 
-        // Get the data-info attribute to determine which content to load
-        const dataType = clickedButton.getAttribute('data-info');
+            // Get the data-info attribute to determine which content to load
+            const dataType = clickedButton.getAttribute('data-info');
 
-        // Load the corresponding content into the info container
-        loadContent(dataType);
+            // Load the corresponding content into the info container
+            if (dataType === 'all_friends') {
+                loadContent('all-friends-template');
+            } else if (dataType === 'pending_requests') {
+                loadContent('pending-requests-template');
+            } else if (dataType === 'blocked_users') {
+                loadContent('blocked-users-template');
+            }
         }
 
         // Store original image source
@@ -164,7 +198,6 @@
         });
 
     </script> 
-
 
     
         <!-- <script>

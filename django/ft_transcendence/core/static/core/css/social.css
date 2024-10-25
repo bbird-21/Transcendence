@@ -17,7 +17,7 @@
 		width: 90vw;
 		top: 4%;
 		left: 10%;
-		gap : 12%;
+		gap : 10%;
 		border-radius: 20%;
 		border: 0px solid white;
 	}
@@ -29,7 +29,8 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		font-size: 22px;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-size: 18px;
 		gap: 17px; /* space between text and logos */
 		color: white; /* text color */
 		background: #1A003E; /* background color */
@@ -78,12 +79,69 @@
 		border-radius: 12px;
 	}
 
+	/* ---------- Info Container : displays either friends list, pending requests or blocked users ---------- */
+
+	.social--info-container{
+		position: relative;
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80vw;
+		height: 90vh;
+	}
+
+	/* ----- Animation to make Lists appear progressively ----- */
+	.social--container-animation{
+		display: flex;
+		justify-content: center;
+		top : 10%;
+		width: 80vw;
+		height: 90vh;
+		animation: infocontainerAppearance 1.3s ease forwards;
+	}
+
+	/* Friends List will appear progressively */
+	@keyframes infocontainerAppearance {
+		0% {
+			opacity: 0%;
+		}
+		100% {
+			opacity: 100%;
+		}
+	}		
+
+	/* ----- Titles under the buttons ----- */
+	.social--title{
+		position: fixed;
+		text-align: center;
+		z-index: 1; /* Ensures the content is above the video */
+		top: 14%; /* Title's position in the page (absolute position in a big container */
+	}
+
+	.social--title-style{
+		color:white;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-style: normal;
+   		font-size: 21px;
+		animation: titleAppearance 1.3s ease forwards;
+	}
+
+	/* Title will appear progressively */
+	@keyframes titleAppearance {
+		0% {
+			opacity: 0%;
+		}
+		100% {
+			opacity: 100%;
+		}
+	}		
+
 	/* ----- thin line under social bar ----- */
 	.social-bar--line{
 		position: fixed;
 		display: flex;
 		justify-content: center;
-		top: 14%;
+		top: 18%;
 		height: 1px;
 		background-color: white;
 		border: none;
@@ -98,16 +156,97 @@
 		100% {
 			width: 48%;
 		}
-	}
+	}	
 
-	/* ---------- 	Info Container : displays either friends list, pending requests or blocked users ---------- */
-
-	.social--info-container{
-		position: relative;
+	/* ----- Full Friend list Container ----- */
+	.social--display-list{
+		position: absolute;
 		display: flex;
 		justify-content: center;
-		top : 10%;
-		width: 80vw;
-		height: 90vh;
-		border: 0px solid white;
+		width: 100vw;
+		top: 16%;
 	}
+
+	/* ----- Container for all users ----- */
+	.social--all-users-profile{
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap; /* Handle users on several lines. Flexbox will organize automaticaly elements on new lines when maximal width will be reached */
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	/* ----- Container for one user ----- */
+	.social--each-user-profile-container{
+		margin: 4%; /* space beetween elements */
+		padding: 10px 25px; /* padding between text and border */
+		background-color: #1A003E;
+		border: 1px solid white;
+		border-radius: 20px;
+		text-align: center;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Link to the user (click on the username) */
+	.social--each-user-profile-container a {
+		text-decoration: none;
+		color: white;
+		font-size: 18px;
+	}
+
+	/* ----- Avatar Container ----- */
+	.social--user-profile-avatar{
+		display: flex;
+		justify-content: center;
+		padding: 20px;
+	}
+	
+	/* Avatar Image */
+	.social--user-avatar-img{
+		width: 5em; /* Width relative to the size of the police */
+		height: auto;
+		border-radius: 50px;
+	}
+
+	/* ----- Username + Link to Profile Page ----- */
+	.social--user-profile-username{
+		display: flex;
+		justify-content: center;
+		padding-bottom: 20px;
+	}
+
+	/* ----- Buttons Chat + Game Container ----- */
+	.social--user-profile-buttons{
+		display: flex;
+		justify-content: center;
+		margin: 5px;
+		margin-bottom: 15px;
+		gap: 15px;
+	}
+
+	/* Buttons Design */
+	.social--user-profile-buttons-design{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #1A003E; /* background color */
+		border: 1px solid white;
+		padding: 8px 10px; /* padding between logo and border */
+		border-radius: 50px;
+		cursor: pointer;
+		transition: .5;
+	}
+
+	.social--user-profile-buttons-design:hover {
+		background: linear-gradient(to right, #DC91C2, #EEC881);
+	}
+
+	.social--buttons-section-logos{
+		width: 1.7em; /* Width relative to the size of the police */
+		height: auto;
+	}
+
+	
+
+

@@ -3,6 +3,17 @@
   src: url("/static/fonts/Stacker-jE03l.ttf") format('truetype');
   }
 
+/* no-scroll */
+.no-scroll {
+  overflow-x: hidden; /* Avoid horizontal scrolling */
+  overflow-y: hidden; /* Avoid vertical scrolling */
+}
+
+/* Scroll */
+.scroll {
+  overflow-x: hidden; /* Avoid horizontal scrolling */
+  overflow-y: auto; /*Vertical scrolling avaible */
+}
 .hidden {
   display: none;
 }
