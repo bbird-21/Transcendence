@@ -180,7 +180,7 @@
 	/* ----- Container for one user ----- */
 	.social--each-user-profile-container{
 		margin: 4%; /* space beetween elements */
-		padding: 10px 25px; /* padding between text and border */
+		padding: 8px 24px; /* padding between text and border */
 		background-color: #1A003E;
 		border: 1px solid white;
 		border-radius: 20px;
@@ -213,7 +213,7 @@
 	.social--user-profile-username{
 		display: flex;
 		justify-content: center;
-		padding-bottom: 20px;
+		padding-bottom: 16px;
 	}
 
 	/* ----- Buttons Chat + Game Container ----- */
@@ -221,7 +221,7 @@
 		display: flex;
 		justify-content: center;
 		margin: 5px;
-		margin-bottom: 15px;
+		margin-bottom: 16px;
 		gap: 15px;
 	}
 
