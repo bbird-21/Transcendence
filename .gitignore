@@ -13,7 +13,6 @@ local_settings.py
 db.sqlite3
 django/ft_transcendence/staticfiles
 django/ft_transcendence/core/migrations
-django/ft_transcendence/core/media
 
 ### DB ###
 django/ft_transcendence/chat/migrations/
