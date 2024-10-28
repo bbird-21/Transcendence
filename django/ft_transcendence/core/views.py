@@ -89,10 +89,10 @@ def my_profile(request):
         username_form = UsernameForm(request.POST, prefix="username", instance=request.user)
         if 'avatar-avatar' in request.FILES and avatar_form.is_valid():
             avatar_form.save()
-            return HttpResponseRedirect("/profile/")
+            return HttpResponseRedirect("/my_profile/")
         elif username_form.is_valid():
             username_form.save()
-            return HttpResponseRedirect("/profile/")
+            return HttpResponseRedirect("/my_profile/")
         else:
             avatar_is_valid = False
             print(avatar_form.errors)  # For debugging purposes

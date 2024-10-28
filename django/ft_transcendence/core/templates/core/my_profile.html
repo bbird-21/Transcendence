@@ -41,7 +41,7 @@
 					</form>
 
 					<!-- Avatar Upload Form -->
-					<form action="/profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
+					<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
 						{% csrf_token %}
 						{{ avatar_form.as_p }}
 						<input type="submit" value="Update Avatar" class="btn-submit">
