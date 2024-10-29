@@ -163,8 +163,13 @@
 		position: absolute;
 		display: flex;
 		justify-content: center;
-		width: 100vw;
-		top: 16%;
+		max-height: 75vh;
+		width: 75vw;
+		top: 15%;
+		margin-bottom: 20px;
+		overflow-y: auto; /* Add vertical scroll*/
+		/* border: 1px solid white;
+		border-radius: 20px; */
 	}
 
 	/* ----- Container for all users ----- */
@@ -215,7 +220,7 @@
 		justify-content: center;
 		padding-bottom: 16px;
 	}
-
+	
 	/* ----- Buttons Chat + Game Container ----- */
 	.social--user-profile-buttons{
 		display: flex;
@@ -232,7 +237,7 @@
 		align-items: center;
 		background: #1A003E; /* background color */
 		border: 1px solid white;
-		padding: 8px 10px; /* padding between logo and border */
+		padding: 10px 10px; /* padding between logo and border */
 		border-radius: 50px;
 		cursor: pointer;
 		transition: .5;
