@@ -42,7 +42,7 @@ from .utils.login_utils import (
 from .utils.social_utils import (
     send_friend_request,
     accept_friend_request,
-    denied_friend_request,
+    decline_friend_request,
     remove_friend,
     user_is_friend,
     delete_pending_friend_request,
@@ -145,5 +145,7 @@ def social(request, searched_username="", user_found=True):
 
     context['search_form'] = search_user_form
     context['user_found'] = user_found
+    context['room_name'] = "123"
+    context['user_profileid'] = "3"
     return render(request, "core/social.html", context)
 

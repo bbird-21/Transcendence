@@ -80,17 +80,23 @@
                         {% for friend in all_friends %}
                             <li class="social--each-user-profile-container">
                                 <div class='social--user-profile-avatar'>
-                                    <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                    <a href="/profile/{{ friend.username }}">
+                                        <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                    </a>
                                 </div>
                                 <div class="social--user-profile-username">
                                     <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
                                 </div>
                                 <div class="social--user-profile-buttons">
                                     <button type="submit" class="social--user-profile-buttons-design">
-                                        <img src="{% static 'core/images/chat-logo.png' %}" class="social--buttons-section-logos">
+                                        <a href="{% url 'chat:room' friend.id %}">
+                                            <img src="{% static 'core/images/chat-logo.png' %}" class="social--buttons-section-logos">
+                                        </a>
                                     </button>
                                     <button type="submit" class="social--user-profile-buttons-design">
-                                        <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
+                                        <a href="{% url 'chat:room' friend.id %}">
+                                            <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
+                                        </a>
                                     </button>
                                 </div>                            
                             </li>
@@ -113,17 +119,21 @@
                             {% if user.id != friend_request.sender.id %}
                                 <li class="social--each-user-profile-container">
                                     <div class='social--user-profile-avatar'>
-                                        <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                        <img src="{{ friend_request.sender.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
                                     </div>
                                     <div class="social--user-profile-username">
-                                        <a href="/accept_friend_request/{{ friend_request.id }}">{{ friend_request.sender.username }}</a>
+                                        <a href="/profile/{{ friend_request.sender.username }}">{{ friend_request.sender.username }}</a>
                                     </div>
                                     <div class="social--user-profile-buttons">
                                         <button type="submit" class="social--user-profile-buttons-design">
-                                            <img src="{% static 'core/images/decline-logo.png' %}" class="social--buttons-section-logos">
+                                            <a href="/decline_friend_request/{{ friend_request.id }}">
+                                                <img src="{% static 'core/images/decline-logo.png' %}" class="social--buttons-section-logos">
+                                            </a>
                                         </button>
                                         <button type="submit" class="social--user-profile-buttons-design">
-                                            <img src="{% static 'core/images/accept-logo.png' %}" class="social--buttons-section-logos">
+                                            <a href="/accept_friend_request/{{ friend_request.id }}">
+                                                <img src="{% static 'core/images/accept-logo.png' %}" class="social--buttons-section-logos">
+                                            </a>
                                         </button>
                                     </div>
                                 </li>
