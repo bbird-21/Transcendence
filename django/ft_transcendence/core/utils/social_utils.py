@@ -78,11 +78,11 @@ def accept_friend_request(request, requestID):
         # Optionally delete the friend request after accepting
         friend_request.delete()
         previous_url = request.META.get('HTTP_REFERER', '/')
-        return HttpResponseRedirect(previous_url)
+        return HttpResponseRedirect("/social/")
 
 @login_required
 @never_cache
-def denied_friend_request(request, requestID):
+def decline_friend_request(request, requestID):
     friend_request = FriendRequest.objects.get(id=requestID)
     if friend_request.receiver == request.user:
         friend_request.delete()

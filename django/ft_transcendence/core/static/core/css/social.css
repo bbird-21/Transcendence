@@ -237,7 +237,7 @@
 		align-items: center;
 		background: #1A003E; /* background color */
 		border: 1px solid white;
-		padding: 10px 10px; /* padding between logo and border */
+		padding: 8px; /* padding between logo and border */
 		border-radius: 50px;
 		cursor: pointer;
 		transition: .5;
@@ -248,7 +248,7 @@
 	}
 
 	.social--buttons-section-logos{
-		width: 1.7em; /* Width relative to the size of the police */
+		width: 1.5em; /* Width relative to the size of the police */
 		height: auto;
 	}
 

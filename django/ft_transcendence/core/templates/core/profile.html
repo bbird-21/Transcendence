@@ -49,7 +49,7 @@
 					</div>
 						{% if is_friend %}
 						<div class="direct-message">
-							<form action="{% url 'chat:room' room_name user_profile.id %}" method="post">
+							<form action="{% url 'chat:room' user_profile.id %}" method="post">
 								{% csrf_token %}
 								<button type="submit" class="btn-submit">Send Direct Message</button>
 							</form>
