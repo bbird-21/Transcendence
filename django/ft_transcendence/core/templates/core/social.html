@@ -146,16 +146,30 @@
 
             <!---------- Blocked Users Section ---------->
         <template id="blocked-users-template">
-            <div class="social--title">
-                <h3 class="social--title-style">Blocked Users</h3>
-            </div>
-            <hr class="social-bar--line">
-            <div class='social--display-list'>
-                <ul class='social--all-users-profile'>
-                    {% for block_user in blocked_users %}
-                        <li>Unblock <a href="/unblock_user/{{ block_user.id }}">{{ block_user.username }}</a></li>
-                    {% endfor %}
-                </ul>
+            <div class="social--container-animation">
+                <div class="social--title">
+                    <h3 class="social--title-style">Blocked Users</h3>
+                </div>
+                <hr class="social-bar--line">
+                <div class='social--display-list'>
+                    <ul class='social--all-users-profile'>
+                        {% for block_user in blocked_users %}
+                            <li class="social--each-user-profile-container">
+                                <div class='social--user-profile-avatar'>
+                                    <img src="{{ block_user.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                </div>
+                                <div class="social--user-profile-username">
+                                    <a>{{ block_user.username }}</a>
+                                </div>
+                                <div class="social--user-profile-buttons">
+                                    <button type="submit" class="social--user-profile-buttons-design">
+                                        <a href="/unblock_user/{{ block_user.id }}" class="social--buttons-section-text">Unblock</a>
+                                    </button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </template>
     </div>

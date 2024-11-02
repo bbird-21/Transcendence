@@ -185,7 +185,7 @@
 	/* ----- Container for one user ----- */
 	.social--each-user-profile-container{
 		margin: 4%; /* space beetween elements */
-		padding: 8px 24px; /* padding between text and border */
+		padding: 10px 24px; /* padding between text and border */
 		background-color: #1A003E;
 		border: 1px solid white;
 		border-radius: 20px;
@@ -204,7 +204,7 @@
 	.social--user-profile-avatar{
 		display: flex;
 		justify-content: center;
-		padding: 20px;
+		padding: 15px;
 	}
 	
 	/* Avatar Image */
@@ -225,7 +225,7 @@
 	.social--user-profile-buttons{
 		display: flex;
 		justify-content: center;
-		margin: 5px;
+		margin: 8px;
 		margin-bottom: 16px;
 		gap: 15px;
 	}
@@ -237,7 +237,7 @@
 		align-items: center;
 		background: #1A003E; /* background color */
 		border: 1px solid white;
-		padding: 8px; /* padding between logo and border */
+		padding: 10px; /* padding between logo and border */
 		border-radius: 50px;
 		cursor: pointer;
 		transition: .5;
@@ -248,10 +248,29 @@
 	}
 
 	.social--buttons-section-logos{
-		width: 1.5em; /* Width relative to the size of the police */
+		width: 1.3em; /* Width relative to the size of the police */
 		height: auto;
 	}
 
-	
+	/* ----- Unblock Button ----- */
+	.social--user-profile-unblock-button-design{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: linear-gradient(to right, #DC91C2, #EEC881);
+		border: 1px solid white;
+		padding: 10px; /* padding between logo and border */
+		border-radius: 50px;
+		cursor: pointer;
+		transition: .5;
+	}
 
+	.social--user-profile-unblock-button-design:hover{
+		background: linear-gradient(to right, #DC91C2, #EEC881);
+	}
 
+	a.social--buttons-section-text{
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-size: 13px;
+		color: white;
+	}
