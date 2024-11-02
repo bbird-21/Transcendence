@@ -5,6 +5,7 @@ const senderUsername = JSON.parse(document.getElementById('sender_username').tex
 
 console.log(receiverUsername);
 console.log(senderUsername);
+console.log(roomName)
 
 const chatSocket = new WebSocket(
 	'ws://' + window.location.host + '/ws/chat/' + roomName + '/' + userID + '/'
@@ -18,10 +19,11 @@ chatSocket.onmessage = function(e) {
 	const data = JSON.parse(e.data);
 	if (data['command'] === 'messages') {
 		for (let i = 0; i < data['messages'].length; i++) {
-			createMessage(data['messages'][i], data['from']);
+			console.log(`from : ${data['messages'][i].author}`)
+			createMessage(data['messages'][i], data['messages'][i].author);
 		}
 	} else if (data['command'] === 'new_message') {
-		createMessage(data['message'], data['from']);
+		createMessage(data['message'], data['message'].author);
 	}
 };
 
@@ -62,6 +64,7 @@ function createMessage(data, from) {
 	const chatLog = document.querySelector('#chat-log');
 	const messageElement = document.createElement('div');
 	messageElement.classList.add('message');
+
 	// Add class based on whether it's a sender or receiver
 	if (from === senderUsername) {
 		messageElement.classList.add('message-sender');
@@ -69,8 +72,18 @@ function createMessage(data, from) {
 		messageElement.classList.add('message-receiver');
 	}
 
-	// Add the content to the message box
-	messageElement.textContent = data.content;
+	// Create the message content element
+	const contentElement = document.createElement('p');
+	contentElement.textContent = data.content;
+	messageElement.appendChild(contentElement);
+
+	// Create the timestamp element
+	const timestampElement = document.createElement('span');
+	timestampElement.classList.add('timestamp');
+	timestampElement.textContent = data.timestamp.slice(0, 16);  // Keep only YYYY-MM-DD HH:MM
+	messageElement.appendChild(timestampElement);
+
+	// Append the message element to the chat log
 	chatLog.appendChild(messageElement);
 
 	// Scroll to the latest message
