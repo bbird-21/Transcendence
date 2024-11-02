@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
-        messages = Message.all_messages(self.room_name)
+        messages = Message.get_all_messages_from_chat(self.room_name)
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(messages)
@@ -19,7 +19,7 @@ class ChatConsumer(WebsocketConsumer):
     def new_message(self, data):
         author = data['from']
         author_user = User.objects.filter(username=author)[0]
-        chat = Chat.objects.all()[0]
+        chat = Chat.objects.get(id=self.room_name)
         message = Message.objects.create(
             author=author_user,
             message=data['message'],
@@ -28,8 +28,7 @@ class ChatConsumer(WebsocketConsumer):
         print(f"data from {data['from']}")
         content = {
             'command': 'new_message',
-            'message': self.message_to_json(message),
-            'from': data['from']
+            'message': self.message_to_json(message)
         }
 
         return self.send_chat_message(content)
@@ -47,7 +46,7 @@ class ChatConsumer(WebsocketConsumer):
         return {
             'author': message.author.username,
             'content': message.message,
-            'timestamp': str(message.createdAt)
+            'timestamp': str(message.createdAt),
         }
 
     commands = {
