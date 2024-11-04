@@ -39,6 +39,7 @@
 		border-radius: 12px;
 		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
 		transition: .5s; /* smooth transition to buttons-design:hover */
+		animation: smoothAppearence 0.8s ease forwards;
 	}
 
 	/* smooth animation when the curser is hover the button */
@@ -77,6 +78,7 @@
 		padding: 8px 25px; /* padding between text and border */
 		margin-top: 8px;
 		border-radius: 12px;
+		animation: smoothAppearence 0.8s ease forwards;
 	}
 
 	/* ---------- Info Container : displays either friends list, pending requests or blocked users ---------- */
@@ -123,11 +125,11 @@
 		font-family: 'Stacker', sans-serif; /* Google Font */
 		font-style: normal;
    		font-size: 21px;
-		animation: titleAppearance 1.3s ease forwards;
+		animation: smoothAppearence 1.3s ease forwards;
 	}
 
 	/* Title will appear progressively */
-	@keyframes titleAppearance {
+	@keyframes smoothAppearence {
 		0% {
 			opacity: 0%;
 		}
@@ -257,9 +259,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background: linear-gradient(to right, #DC91C2, #EEC881);
+		background: #1A003E;
 		border: 1px solid white;
-		padding: 10px; /* padding between logo and border */
+		padding: 8px 16px; /* padding between logo and border */
 		border-radius: 50px;
 		cursor: pointer;
 		transition: .5;
@@ -271,6 +273,6 @@
 
 	a.social--buttons-section-text{
 		font-family: 'Stacker', sans-serif; /* Google Font */
-		font-size: 13px;
+		font-size: 14px;
 		color: white;
 	}

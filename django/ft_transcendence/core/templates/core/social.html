@@ -162,7 +162,7 @@
                                     <a>{{ block_user.username }}</a>
                                 </div>
                                 <div class="social--user-profile-buttons">
-                                    <button type="submit" class="social--user-profile-buttons-design">
+                                    <button type="submit" class="social--user-profile-unblock-button-design">
                                         <a href="/unblock_user/{{ block_user.id }}" class="social--buttons-section-text">Unblock</a>
                                     </button>
                                 </div>
@@ -175,53 +175,51 @@
     </div>
 
     <script>
+
         // Get all buttons with the "social-bar--buttons" class
         const socialButtons = document.querySelectorAll('.social-bar--buttons');
-
-        // Get the container where the informations will be displayed
+        
+        // Get the Friends button specifically
+        const friendsButton = document.querySelector('.social-bar--friends .social-bar--buttons');
+    
+        // Get the container where the information will be displayed
         const infoContainer = document.getElementById('infoContainer');
-
+    
         // Function to load the corresponding template based on button click
         function loadContent(templateId) {
             const template = document.getElementById(templateId);
             if (template) {
-                // Clones template's content and displays it in the container
+                // Clone template's content and display it in the container
                 const content = template.content.cloneNode(true);
-                infoContainer.innerHTML = ''; // Erase actual content
-                infoContainer.appendChild(content); // add cloned content in the parent container (infoContainer) -> make template's content visible on click
+                infoContainer.innerHTML = ''; // Clear existing content
+                infoContainer.appendChild(content); // Add new content to the container
             }
         }
-
-        // Loop through the buttons
+    
+        // Function to handle button clicks and update the content
         function handleButtonClick(event) {
-        
-        // Remove class 'buttons-active' from all the buttons
-        socialButtons.forEach(button => {button.classList.remove('buttons-active');
-
-            // Reset the logo to the original image
-            const imgElement = button.querySelector('img');
-            const originalSrc = button.getAttribute('data-img-original');
-            if (imgElement && originalSrc) {
-                imgElement.src = originalSrc;
-            }
+            // Remove 'buttons-active' class from all buttons and reset images
+            socialButtons.forEach(button => {
+                button.classList.remove('buttons-active');
+                const imgElement = button.querySelector('img');
+                const originalSrc = button.getAttribute('data-img-original');
+                if (imgElement && originalSrc) {
+                    imgElement.src = originalSrc;
+                }
             });
-
-            // Add class 'buttons-active' on click
+    
+            // Add 'buttons-active' class to clicked button and update image
             const clickedButton = event.currentTarget;
             clickedButton.classList.add('buttons-active');
-
-            // Change the logo image to the clicked version
             const imgElement = clickedButton.querySelector('img');
             const clickedImgSrc = clickedButton.getAttribute('data-img-clicked');
             if (imgElement && clickedImgSrc) {
                 imgElement.src = clickedImgSrc;
-                imgElement.classList.add('social--logo-clicked'); // clicked logos
+                imgElement.classList.add('social--logo-clicked');
             }
-
-            // Get the data-info attribute to determine which content to load
+    
+            // Load the corresponding template based on data-info attribute
             const dataType = clickedButton.getAttribute('data-info');
-
-            // Load the corresponding content into the info container
             if (dataType === 'all_friends') {
                 loadContent('all-friends-template');
             } else if (dataType === 'pending_requests') {
@@ -230,20 +228,31 @@
                 loadContent('blocked-users-template');
             }
         }
-
-        // Store original image source
+    
+        // Store original image source for each button and add click listeners
         socialButtons.forEach(button => {
             const imgElement = button.querySelector('img');
             if (imgElement) {
-                button.setAttribute('data-img-original', imgElement.src); // Save the original image
+                button.setAttribute('data-img-original', imgElement.src);
             }
-
-            // add the click event listener to each button
             button.addEventListener('click', handleButtonClick);
         });
-
-    </script> 
-
+    
+        // Load the Friends section by default on page load and mark the button as active
+        window.addEventListener('DOMContentLoaded', () => {
+            loadContent('all-friends-template'); // Load Friends content
+            friendsButton.classList.add('buttons-active'); // Mark Friends button as active
+    
+            // Change Friends button image to clicked version
+            const imgElement = friendsButton.querySelector('img');
+            const clickedImgSrc = friendsButton.getAttribute('data-img-clicked');
+            if (imgElement && clickedImgSrc) {
+                imgElement.src = clickedImgSrc;
+                imgElement.classList.add('social--logo-clicked');
+            }
+        });
+    </script>
+    
     
         <!-- <script>
             // Get all buttons with the "social-bar--buttons" class
