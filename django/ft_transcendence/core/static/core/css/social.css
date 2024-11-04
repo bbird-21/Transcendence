@@ -13,11 +13,11 @@
 	.social-bar{
 		position: fixed;
 		display: flex;
-		justify-content: center;
+		justify-content: space-evenly;
 		width: 90vw;
 		top: 4%;
 		left: 10%;
-		gap : 10%;
+		gap: 1%;
 		border-radius: 20%;
 		border: 0px solid white;
 	}
@@ -38,7 +38,7 @@
 		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
 		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
-		transition: .5s; /* smooth transition to buttons-design:hover */
+		transition: 1s; /* smooth transition to buttons-design:hover */
 		animation: smoothAppearence 0.8s ease forwards;
 	}
 
@@ -75,9 +75,9 @@
 		color: white; /* text color */
 		background: #1A003E; /* background color */
 		border: 2px solid white;
-		padding: 8px 25px; /* padding between text and border */
-		margin-top: 8px;
-		border-radius: 12px;
+		padding: 8px 20px; /* padding between text and border */
+		margin-top: 5px;
+		border-radius: 20px;
 		animation: smoothAppearence 0.8s ease forwards;
 	}
 
