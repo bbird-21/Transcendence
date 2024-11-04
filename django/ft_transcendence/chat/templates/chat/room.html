@@ -1,28 +1,51 @@
 {% load static %}
 {% load socialaccount %}
 {% include 'core/sidenav.html' %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'chat/css/room.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/social.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <title>Chat Room</title>
 </head>
-
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>Chat Room: {{ room_name }}</h1>
-            <p>Chatting with: {{ receiver_username }} (You: {{ sender_username }})</p>
+    <div class="chat-wrapper">
+        <div class="chat-history-container">
+            <!-- Background Video -->
+            <video autoplay muted loop class="video-background">
+                <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="chat-bar">
+                {% for chat in user_chats %}
+                    <div class="social--user-profile-avatar">
+                        <img src="{{ chat.toUser.userprofile.avatar.url }}" class="social--user-avatar-img">
+                    </div>
+                    <div class="chat--history">
+                        <a href="{% url 'chat:get_room_redirect' chat.toUser.id %}"> {{ chat.toUser }}</a>
+                        <p class="test"> {{ chat.last_message }} </p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
-        <div id="chat-log" class="chat-log"></div>
-
-        <div class="chat-input">
-            <input id="chat-message-input" type="text" placeholder="Type a message...">
-            <input id="chat-message-submit" type="button" value="Send">
+        <div class="chat-container">
+            <!-- Background Video -->
+            <video autoplay muted loop class="video-background">
+                <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="chat-header">
+                <h1>Chatting with: {{ receiver_username }} (You: {{ sender_username }})</h1>
+            </div>
+            <div id="chat-log" class="chat-log"></div>
+            <div class="chat-input">
+                <input id="chat-message-input" type="text" placeholder="Type a message...">
+                <input id="chat-message-submit" type="button" value="Send">
+            </div>
         </div>
     </div>
 

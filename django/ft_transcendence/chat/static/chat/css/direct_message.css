@@ -1,0 +1,20 @@
+.chat-container{
+	position: relative;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+}
+
+.chat-bar{
+	position: absolute;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	height: 100vh;
+	top: 10%;
+	left: 1%;
+}
+
+.test {
+	color: white;
+}
