@@ -1,6 +1,7 @@
 ### Core ###
 *.swp
 .env
+.DS_Store
 django/ft_transcendence/core/static/core/css/test.css
 django/ft_transcendence/core/templates/core/home.html
 django/ft_transcendence/media/avatars/

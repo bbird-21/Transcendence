@@ -120,15 +120,17 @@ def profile(request, username):
     has_friend_request = _has_friend_request_(request, user_profile)
     chat = get_or_create_chat(request, user_profile)
     room_name = chat.id
+    all_users = User.objects.all()
 
     context = {
+        "all_users": all_users,
         "user_profile": user_profile,
         "has_friend_request": has_friend_request,
         "is_friend": is_friend,
         "room_name": room_name
     }
 
-    return render(request, "core/profile.html", context)
+    return render(request, "core/user_profile.html", context)
 
 
 @login_required
