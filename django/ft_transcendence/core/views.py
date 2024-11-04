@@ -25,11 +25,13 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from chat.models import Chat
 from django.contrib.auth import logout as django_logout
+from django.db.models import Q
 
 
 # --- Utils -----------------------------
+from chat.chat_utils import get_or_create_chat
+
 from .utils.profile_utils import (
-    get_or_create_chat,
     _has_friend_request_,
     _is_friend_
 )
@@ -108,8 +110,6 @@ def my_profile(request):
     })
 
 # ---- <social.html> ---------------------------
-from django.db.models import Q
-
 @login_required
 @never_cache
 def profile(request, username):
