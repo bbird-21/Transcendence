@@ -24,7 +24,7 @@
 
         <!---------- Social Buttons on top of the page ---------->
         <div class="social-bar">
-            
+
             <!---------- All Friends Button ---------->
             <div class="social-bar--friends">
                 <button type="submit" class="social-bar--buttons" data-info="all_friends" data-img-clicked="{% static 'core/images/friends-logo-dark.png' %}">
@@ -40,7 +40,7 @@
                     Pending
                 </button>
             </div>
-            
+
             <!---------- Blocked Users Button ---------->
             <div class="social-bar--blocked">
                 <button type="submit" class="social-bar--buttons" data-info="blocked_users" data-img-clicked="{% static 'core/images/blocked-logo-dark.png' %}">
@@ -56,12 +56,12 @@
                         {% csrf_token %}
                         {{ search_form.as_p }}
                     </form>
-    
+
                     {% if not user_found %}
                         <p class="error-message">The user <strong>{{ searched_username }}</strong> could not be found.</p>
                     {% endif %}
                 </div>
-            </div>     
+            </div>
         </div>
 
         <!---------- Info Container : displays either friends list, pending requests or blocked users - Has to be empty by default to make sure that nothing will be displayed at first ---------->
@@ -89,16 +89,16 @@
                                 </div>
                                 <div class="social--user-profile-buttons">
                                     <button type="submit" class="social--user-profile-buttons-design">
-                                        <a href="{% url 'chat:room' friend.id %}">
+                                        <a href="{% url 'chat:get_room_redirect' friend.id %}">
                                             <img src="{% static 'core/images/chat-logo.png' %}" class="social--buttons-section-logos">
                                         </a>
                                     </button>
                                     <button type="submit" class="social--user-profile-buttons-design">
-                                        <a href="{% url 'chat:room' friend.id %}">
+                                        <a href="{% url 'chat:get_room_redirect' friend.id %}">
                                             <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
                                         </a>
                                     </button>
-                                </div>                            
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
@@ -260,7 +260,7 @@
 
             // Get the container where informations will be displayed
             const infoContainer = document.getElementById('infoContainer');
-    
+
             // Loop through the buttons and add the same click event listener to each
             socialButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -273,8 +273,8 @@
                     infoContainer.textContent = info;
                 });
             });
-        </script> 
-        
+        </script>
+
         <div class="search-user">
             <h1>Welcome, {{ user.username }}</h1>
             <form action="/social/" method="post" class="form-box">
@@ -286,7 +286,7 @@
             {% if not user_found %}
                 <p class="error-message">The user <strong>{{ searched_username }}</strong> could not be found.</p>
             {% endif %}
-            
+
             <div class="section">
                 <h2>Available Friend Requests</h2>
                 <ul class="friend-list">
@@ -294,7 +294,7 @@
                         <li>{{ friend_request.username }} <a href="/send_friend_request/{{ friend_request.id }}">Send Friend Request</a></li>
                     {% endfor %}
                 </ul>
-            </div> 
+            </div>
 
                         <div class="social-bar--remove-friends">
                             <button type="submit" class="social-bar--buttons">
