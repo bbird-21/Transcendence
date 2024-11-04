@@ -1,2 +1,13 @@
-/* Responsive Version - Max Height : 500px */
+/* Responsive Version - Max Height : 650px */
 
+    /* ----- Titles under the buttons ----- */
+    .social--title{
+        display: none;
+    }
+
+    /* ----- thin line under social bar ----- */
+    .social-bar--line{
+        display: none;
+    }
+
+    
