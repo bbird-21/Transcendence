@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/social.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!---------- Media Queries ---------->
+    <link rel="stylesheet" href="{% static 'core/css/media-queries/social_media-queries-width.css' %}" media="screen and (max-width: 942px)">
+    <link rel="stylesheet" href="{% static 'core/css/media-queries/social_media-queries-height.css' %}" media="screen and (max-height: 642px)">
     <title>Profile Page - {{ user.username }}</title>
 </head>
 
@@ -24,12 +27,11 @@
 
         <!---------- Social Buttons on top of the page ---------->
         <div class="social-bar">
-
             <!---------- All Friends Button ---------->
             <div class="social-bar--friends">
                 <button type="submit" class="social-bar--buttons" data-info="all_friends" data-img-clicked="{% static 'core/images/friends-logo-dark.png' %}">
                     <img src="{% static 'core/images/friends-logo.png' %}" class="social--logos">
-                    Friends
+                    <span>Friends</span>
                 </button>
             </div>
 
@@ -37,7 +39,7 @@
             <div class="social-bar--pending-requests">
                 <button type="submit" class="social-bar--buttons" data-info="pending_requests" data-img-clicked="{% static 'core/images/pending-logo-dark.png' %}">
                     <img src="{% static 'core/images/pending-logo.png' %}" class="social--logos">
-                    Pending
+                    <span>Pending</span>
                 </button>
             </div>
 
@@ -45,7 +47,7 @@
             <div class="social-bar--blocked">
                 <button type="submit" class="social-bar--buttons" data-info="blocked_users" data-img-clicked="{% static 'core/images/blocked-logo-dark.png' %}">
                     <img src="{% static 'core/images/blocked-logo.png' %}" class="social--logos">
-                    Blocked
+                    <span>Blocked</span>
                 </button>
             </div>
 

@@ -1,0 +1,48 @@
+/* Responsive Version - Max Height : 650px */
+
+    /* ----- Titles under the buttons ----- */
+    .social--title{
+        display: none;
+    }
+
+    /* ----- thin line under social bar ----- */
+    .social-bar--line{
+        display: none;
+    }
+    
+    /* ----- Container for one user ----- */
+    .social--each-user-profile-container{
+        padding: 8px 20px; /* padding between text and border */
+    }
+
+    /* Avatar Image */
+	.social--user-avatar-img{
+		width: 4em; /* Width relative to the size of the police */
+	}
+
+    /* ----- Username + Link to Profile Page ----- */
+	.social--user-profile-username{
+		padding-bottom: 14px;
+	}
+
+    .social--each-user-profile-container a {
+        font-size: 16px;
+    }
+	
+
+	/* ----- Buttons Chat + Game Container ----- */
+	.social--user-profile-buttons{
+        margin: 0px;
+		margin-bottom: 10px;
+		gap: 15px;
+	}
+
+	/* Buttons Design */
+	.social--user-profile-buttons-design{
+		padding: 10px; /* padding between logo and border */
+	}
+
+    .social--buttons-section-logos{
+		width: 1.2em; /* Width relative to the size of the police */
+		height: auto;
+	}
