@@ -39,7 +39,6 @@ class ChatConsumer(WebsocketConsumer):
         for message in messages:
             result.append(self.message_to_json(message))
 
-        print(f"result : {result}")
         return result
 
     def message_to_json(self, message):
