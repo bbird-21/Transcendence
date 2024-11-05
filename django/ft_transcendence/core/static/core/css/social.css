@@ -276,3 +276,7 @@
 		font-size: 14px;
 		color: white;
 	}
+
+	a.social--buttons-section-text:hover{
+		color: #1A003E;
+	}
