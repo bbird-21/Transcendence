@@ -26,7 +26,9 @@
                     </div>
                     <div class="chat--history">
                         <a href="{% url 'chat:get_room_redirect' chat.toUser.id %}"> {{ chat.toUser }}</a>
-                        <p class="test"> {{ chat.last_message }} </p>
+                        {% if chat.last_message %}
+                        <p class="test"> {{ chat.last_message|slice:":10" }}{% if chat.last_message|length > 50 %}...{% endif %}  </p>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

@@ -22,7 +22,7 @@ body {
 .chat-history-container {
     flex: 0.3;
     background-color: #f0f0f0;
-    padding: 10px;
+    padding: 1%;
     overflow-y: auto;
 }
 
@@ -76,21 +76,25 @@ body {
 }
 
 .message {
-    padding: 10px;
-    margin: 5px;
-    border-radius: 8px;
-    max-width: 70%;
-    clear: both;
+    max-width: 50%; /* Adjust as needed */
     word-wrap: break-word;
+    white-space: pre-wrap; /* Preserves line breaks and allows wrapping */
+    padding: 10px;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .message-sender {
     background-color: #d1e7dd;
     text-align: right;
     margin-left: auto;
+    text-align: left;
+
 }
 
 .message-receiver {
+    text-align: left;
     background-color: #f8d7da;
     text-align: left;
     margin-right: auto;
