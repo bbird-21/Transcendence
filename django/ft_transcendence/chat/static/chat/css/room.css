@@ -99,3 +99,8 @@ body {
     text-align: left;
     margin-right: auto;
 }
+
+.last-message {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
