@@ -27,7 +27,7 @@
                     <div class="chat--history">
                         <a href="{% url 'chat:get_room_redirect' chat.toUser.id %}"> {{ chat.toUser }}</a>
                         {% if chat.last_message %}
-                        <p class="test"> {{ chat.last_message|slice:":10" }}{% if chat.last_message|length > 50 %}...{% endif %}  </p>
+                            <p class="last-message"> {{ chat.last_message|slice:":50" }}{% if chat.last_message|length > 50 %}...{% endif %}  </p>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -41,22 +41,30 @@
                 Your browser does not support the video tag.
             </video>
             <div class="chat-header">
+            {% if room_name %}
                 <h1>Chatting with: {{ receiver_username }} (You: {{ sender_username }})</h1>
+            {% else %}
+                No chat yet go to <a href="{% url 'core:social'%}"> social</a> and start a chat.
+            {% endif%}
             </div>
             <div id="chat-log" class="chat-log"></div>
-            <div class="chat-input">
-                <input id="chat-message-input" type="text" placeholder="Type a message...">
-                <input id="chat-message-submit" type="button" value="Send">
+            {% if room_name %}
+                <div class="chat-input">
+                    <input id="chat-message-input" type="text" placeholder="Type a message...">
+                    <input id="chat-message-submit" type="button" value="Send">
+                </div>
+            {% endif %}
             </div>
-        </div>
     </div>
 
-    {{ room_name|json_script:"room-name" }}
-    {{ userID|json_script:"userID" }}
-    {{ sender_username|json_script:"sender_username" }}
-    {{ receiver_username|json_script:"receiver_username" }}
+    {% if room_name %}
+        {{ room_name|json_script:"room-name" }}
+        {{ userID|json_script:"userID" }}
+        {{ sender_username|json_script:"sender_username" }}
+        {{ receiver_username|json_script:"receiver_username" }}
 
-    <script src="{% static 'chat/js/reconnecting_websocket.js' %}"></script>
-    <script src="{% static 'chat/js/chat.js' %}"></script>
+        <script src="{% static 'chat/js/reconnecting_websocket.js' %}"></script>
+        <script src="{% static 'chat/js/chat.js' %}"></script>
+    {% endif %}
 </body>
 </html>

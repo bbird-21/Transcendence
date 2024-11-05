@@ -25,15 +25,20 @@ class Chat(models.Model):
         return Chat.message_set.last()
 
     def get_user_chats(user):
-        return  Chat.objects.filter(
+        return Chat.objects.filter(
             fromUser=user
         ).annotate(
             last_message=Subquery(
                 Message.objects.filter(refChat=OuterRef('pk'))
                 .order_by('-createdAt')
                 .values('message')[:1]
+            ),
+            last_message_time=Subquery(
+                Message.objects.filter(refChat=OuterRef('pk'))
+                .order_by('-createdAt')
+                .values('createdAt')[:1]
             )
-    )
+        ).order_by('-last_message_time')
 
 
 
