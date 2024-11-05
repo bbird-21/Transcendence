@@ -14,10 +14,17 @@ def index(request):
 
 @login_required
 def room(request, room_name, userID):
+    user_chats = Chat.get_user_chats(request.user)
+    last_user_message = Chat.get_user_chats(request.user).last().toUser.id
+    try:
+        User.objects.get(id=userID)
+    except User.DoesNotExist as e:
+        return redirect('chat:get_room_redirect', userID=last_user_message)
+
+
     from_user = request.user.id
     to_user   = User.objects.get(id=userID)
     user_profile = User.objects.get(id=userID)
-    user_chats = Chat.get_user_chats(request.user)
 
     context = {
         "room_name": room_name,
