@@ -28,25 +28,25 @@
         <!---------- Social Buttons on top of the page ---------->
         <div class="social-bar">
             <!---------- All Friends Button ---------->
-            <div class="social-bar--friends">
+            <div class="social-bar--buttons-container">
                 <button type="submit" class="social-bar--buttons" data-info="all_friends" data-img-clicked="{% static 'core/images/friends-logo-dark.png' %}">
-                    <img src="{% static 'core/images/friends-logo.png' %}" class="social--logos">
+                    <img src="{% static 'core/images/friends-logo.png' %}" class="icons-logos">
                     <span>Friends</span>
                 </button>
             </div>
 
             <!---------- Pending Requests Button ---------->
-            <div class="social-bar--pending-requests">
+            <div class="social-bar--buttons-container">
                 <button type="submit" class="social-bar--buttons" data-info="pending_requests" data-img-clicked="{% static 'core/images/pending-logo-dark.png' %}">
-                    <img src="{% static 'core/images/pending-logo.png' %}" class="social--logos">
+                    <img src="{% static 'core/images/pending-logo.png' %}" class="icons-logos">
                     <span>Pending</span>
                 </button>
             </div>
 
             <!---------- Blocked Users Button ---------->
-            <div class="social-bar--blocked">
+            <div class="social-bar--buttons-container">
                 <button type="submit" class="social-bar--buttons" data-info="blocked_users" data-img-clicked="{% static 'core/images/blocked-logo-dark.png' %}">
-                    <img src="{% static 'core/images/blocked-logo.png' %}" class="social--logos">
+                    <img src="{% static 'core/images/blocked-logo.png' %}" class="icons-logos">
                     <span>Blocked</span>
                 </button>
             </div>
@@ -90,12 +90,12 @@
                                     <a href="/profile/{{ friend.username }}"> {{ friend.username }} </a>
                                 </div>
                                 <div class="social--user-profile-buttons">
-                                    <button type="submit" class="social--user-profile-buttons-design">
+                                    <button type="submit" class="social--user-profile-buttons-design buttons-design">
                                         <a href="{% url 'chat:get_room_redirect' friend.id %}">
                                             <img src="{% static 'core/images/chat-logo.png' %}" class="social--buttons-section-logos">
                                         </a>
                                     </button>
-                                    <button type="submit" class="social--user-profile-buttons-design">
+                                    <button type="submit" class="social--user-profile-buttons-design buttons-design">
                                         <a href="{% url 'chat:get_room_redirect' friend.id %}">
                                             <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
                                         </a>
@@ -127,7 +127,7 @@
                                         <a href="/profile/{{ friend_request.sender.username }}">{{ friend_request.sender.username }}</a>
                                     </div>
                                     <div class="social--user-profile-buttons">
-                                        <button type="submit" class="social--user-profile-buttons-design">
+                                        <button type="submit" class="social--user-profile-buttons-design buttons-design">
                                             <a href="/decline_friend_request/{{ friend_request.id }}">
                                                 <img src="{% static 'core/images/decline-logo.png' %}" class="social--buttons-section-logos">
                                             </a>
@@ -164,7 +164,7 @@
                                     <a>{{ block_user.username }}</a>
                                 </div>
                                 <div class="social--user-profile-buttons">
-                                    <button type="submit" class="social--user-profile-unblock-button-design">
+                                    <button type="submit" class="social--user-profile-unblock-button-design buttons-design">
                                         <a href="/unblock_user/{{ block_user.id }}" class="social--buttons-section-text">
                                             Unblock
                                         </a>
@@ -219,7 +219,7 @@
             const clickedImgSrc = clickedButton.getAttribute('data-img-clicked');
             if (imgElement && clickedImgSrc) {
                 imgElement.src = clickedImgSrc;
-                imgElement.classList.add('social--logo-clicked');
+                imgElement.classList.add('icons-logos');
             }
     
             // Load the corresponding template based on data-info attribute
@@ -252,7 +252,7 @@
             const clickedImgSrc = friendsButton.getAttribute('data-img-clicked');
             if (imgElement && clickedImgSrc) {
                 imgElement.src = clickedImgSrc;
-                imgElement.classList.add('social--logo-clicked');
+                imgElement.classList.add('icons-logos');
             }
         });
     </script>

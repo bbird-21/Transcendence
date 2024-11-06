@@ -58,7 +58,7 @@
 		color: white; /* text color */
 		background: #1A003E; /* background color */
 		border: 1px solid white;
-		padding: 8px 24px; /* padding between text and border */
+		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
     cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
 		transition: .5s; /* smooth transition to buttons-design:hover */
@@ -70,16 +70,20 @@
   	background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
 	}
 
-  /* ----- Avatar Container ----- */
-	.container--user-avatar{
-		display: flex;
-		justify-content: center;
-		padding: 15px;
-	}
-	
-	/* Avatar Image */
-	.user-avatar-img{
-		width: 5em; /* Width relative to the size of the police */
+  .icons-logos {
+		width: 1.5em; /* Width relative to the size of the police */
 		height: auto;
-		border-radius: 50px;
 	}
+
+	/* ----- Avatar Container ----- */
+  .container--user-avatar{
+    display: flex;
+    justify-content: center;
+  }
+    
+  /* Avatar Image */
+  .user-avatar-img{
+    width: 5em; /* Width relative to the size of the police */
+    height: auto;
+    border-radius: 50px;
+  }

@@ -14,20 +14,20 @@
 
 	/* ---------- Social Bar Buttons ---------- */
 
-	.social-bar--buttons{
+	.social-bar--buttons{ /* Full deign needed here because CSS is loading hover JS animations if we're using buttons-design class */
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		font-family: 'Stacker', sans-serif; /* Google Font */
 		font-size: 18px;
-		gap: 17px; /* space between text and logos */
 		color: white; /* text color */
 		background: #1A003E; /* background color */
 		border: 1px solid white;
 		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
-		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+    	cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		gap: 17px; /* space between text and logos */
 		transition: 1s; /* smooth transition to buttons-design:hover */
 		animation: smoothAppearence 0.8s ease forwards;
 	}
@@ -38,11 +38,6 @@
 		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
 	}
 
-	.social--logos{
-		width: 1.5em; /* Width relative to the size of the police */
-		height: auto;
-	}
-
 	/* on click animation : buttons will stay white depending on the section where you click */
 	.buttons-active{
 		color: #1A003E; /* text color */
@@ -50,25 +45,18 @@
 		transition: .5s; 
 	}
 
-	.social--logo-clicked{
-		width: 1.5em; /* Width relative to the size of the police */
-		height: auto;
-	}
-
 	/* Search User Field Design */
-	.social--search-username-field{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		font-size: 18px;
-		color: white; /* text color */
-		background: #1A003E; /* background color */
+	.buttons-design.social--search-username-field{
 		border: 2px solid white;
 		padding: 8px 20px; /* padding between text and border */
 		margin-top: 5px;
 		border-radius: 20px;
+		cursor: auto;
 		animation: smoothAppearence 0.8s ease forwards;
+	}
+
+	.buttons-design.social--search-username-field:hover{
+		background: #1A003E;
 	}
 
 	/* ---------- Info Container : displays either friends list, pending requests or blocked users ---------- */
@@ -156,13 +144,17 @@
 
 	/* ----- Container for one user ----- */
 	.social--each-user-profile-container{
+		text-align: center;
 		margin: 4%; /* space beetween elements */
 		padding: 10px 24px; /* padding between text and border */
 		background-color: #1A003E;
 		border: 1px solid white;
 		border-radius: 20px;
-		text-align: center;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.container--user-avatar{
+		padding: 15px;
 	}
 
 	/* Link to the user (click on the username) */
@@ -176,33 +168,21 @@
 	.social--user-profile-username{
 		display: flex;
 		justify-content: center;
-		padding-bottom: 16px;
+		padding-bottom: 21px;
 	}
 	
 	/* ----- Buttons Chat + Game Container ----- */
 	.social--user-profile-buttons{
 		display: flex;
 		justify-content: center;
-		margin: 8px;
 		margin-bottom: 16px;
 		gap: 15px;
 	}
 
 	/* Buttons Design */
-	.social--user-profile-buttons-design{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background: #1A003E; /* background color */
-		border: 1px solid white;
+	.buttons-design.social--user-profile-buttons-design{
 		padding: 10px; /* padding between logo and border */
 		border-radius: 50px;
-		cursor: pointer;
-		transition: .5;
-	}
-
-	.social--user-profile-buttons-design:hover {
-		background: linear-gradient(to right, #DC91C2, #EEC881);
 	}
 
 	.social--buttons-section-logos{
@@ -211,20 +191,10 @@
 	}
 
 	/* ----- Unblock Button ----- */
-	.social--user-profile-unblock-button-design{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background: #1A003E;
-		border: 1px solid white;
+	.buttons-design.social--user-profile-unblock-button-design{
 		padding: 8px 16px; /* padding between logo and border */
 		border-radius: 50px;
-		cursor: pointer;
-		transition: .5;
-	}
-
-	.social--user-profile-unblock-button-design:hover{
-		background: linear-gradient(to right, #DC91C2, #EEC881);
+		margin-top: 4px;
 	}
 
 	a.social--buttons-section-text{
