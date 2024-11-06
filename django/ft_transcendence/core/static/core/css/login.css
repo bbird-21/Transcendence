@@ -1,18 +1,8 @@
 /* Reset default margins and padding (Default Browser Styles) */
 h1, h2, h3, h4, h5, h6, p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
-
-/* ---------- Global container for layout management ---------- */
-	.login-page {
-		position: relative; /* Parent container */
-		height: 100vh; /* Container takes the full page */
-		width: 100vw;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
 
 /* ---------- Title Page ---------- */
 	.title {
@@ -66,21 +56,15 @@ h1, h2, h3, h4, h5, h6, p {
 	}
 
 	/* Three buttons design */
-	.buttons-design {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
+	.buttons-design.login--options-buttons {
 		font-size: 25px;
-		gap: 5px; /* space between text and 42 logo */
-		color: white; /* text color */
-		background: #1A003E; /* background color */
 		border: 2px solid white;
 		padding: 10px 42px; /* padding between text and border */
-		border-radius: 12px;
-		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
-		transition: .5s; /* smooth transition to buttons-design:hover */
 		animation: buttonsAppearance 3.2s ease forwards; /* buttons will appear when the title will be on the top of the page */
+	}
+
+	.buttons-design:hover {
+  		background: white;
 	}
 
 	/* Buttons will appear when the title will be at the top of the page */
@@ -94,12 +78,6 @@ h1, h2, h3, h4, h5, h6, p {
 		100% {
 			opacity: 100%; /* Buttons will appear progressively */
 		}
-	}
-
-	/* smooth animation when the curser is hover the button */
-	.buttons-design:hover {
-		color: black; /* text color */
-  		background-color: white; /* background color */
 	}
 
 	.logo-42 {
@@ -120,24 +98,6 @@ h1, h2, h3, h4, h5, h6, p {
 		justify-content: center;
 		flex-direction: column;
 		gap: 30px;
-	}
-
-	/* Error Message Container */
-	.errorlist {
-		gap : 1px;
-		font-size: 1rem !important;
-		background: linear-gradient(135deg, rgba(255, 0, 0, 0.7), rgba(200, 0, 0, 0.7)); /* Red gradient with 70% opacity */
-		color: white; /* White text */
-		padding: 10px 15px; /* Padding inside the block */
-		border-radius: 8px; /* Rounded corners */
-		text-align: center; /* Center the text */
-		font-size: 1.2rem; /* Increase font size */
-		margin: 20px 0; /* Add margin above and below the block */
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle 3D effect */
-	}
-
-	.errorlist {
-		list-style: none;
 	}
 
 	.container--submit-button{
@@ -180,4 +140,21 @@ h1, h2, h3, h4, h5, h6, p {
 	.submit-button:hover{
 		color: black; /* text color */
   		background-color: white; /* background color */
+	}
+
+	/* Error Message Container */
+	.errorlist {
+		text-align: center; /* Center the text */
+		font-size: 1.2rem !important;
+		color: white; /* White text */
+		background: linear-gradient(135deg, rgba(255, 0, 0, 0.7), rgba(200, 0, 0, 0.7)); /* Red gradient with 70% opacity */
+		padding: 10px 15px; /* Padding inside the block */
+		border-radius: 8px; /* Rounded corners */
+		margin: 20px 0; /* Add margin above and below the block */
+		gap : 1px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle 3D effect */
+	}
+
+	.errorlist {
+		list-style: none;
 	}

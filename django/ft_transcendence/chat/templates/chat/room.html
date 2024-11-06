@@ -21,8 +21,8 @@
             </video>
             <div class="chat-bar">
                 {% for chat in user_chats %}
-                    <div class="social--user-profile-avatar">
-                        <img src="{{ chat.toUser.userprofile.avatar.url }}" class="social--user-avatar-img">
+                    <div class="container--user-avatar">
+                        <img src="{{ chat.toUser.userprofile.avatar.url }}" class="user-avatar-img">
                     </div>
                     <div class="chat--history">
                         <a href="{% url 'chat:get_room_redirect' chat.toUser.id %}"> {{ chat.toUser }}</a>

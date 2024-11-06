@@ -18,7 +18,7 @@
 
 <body class="scroll">
     <!---------- Global container for layout management ---------->
-    <div class="social-container">
+    <div class="container">
         <!---------- Background Video ---------->
         <video autoplay muted loop class="video-background">
             <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
@@ -81,9 +81,9 @@
                     <ul class='social--all-users-profile'>
                         {% for friend in all_friends %}
                             <li class="social--each-user-profile-container">
-                                <div class='social--user-profile-avatar'>
+                                <div class='container--user-avatar'>
                                     <a href="/profile/{{ friend.username }}">
-                                        <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                        <img src="{{ friend.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar-img"/>
                                     </a>
                                 </div>
                                 <div class="social--user-profile-username">
@@ -120,8 +120,8 @@
                         {% for friend_request in all_friend_request %}
                             {% if user.id != friend_request.sender.id %}
                                 <li class="social--each-user-profile-container">
-                                    <div class='social--user-profile-avatar'>
-                                        <img src="{{ friend_request.sender.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                    <div class='container--user-avatar'>
+                                        <img src="{{ friend_request.sender.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar-img"/>
                                     </div>
                                     <div class="social--user-profile-username">
                                         <a href="/profile/{{ friend_request.sender.username }}">{{ friend_request.sender.username }}</a>
@@ -157,8 +157,8 @@
                     <ul class='social--all-users-profile'>
                         {% for block_user in blocked_users %}
                             <li class="social--each-user-profile-container">
-                                <div class='social--user-profile-avatar'>
-                                    <img src="{{ block_user.userprofile.avatar.url }}" alt="User Avatar" class="social--user-avatar-img"/>
+                                <div class='container--user-avatar'>
+                                    <img src="{{ block_user.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar-img"/>
                                 </div>
                                 <div class="social--user-profile-username">
                                     <a>{{ block_user.username }}</a>

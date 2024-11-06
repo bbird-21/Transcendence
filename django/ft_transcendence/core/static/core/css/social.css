@@ -1,13 +1,3 @@
-/* ---------- Global container for layout management ---------- */
-
-	.social-container {
-		position: relative; /* Parent container */
-		display: flex;
-		justify-content: center;
-		height: 100vh; /* Container takes the full page */
-		width: 100vw;
-	}
-
 /* ---------- Social Bar on top of the page ---------- */
 
 	.social-bar{
@@ -99,18 +89,8 @@
 		top : 10%;
 		width: 80vw;
 		height: 90vh;
-		animation: infocontainerAppearance 1.3s ease forwards;
+		animation: smoothAppearence 1.3s ease forwards;
 	}
-
-	/* Friends List will appear progressively */
-	@keyframes infocontainerAppearance {
-		0% {
-			opacity: 0%;
-		}
-		100% {
-			opacity: 100%;
-		}
-	}		
 
 	/* ----- Titles under the buttons ----- */
 	.social--title{
@@ -127,16 +107,6 @@
    		font-size: 21px;
 		animation: smoothAppearence 1.3s ease forwards;
 	}
-
-	/* Title will appear progressively */
-	@keyframes smoothAppearence {
-		0% {
-			opacity: 0%;
-		}
-		100% {
-			opacity: 100%;
-		}
-	}		
 
 	/* ----- thin line under social bar ----- */
 	.social-bar--line{
@@ -200,20 +170,6 @@
 		text-decoration: none;
 		color: white;
 		font-size: 18px;
-	}
-
-	/* ----- Avatar Container ----- */
-	.social--user-profile-avatar{
-		display: flex;
-		justify-content: center;
-		padding: 15px;
-	}
-	
-	/* Avatar Image */
-	.social--user-avatar-img{
-		width: 5em; /* Width relative to the size of the police */
-		height: auto;
-		border-radius: 50px;
 	}
 
 	/* ----- Username + Link to Profile Page ----- */
