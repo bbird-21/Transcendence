@@ -19,7 +19,7 @@
 </head>
   <body class="no-scroll">
   <!---------- Global container for layout management ---------->
-    <div class="login-page">
+    <div class="container">
 
     <!---------- Background Video ---------->
       <video autoplay muted loop class="video-background">
@@ -112,17 +112,17 @@
           <div class="login-buttons--top">
             <form action="{% provider_login_url 'fortytwo' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="buttons-design 42-button">
+              <button type="submit" class="buttons-design login--options-buttons 42-button">
                 Sign in with
-                <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="logo-42">
+                <img src="{% static 'core/images/42_Logo_gradient.png' %}" class="icons-logos">
               </button>
             </form>
           </div>
 
         <!-- Login and Sign Up Button - Bottom Buttons -->
           <div class="login-buttons--bottom">
-            <button class="buttons-design" id="signin-button">Login</button>
-            <button class="buttons-design" id="signup-button">Sign Up </button>
+            <button class="buttons-design login--options-buttons" id="signin-button">Login</button>
+            <button class="buttons-design login--options-buttons" id="signup-button">Sign Up </button>
           </div>
         </div>
 
