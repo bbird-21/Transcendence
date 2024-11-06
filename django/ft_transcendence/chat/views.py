@@ -50,12 +50,7 @@ def get_room_redirect(request, userID):
 def direct_message(request):
     user_chats = Chat.get_user_chats(request.user)
     if not user_chats.exists():
-        return render(request, "chat/empty_chat.html")
+        return render(request, "chat/room.html")
     last_user_chat = user_chats.order_by('createdAt').first().toUser.id
 
-    # context     = {
-    #     "user_chats": user_chats
-    # }
-
     return get_room_redirect(request, userID=last_user_chat)
-    # return render(request, "chat/direct_message.html", context)
