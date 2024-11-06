@@ -16,7 +16,7 @@
     }
 
     /* Avatar Image */
-	.social--user-avatar-img{
+	.user-avatar-img{
 		width: 4em; /* Width relative to the size of the police */
 	}
 
@@ -29,20 +29,28 @@
         font-size: 16px;
     }
 	
-
 	/* ----- Buttons Chat + Game Container ----- */
 	.social--user-profile-buttons{
-        margin: 0px;
+		margin: 5px;
 		margin-bottom: 10px;
 		gap: 15px;
 	}
 
 	/* Buttons Design */
 	.social--user-profile-buttons-design{
-		padding: 10px; /* padding between logo and border */
+		padding: 8px; /* padding between logo and border */
 	}
 
     .social--buttons-section-logos{
 		width: 1.2em; /* Width relative to the size of the police */
 		height: auto;
+	}
+
+    /* ----- Unblock Button ----- */
+	.social--user-profile-unblock-button-design{
+		padding: 8px; /* padding between logo and border */
+	}
+
+	a.social--buttons-section-text{
+		font-size: 12px;
 	}
