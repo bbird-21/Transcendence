@@ -1,6 +1,7 @@
 # ---- Shorcuts -------------------------
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.urls import reverse
 
 # ---- Authentication -------------------
 from django.contrib.auth.models import User
@@ -66,13 +67,13 @@ def login(request):
         elif "signup-username" in request.POST:
             return sign_up_strategy(request)
         else:
-            return HttpResponseRedirect('/login/')
+            return HttpResponseRedirect(reverse('core:login'))
     else:
         return login_page(request)
 
 def logout(request):
         django_logout(request)
-        return redirect('login')  # If user is not authenticated, redirect to home
+        return redirect(reverse('core:login'))   # If user is not authenticated, redirect to home
 
 # ---- <home.html> ----------------------
 @login_required
