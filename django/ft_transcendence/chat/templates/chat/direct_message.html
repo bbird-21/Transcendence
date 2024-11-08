@@ -15,7 +15,7 @@
 	</head>
 
 	<body class="scroll">
-		<div class="chat-container">
+		<div class="container">
 			<!---------- Background Video ---------->
 			<video autoplay muted loop class="video-background">
 				<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
@@ -24,8 +24,8 @@
 
 			<div class="chat-bar">
 			{% for chat in user_chats %}
-				<div class="social--user-profile-avatar">
-					<img src="{{ chat.toUser.userprofile.avatar.url }}" class="social--user-avatar-img">
+				<div class="container--user-avatar">
+					<img src="{{ chat.toUser.userprofile.avatar.url }}" class="user-avatar-img">
 				</div>
 				<div class="chat--history">
 					<p class="test">{{ chat.toUser }}  {{ chat.last_message }} </p>

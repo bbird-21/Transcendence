@@ -14,27 +14,76 @@
   overflow-x: hidden; /* Avoid horizontal scrolling */
   overflow-y: auto; /*Vertical scrolling avaible */
 }
+
 .hidden {
   display: none;
 }
 
-/* ---------- Background Video ---------- */
-.video-background {
-  position: fixed; /* Background video will stay at this position no matter what */
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: cover; /* Ensures the video covers the entire element */
-  z-index: -1; /* Places the video behind other content */
-}
+  /* ---------- Background Video ---------- */
+  .video-background {
+    position: fixed; /* Background video will stay at this position no matter what */
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Ensures the video covers the entire element */
+    z-index: -1; /* Places the video behind other content */
+  }
 
-.container {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
+  /* ---------- Global Container For Layout Management ---------- */
+  .container {
+    position: relative; /* Parent container */
+    display: flex;
+    justify-content: center;
+    height: 100vh; /* Container takes the full page */
+    width: 100vw;
+  }
+
+	/* Animation to make things appear progressively with oppacity */
+	@keyframes smoothAppearence {
+		0% {
+			opacity: 0%;
+		}
+		100% {
+			opacity: 100%;
+		}
+	}
+
+  .buttons-design{
+    display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 18px;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 1px solid white;
+		padding: 8px 30px; /* padding between text and border */
+		border-radius: 12px;
+    cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		transition: .5s; /* smooth transition to buttons-design:hover */
+  }
+
+  	/* smooth animation when the curser is hover the button */
+	.buttons-design:hover {
+		color: #1A003E; /* text color */
+  	background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+	}
+
+  .icons-logos {
+		width: 1.5em; /* Width relative to the size of the police */
+		height: auto;
+	}
+
+	/* ----- Avatar Container ----- */
+  .container--user-avatar{
+    display: flex;
+    justify-content: center;
+  }
+    
+  /* Avatar Image */
+  .user-avatar-img{
+    width: 5em; /* Width relative to the size of the police */
+    height: auto;
+    border-radius: 50px;
+  }
