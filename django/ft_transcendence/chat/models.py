@@ -2,6 +2,9 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from django.db.models import Subquery, OuterRef
+from django.db.models import Q
+from django.db.models.functions import Coalesce
+from django.db.models import Case, When, Value, DateTimeField, F
 
 class Chat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -9,7 +12,6 @@ class Chat(models.Model):
     toUser = models.ForeignKey(User, db_index=True,on_delete=models.SET_NULL, null=True,related_name="toUser")
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    unique_together = (("fromUser", "toUser"),)
     # last_message = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -24,21 +26,40 @@ class Chat(models.Model):
     def get_last_message(fromUser):
         return Chat.message_set.last()
 
-    def get_user_chats(user):
-        return Chat.objects.filter(
-            fromUser=user
-        ).annotate(
-            last_message=Subquery(
-                Message.objects.filter(refChat=OuterRef('pk'))
-                .order_by('-createdAt')
-                .values('message')[:1]
-            ),
+    @classmethod
+    def reverse_query_set(cls, user, querySet):
+        reverse_query = querySet.all()
+        for query in reverse_query:
+            if ( query.toUser == user ):
+                query.toUser = query.fromUser
+                query.fromUser = user
+                query.save()
+        return reverse_query
+
+    @classmethod
+    def get_user_chats(cls, user):
+        base_query = Chat.objects.filter(Q(fromUser=user) | Q(toUser=user))
+
+        reverse_query = cls.reverse_query_set(user, base_query)
+        return reverse_query.annotate(
             last_message_time=Subquery(
-                Message.objects.filter(refChat=OuterRef('pk'))
+                Message.objects.filter(refChat=OuterRef('id'))
                 .order_by('-createdAt')
                 .values('createdAt')[:1]
+            ),
+            last_message=Subquery(
+                Message.objects.filter(refChat=OuterRef('id'))
+                .order_by('-createdAt')
+                .values('message')[:1]
             )
-        ).order_by('-last_message_time')
+        ).annotate(
+            # If last_message_time is null, use createdAt of the chat
+            last_message_sort=Case(
+                When(last_message_time__isnull=False, then=F('last_message_time')),
+                default=F('createdAt'),
+                output_field=DateTimeField()
+            )
+        ).order_by('-last_message_sort')
 
 
 

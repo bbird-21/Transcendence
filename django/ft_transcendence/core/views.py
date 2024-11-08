@@ -148,7 +148,5 @@ def social(request, searched_username="", user_found=True):
 
     context['search_form'] = search_user_form
     context['user_found'] = user_found
-    context['room_name'] = "123"
-    context['user_profileid'] = "3"
     return render(request, "core/social.html", context)
 
