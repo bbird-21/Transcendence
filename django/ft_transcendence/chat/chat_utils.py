@@ -1,4 +1,4 @@
-from chat.models import Chat
+from .models import Chat
 from django.db.models import Q
 
 def get_or_create_chat(request, chatWithUser):

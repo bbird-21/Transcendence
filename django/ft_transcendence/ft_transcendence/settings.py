@@ -51,9 +51,9 @@ INSTALLED_APPS = [
     "core",
 ]
 
-LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "login"
-ACCOUNT_LOGOUT_REDIRECT = "login"
+LOGIN_URL = "core:login"
+LOGIN_REDIRECT_URL = "core:login"
+ACCOUNT_LOGOUT_REDIRECT = "core:login"
 
 # Order of middleware should matter
 MIDDLEWARE = [
