@@ -1,37 +1,89 @@
-.centered-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+	/* ---------- Profile Containers ---------- */
+	.profile--info-container {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		width: 60vw;
+		height: 70vh;
+		margin: 8%;
+		border: 1px solid white;
+		border-radius: 42px;
+	}
 
-/* Profile Info */
-.profile__info {
-	text-align: center;
-}
+	/* ---------- Profile Stats ---------- */
 
-.profile__title h1 {
-	font-size: 2.5rem;
-	color: white;
-	margin-bottom: 1.5rem;
-}
+	.profile--stats-global-container{
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		text-align: center;
+		top: 10%;
+		right: 5%;
+		width: 15vw;
+		height: 20vh;
+		border: 1px solid white;
+		border-radius: 42px;
+	}
 
-/* Stats */
-.profile__stats h2 {
-	font-size: 1.2rem;
-	color: white;
-	margin-bottom: 0.5rem;
-}
+	.profile--stats-content {
+		color: white;
+	}
 
-/* Forms */
-.form-box {
-	margin: 1rem auto;
-	padding: 1rem;
-	width: 100%;
-	background-color: #f9f9f9;
-	border-radius: 8px;
-	border: 1px solid #ddd;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
+	.profile--stats-title{
+		display: flex;
+		justify-content: center;
+		margin: 15%;
+		padding: 8px 30px; /* padding between text and border */
+		font-size: 21px;
+		border-radius: 20px; 
+		color: #1A003E;
+		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+	}
+
+	.profile--stats{
+		font-size: 24px;
+		padding: 5%;
+	}
+
+	/* ---------- Profile Main Container ---------- */
+
+	.profile--main-info-container {
+		position: absolute;
+		align-items: center;
+		text-align: center;
+	}
+
+	/* ---------- Profile Avatar ---------- */
+	.container--user-avatar {
+		margin-top: 21%;
+		align-items: center;
+	}
+
+	.profile--user-avatar.user-avatar-img {
+		width: 10em;
+	}
+
+	/* ---------- Profile Username ---------- */
+	.profile--username {
+		margin: 8%;
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-size: 1em;
+		color: white;
+	}
+
+	/* ---------- Buttons Container ---------- */
+
+	.profile--buttons-container{
+		position: absolute;
+		top : 50%;
+	}
+
+	.profile--buttons.buttons-design{
+		gap: 17px; /* space between text and logos */
+		border-radius: 50px;
+	}
+
+
 
 input[type="text"], input[type="file"], input[type="password"] {
 	width: 100%;
@@ -40,83 +92,6 @@ input[type="text"], input[type="file"], input[type="password"] {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 1rem;
-}
-
-.btn-submit {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	font-size: 1rem;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-.btn-submit:hover {
-	background-color: #45a049;
-}
-
-/* Avatar */
-.avatar-container {
-	margin-top: 1.5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.container--user-avatar {
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	border: 3px solid #f1f1f1;
-}
-
-/* Messages */
-.valid-message {
-	color: #4CAF50;
-	font-weight: bold;
-}
-
-.error-message {
-	color: #f44336;
-	font-weight: bold;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-	.container {
-		width: 90%;
-		padding: 1rem;
-	}
-}
-
-@media (max-width: 480px) {
-	.profile__title h1 {
-		font-size: 2rem;
-	}
-	.profile__stats h2 {
-		font-size: 1rem;
-	}
-	.container--user-avatar {
-		width: 120px;
-		height: 120px;
-	}
-}
-
-.template-form {
-	display: flex;
-	gap:10%;
-}
-
-/* Relationship */
-.relationship {
-    display: flex;                       /* Use flexbox for layout */
-    justify-content: space-between;      /* Space out the items */
-    align-items: center;                 /* Align items vertically */
-    margin-top: 1rem;
-	gap:10px;                   /* Optional: Adds some space above */
 }
 
 .direct-message, .add-friend {

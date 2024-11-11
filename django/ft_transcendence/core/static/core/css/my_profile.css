@@ -1,0 +1,30 @@
+.btn-submit {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+	background-color: #45a049;
+}
+
+/* Messages */
+.valid-message {
+	color: #4CAF50;
+	font-weight: bold;
+}
+
+.error-message {
+	color: #f44336;
+	font-weight: bold;
+}
+
+.template-form {
+	display: flex;
+	gap:10%;
+}

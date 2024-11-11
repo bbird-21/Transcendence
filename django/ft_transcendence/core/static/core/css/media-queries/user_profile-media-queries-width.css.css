@@ -1,0 +1,20 @@
+/* Responsive Design */
+@media (max-width: 768px) {
+	.container {
+		width: 90%;
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.profile__title h1 {
+		font-size: 2rem;
+	}
+	.profile__stats h2 {
+		font-size: 1rem;
+	}
+	.container--user-avatar {
+		width: 120px;
+		height: 120px;
+	}
+}
