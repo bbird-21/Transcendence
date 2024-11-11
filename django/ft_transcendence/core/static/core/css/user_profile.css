@@ -3,11 +3,15 @@
 		position: relative;
 		display: flex;
 		justify-content: center;
-		width: 60vw;
+		width: 65vw;
 		height: 70vh;
 		margin: 8%;
+		background: rgba(0, 0, 0, 0.15); /* Fond semi-transparent */
 		border: 1px solid white;
 		border-radius: 42px;
+		overflow: hidden; /* ForbiEmpêche les effets de brillance de déborder */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Smooth shadow for depth */
+		animation: smoothAppearence 1.3s ease forwards, borderGlow 5s ease-in-out infinite;
 	}
 
 	/* ---------- Profile Stats ---------- */
@@ -17,32 +21,44 @@
 		display: flex;
 		justify-content: center;
 		text-align: center;
-		top: 10%;
+		top: 8%;
 		right: 5%;
-		width: 15vw;
-		height: 20vh;
 		border: 1px solid white;
 		border-radius: 42px;
+		background: #1A003E;
+		padding: 15px 5px;
 	}
 
 	.profile--stats-content {
 		color: white;
 	}
 
-	.profile--stats-title{
+	.profile--stats-title-container{
 		display: flex;
 		justify-content: center;
-		margin: 15%;
+		margin-bottom: 2%;
 		padding: 8px 30px; /* padding between text and border */
-		font-size: 21px;
-		border-radius: 20px; 
-		color: #1A003E;
-		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+	}
+
+	.profile--stats-title{
+		font-family: 'Stacker', sans-serif; /* Google Font */
+		font-size: 20px;
+		white-space: nowrap;
 	}
 
 	.profile--stats{
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		font-size: 24px;
-		padding: 5%;
+		padding: 6%;
+		white-space: nowrap;
+		gap : 18%;
+	}
+
+	.stats-logos{
+		width: 2em; /* Width relative to the size of the police */
+		height: auto;
 	}
 
 	/* ---------- Profile Main Container ---------- */
@@ -51,36 +67,57 @@
 		position: absolute;
 		align-items: center;
 		text-align: center;
+		top: 12%;
 	}
 
-	/* ---------- Profile Avatar ---------- */
-	.container--user-avatar {
-		margin-top: 21%;
-		align-items: center;
+	/* ---------- Profile + Username Container ---------- */
+
+	.profile--avatar-username-container{
+		margin-top: 15%;
+		padding: 30px 42px;
+		background: #1A003E;
+		border: 1px solid white;
+		border-radius: 30px;
 	}
+
+	/* Profile Avatar */
 
 	.profile--user-avatar.user-avatar-img {
-		width: 10em;
+		width: 8em;
 	}
 
-	/* ---------- Profile Username ---------- */
+	/* Profile Username */
+
 	.profile--username {
-		margin: 8%;
+		margin-top: 18%;
 		font-family: 'Stacker', sans-serif; /* Google Font */
-		font-size: 1em;
 		color: white;
 	}
 
 	/* ---------- Buttons Container ---------- */
 
 	.profile--buttons-container{
-		position: absolute;
-		top : 50%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 25%;
+		gap: 10px;
 	}
 
 	.profile--buttons.buttons-design{
+		font-size: 20px;
 		gap: 17px; /* space between text and logos */
 		border-radius: 50px;
+	}
+
+	.profile--buttons.buttons-design a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.profile--block-button-container{
+		display: flex;
+		justify-content: center;
 	}
 
 

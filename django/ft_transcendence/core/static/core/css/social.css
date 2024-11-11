@@ -128,8 +128,8 @@
 		top: 15%;
 		margin-bottom: 20px;
 		overflow-y: auto; /* Add vertical scroll*/
-		/* border: 1px solid white;
-		border-radius: 20px; */
+		background: rgba(0, 0, 0, 0.1 ); /* Fond semi-transparent */
+		border-radius: 42px;
 	}
 
 	/* ----- Container for all users ----- */

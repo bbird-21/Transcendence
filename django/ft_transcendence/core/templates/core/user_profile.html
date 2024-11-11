@@ -26,67 +26,75 @@
             <!---------- Stats ---------->
             <div class="profile--stats-global-container">
                 <div class="profile--stats-content">
-                    <h1 class="profile--stats-title"> Statistics </h1>
-                    <h2 class="profile--stats">Victories : {{ user_profile.userprofile.victory }}</h2>
-                    <h2 class="profile--stats">Defeats : {{ user_profile.userprofile.defeat }}</h2>
+                    <div class="profile--stats-title-container">
+                        <h2 class="profile--stats-title">Game Stats</h2>
+                    </div>
+                    <div class ="profile--stats">
+                        <img src="{% static 'core/images/win-logo3.png' %}" class="stats-logos">
+                        <p> {{ user_profile.userprofile.victory }}</p>
+                    </div>
+                    <div class ="profile--stats">
+                        <img src="{% static 'core/images/defeats-logo.png' %}" class="stats-logos">
+                        <p> {{ user_profile.userprofile.defeat }}</p>
+                    </div>
                 </div>
             </div>
 
             <div class="profile--main-info-container">
                 <!---------- Avatar ---------->
-                <div class="container--user-avatar">
-                    <img src="{{ user_profile.userprofile.avatar.url }}" alt="User Avatar" class="profile--user-avatar user-avatar-img"/>
+                <div class="profile--avatar-username-container">
+                    <div class="container--user-avatar">
+                        <img src="{{ user_profile.userprofile.avatar.url }}" alt="User Avatar" class="profile--user-avatar user-avatar-img"/>
+                    </div>
+                    <!---------- Username ---------->
+                    <div class="profile--username ">
+                        <h2>{{ user_profile.username }}</h2>
+                    </div>
                 </div>
-                <!---------- Username ---------->
-                <div class="profile--username ">
-                    <h1>{{ user_profile.username }}</h1>
-                </div>
-            </div>
 
-            <div class="profile--buttons-container">
-                {% if request.user.id != user_profile.id %}
-                    <!---------- Random user ---------->
-                    <div class="profile--friend-request-button-container">
-                        {% if not is_friend and not has_friend_request %}
-                        <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="profile--buttons buttons-design">
-                                <span>Send a Friend Request</span>
-                            </button>
-                        </form>
-                        {% elif has_friend_request %}
-                            <input type="submit" value="Request has been submitted" class="buttons-design" disabled>
+                <div class="profile--buttons-container">
+                    {% if request.user.id != user_profile.id %}
+                        <!---------- Random user ---------->
+                        <div class="profile--friend-request-button-container">
+                            {% if not is_friend and not has_friend_request %}
+                            <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <span>Send a Friend Request</span>
+                                </button>
+                            </form>
+                            {% elif has_friend_request %}
+                                <input type="submit" value="Request has been submitted" class="buttons-design" disabled>
+                            {% endif %}
+                        </div>
+
+                        <!---------- Friend ---------->
+                        {% if is_friend %}
+                        <div class="profile--message-button-container">
+                            <form action="{% url 'chat:room' room_name user_profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/chat-logo.png' %}" class="icons-logos">
+                                    <span> Message </span>
+                                </button>						
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="add-friend">
+                            <p>Add this friend to send a direct message</p>
+                        </div>					
+                        {% endif %}
+                    {% endif %}
+                    
+                    <!---------- Block Button ---------->
+                    <div class="profile--block-button-container">
+                        {% if user_profile != user %}
+                        <button type="submit" class="profile--buttons buttons-design" onclick="window.location.href='/block_user/{{ user_profile.id }}'">
+                            <img src="{% static 'core/images/blocked-logo-white.png' %}" class="icons-logos">
+                            <span>Block</span>
+                        </button>
                         {% endif %}
                     </div>
-
-                    <!---------- Friend ---------->
-                    {% if is_friend %}
-                    <div class="profile--message-button-container">
-                        <form action="{% url 'chat:room' room_name user_profile.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="profile--buttons buttons-design">
-                                <img src="{% static 'core/images/chat-logo.png' %}" class="icons-logos">
-                                <span> Message </span>
-                            </button>						
-                        </form>
-                    </div>
-                    {% else %}
-                    <div class="add-friend">
-                        <p>Add this friend to send a direct message</p>
-                    </div>					
-                    {% endif %}
-                {% endif %}
-                
-                <!---------- Block Button ---------->
-                <div class="profile--block-button-container">
-                    {% if user_profile != user %}
-                    <button type="submit" class="profile--buttons buttons-design">
-                        <a href="/block_user/{{ user_profile.id }}">
-                            <img src="{% static 'core/images/blocked-logo.png' %}" class="icons-logos">
-                            <span>Block</span>
-                        </a>
-                    </button>
-                    {% endif %}
                 </div>
             </div>
         </div>
