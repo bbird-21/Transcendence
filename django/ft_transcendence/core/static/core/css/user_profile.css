@@ -1,22 +1,7 @@
-/* Container */
-.container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .centered-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 1200px;
-	height: 800px;
-	/* margin: 0rem auto; */
-	/* margin-top: 8%; */
-	padding: 2rem;
-	background: rgba(255, 255, 255, 0.85);
-	border-radius: 10px;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Profile Info */
@@ -26,14 +11,14 @@
 
 .profile__title h1 {
 	font-size: 2.5rem;
-	color: #333;
+	color: white;
 	margin-bottom: 1.5rem;
 }
 
 /* Stats */
 .profile__stats h2 {
 	font-size: 1.2rem;
-	color: #555;
+	color: white;
 	margin-bottom: 0.5rem;
 }
 
