@@ -60,6 +60,7 @@
 		border: 1px solid white;
 		padding: 8px 30px; /* padding between text and border */
 		border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Smooth shadow for depth */
     cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
 		transition: .5s; /* smooth transition to buttons-design:hover */
   }
@@ -85,5 +86,22 @@
   .user-avatar-img{
     width: 5em; /* Width relative to the size of the police */
     height: auto;
-    border-radius: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
+
+  /* Animation to make borders glow */
+	@keyframes borderGlow {
+		0% {
+			border-color: white;
+			box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.6);
+		}
+		50% {
+			border-color: rgba(255, 255, 255, 0.8);
+			box-shadow: 0 0 16px 8px rgba(255, 255, 255, 0.8);
+		}
+		100% {
+			border-color: white;
+			box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.6);
+		}
+	}
