@@ -44,7 +44,7 @@ from .utils.social_utils import (
     decline_friend_request,
     remove_friend,
     user_is_friend,
-    delete_friend_request,
+    cancel_friend_request,
     block_user,
     unblock_user,
     get_social_data,

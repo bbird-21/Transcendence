@@ -100,7 +100,7 @@ def decline_friend_request(request, friendRequestID):
 # Ensuring that the request has been sent from the logged-user.
 @login_required
 @never_cache
-def delete_friend_request(request, userID):
+def cancel_friend_request(request, userID):
     friend_request_sender   = FriendRequest.objects.filter(receiver_id=userID, sender_id=request.user.id).first()
 
     if friend_request_sender and friend_request_sender == request.user:
