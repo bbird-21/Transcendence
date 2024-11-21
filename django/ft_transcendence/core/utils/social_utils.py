@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
+from chat.models import Chat
 
 def	user_profile(request, search_user_form):
 	searched_username = search_user_form.cleaned_data["username"]
@@ -63,8 +64,8 @@ def send_friend_request(request, userID):
 
 @login_required
 @never_cache
-def accept_friend_request(request, requestID):
-    friend_request = FriendRequest.objects.get(id=requestID)
+def accept_friend_request(request, friendRequestID):
+    friend_request = FriendRequest.objects.get(id=friendRequestID)
     if friend_request.receiver == request.user:
 
         # Get UserProfile objects for both sender and receiver
@@ -80,14 +81,30 @@ def accept_friend_request(request, requestID):
         previous_url = request.META.get('HTTP_REFERER', '/')
         return HttpResponseRedirect("/social/")
 
+# Decline friend request that has been received.
+# Ensuring that the request has been sent from the logged-user.
+# TRY BLOCK NEEDED
 @login_required
 @never_cache
-def decline_friend_request(request, requestID):
-    friend_request = FriendRequest.objects.get(id=requestID)
-    if friend_request.receiver == request.user:
+def decline_friend_request(request, friendRequestID):
+    friend_request = FriendRequest.objects.get(id=friendRequestID)
+
+    print(f'friend request id : {friendRequestID}')
+    if friend_request and friend_request.receiver == request.user or friend_request.sender == request.user:
+        print("DELETING")
         friend_request.delete()
     previous_url = request.META.get('HTTP_REFERER', '/')
     return HttpResponseRedirect(previous_url)
+
+# Delete friend request that has been sent.
+# Ensuring that the request has been sent from the logged-user.
+@login_required
+@never_cache
+def delete_friend_request(request, userID):
+    friend_request_sender   = FriendRequest.objects.filter(receiver_id=userID, sender_id=request.user.id).first()
+
+    if friend_request_sender and friend_request_sender == request.user:
+        friend_request_sender.delete()
 
 @login_required
 @never_cache
@@ -111,21 +128,6 @@ def user_is_friend(request, userID):
         if friend.id == userID:
             return True
     return False
-
-def delete_pending_friend_request(request, userID):
-    friend_request_receiver = friend_request_sender = FriendRequest.objects.filter(receiver_id=request.user.id, sender_id=userID).first()
-    friend_request_sender   = friend_request_sender = FriendRequest.objects.filter(receiver_id=userID, sender_id=request.user.id).first()
-
-    if friend_request_receiver:
-        friend_request_receiver.delete()
-    elif friend_request_sender:
-        friend_request_sender.delete()
-
-def delete_current_user_friend_request(request):
-    friend_request = FriendRequest.objects.get(sender__id=request.user.id)
-    friend_request.delete()
-
-    return redirect('/social/')
 
 @login_required
 @never_cache
@@ -157,3 +159,27 @@ def unblock_user(request, userID):
     user_to_block.userprofile.blocked_user.remove(request.user.id)
 
     return redirect('/social/')
+
+def has_received_friend_request(request, user_profile):
+	friend_request_receiver = request.user.receiver.all()
+	# Is there friend request that the user has received from user_profile
+	for received in friend_request_receiver:
+		if received.sender == user_profile:
+			return received
+	return None
+
+def has_sent_friend_request(request, user_profile):
+    friend_request_sender   = request.user.sender.all()
+    # Is there friend request that the user has send to user_profile
+    for send in friend_request_sender:
+        if send.receiver == user_profile:
+            return send
+    return None
+
+def _is_friend_(request, user_profile):
+	# Is userprofile a friend
+	for friend in request.user.userprofile.friends.all():
+		if friend.id == user_profile.id:
+			return True
+	return False
+
