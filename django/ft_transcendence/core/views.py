@@ -32,10 +32,6 @@ from django.db.models import Q
 # --- Utils -----------------------------
 from chat.chat_utils import get_or_create_chat
 
-from .utils.profile_utils import (
-    _has_friend_request_,
-    _is_friend_
-)
 from .utils.login_utils import (
     create_user,
     sign_in_strategy,
@@ -48,12 +44,14 @@ from .utils.social_utils import (
     decline_friend_request,
     remove_friend,
     user_is_friend,
-    delete_pending_friend_request,
-    delete_current_user_friend_request,
+    cancel_friend_request,
     block_user,
     unblock_user,
     get_social_data,
-    user_profile
+    user_profile,
+    has_received_friend_request,
+    has_sent_friend_request,
+    _is_friend_
 )
 
 
@@ -73,14 +71,18 @@ def login(request):
 
 def logout(request):
         django_logout(request)
-        return redirect(reverse('core:login'))   # If user is not authenticated, redirect to home
+        return redirect(reverse('core:login'))
 
 # ---- <home.html> ----------------------
 @login_required
 @never_cache
 def home(request):
-    user = request.user
-    return render(request, "core/home.html", {"user": user})
+    received_friend_requests = request.user.receiver.values_list('sender__username')
+
+    context = {
+        "friend_requests": received_friend_requests
+    }
+    return render(request, "core/home.html", context)
 
 @login_required
 @never_cache
@@ -118,15 +120,20 @@ def profile(request, username):
     from_user = request.user.id
     to_user = user_profile.id
     is_friend = _is_friend_(request, user_profile)
-    has_friend_request = _has_friend_request_(request, user_profile)
+    received_friend_request = has_received_friend_request(request, user_profile)
+    sent_friend_request     = has_sent_friend_request(request, user_profile)
     chat = get_or_create_chat(request, user_profile)
     room_name = chat.id
     all_users = User.objects.all()
 
+    print(f"received_friend_request : {received_friend_request}")
+    print(f"sent_friend_request     : {sent_friend_request}")
+    print(f"username                : {username}")
     context = {
         "all_users": all_users,
         "user_profile": user_profile,
-        "has_friend_request": has_friend_request,
+        "received_friend_request": received_friend_request,
+        "sent_friend_request": sent_friend_request,
         "is_friend": is_friend,
         "room_name": room_name
     }

@@ -14,12 +14,17 @@
 <body>
 
     <!---------- Background Video ---------->
-    <video autoplay muted loop class="video-background">
+    <!-- <video autoplay muted loop class="video-background">
         <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
-    </video>
+    </video> -->
 
     <div class="welcome-box">
+        <div class="notification">
+            {% for friend_request in friend_requests %}
+                <h1> Request received from {{ friend_request }} </h1>
+            {% endfor %}
+        </div>
         <div class="white-box">
             <div class="welcome-message">
                 <h1>Welcome {{ user.username }}!</h1>
