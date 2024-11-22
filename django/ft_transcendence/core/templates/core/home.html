@@ -1,7 +1,6 @@
 {% load socialaccount %}
 {% load static %}
 {% include 'core/sidenav.html' %}
-{% if user.is_authenticated %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/notifications.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
@@ -20,11 +20,7 @@
     </video> -->
 
     <div class="welcome-box">
-        <div class="notification">
-            {% for friend_request in friend_requests %}
-                <h1> Request received from {{ friend_request }} </h1>
-            {% endfor %}
-        </div>
+
         <div class="white-box">
             <div class="welcome-message">
                 <h1>Welcome {{ user.username }}!</h1>
@@ -38,17 +34,21 @@
         </div>
     </div>
 
+    <div>
+        <div class="notifs">
+            {% if total_notifs > 0 %}
+                <div class="alert_notifs"></div>
+            {% endif %}
+            <span class="notifstext">You have unread notifications.</span>
+            <a href="{% url 'core:notifications' %}" class="buttons-design btn-notifs">
+                {{ total_notifs }}
+            </a>
+            </button>
+          </div>
+    </div>
+    {% for friend_request in friend_requests %}
+        <h1> Request received from {{ friend_request.sender }} </h1>
+    {% endfor %}
+    </div>
 </body>
 </html>
-
-{% else %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0">
-    <title>Redirecting...</title>
-</head>
-</html>
-{% endif %}

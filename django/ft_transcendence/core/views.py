@@ -77,10 +77,16 @@ def logout(request):
 @login_required
 @never_cache
 def home(request):
-    received_friend_requests = request.user.receiver.values_list('sender__username')
+    friend_requests = request.user.receiver.all()
+    total_notifs     = 0
 
+    for total_notifs in range(len(friend_requests)):
+        total_notifs += 1
+
+    print(f"total notif : {total_notifs}")
     context = {
-        "friend_requests": received_friend_requests
+        "friend_requests": friend_requests,
+        "total_notifs": total_notifs
     }
     return render(request, "core/home.html", context)
 
@@ -126,9 +132,6 @@ def profile(request, username):
     room_name = chat.id
     all_users = User.objects.all()
 
-    print(f"received_friend_request : {received_friend_request}")
-    print(f"sent_friend_request     : {sent_friend_request}")
-    print(f"username                : {username}")
     context = {
         "all_users": all_users,
         "user_profile": user_profile,
@@ -157,3 +160,7 @@ def social(request, searched_username="", user_found=True):
     context['user_found'] = user_found
     return render(request, "core/social.html", context)
 
+@login_required
+@never_cache
+def notifications(request):
+    return render(request, "core/notifications.html")
