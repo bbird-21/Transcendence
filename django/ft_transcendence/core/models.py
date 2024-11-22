@@ -5,17 +5,17 @@ from django.db.models.signals import post_save
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User
-
+from chat.models import Chat, Message
 
 # Tips :
 #  -Django can't have two reverse query names that are the same \
 #   To prevent this behavior we use <related_name> to have unique "reverse query name" \
 class UserProfile(models.Model):
-    user   = models.OneToOneField(User, on_delete=models.CASCADE) # Here
-    avatar = models.ImageField(upload_to="avatars/", default="avatar.png")
-    victory = models.IntegerField(default=0)
-    defeat = models.IntegerField(default=0)
-    friends = models.ManyToManyField(User, blank=True, related_name="userprofile_friends") # And here
+    user         = models.OneToOneField(User, on_delete=models.CASCADE) # Here
+    avatar       = models.ImageField(upload_to="avatars/", default="avatar.png")
+    victory      = models.IntegerField(default=0)
+    defeat       = models.IntegerField(default=0)
+    friends      = models.ManyToManyField(User, blank=True, related_name="userprofile_friends") # And here
     blocked_user = models.ManyToManyField(User, blank=True, related_name="blocked_user")
     list_display = ['user', 'avatar']  # Customize fields to display
 
@@ -31,9 +31,17 @@ def save_user_profile(sender, instance, **kwargs):
 # Many-to-One (ForeignKey)
 class FriendRequest(models.Model):
     # Who sent the request
-    sender = models.ForeignKey(User, related_name="sender", on_delete=models.CASCADE)
+    sender      = models.ForeignKey(User, related_name="sender", on_delete=models.CASCADE)
     # Who receive the request
-    receiver   = models.ForeignKey(User, related_name= "receiver", on_delete=models.CASCADE)
+    receiver    = models.ForeignKey(User, related_name= "receiver", on_delete=models.CASCADE)
 
     # def __str__(self):
     #     return f"FriendRequest from {self.sender.username} to {self.receiver.username}"
+
+# One Notification per User.
+class Notification(models.Model):
+    user            = models.OneToOneField(User, related_name="notification_user", on_delete=models.CASCADE)
+    friend_request  = models.ForeignKey(FriendRequest, related_name="friend_request", on_delete=models.CASCADE)
+    message         = models.ForeignKey(Message, related_name="message_notification", on_delete=models.CASCADE)
+    chat            = models.ForeignKey(Chat, related_name="chat", on_delete=models.CASCADE)
+    total_notifs    = models.IntegerField(default=0)
