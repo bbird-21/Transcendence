@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
 from chat.models import Chat
+from core.models import Notification
 
 def	user_profile(request, search_user_form):
 	searched_username = search_user_form.cleaned_data["username"]
@@ -54,7 +55,13 @@ def send_friend_request(request, userID):
     sender = request.user
     receiver   = User.objects.get(id=userID)
     friend_request, created = FriendRequest.objects.get_or_create(
-        sender=sender, receiver=receiver)
+        sender=sender, receiver=receiver
+    )
+    Notification.objects.get_or_create(
+        receiver=receiver,
+        friend_request=friend_request
+    )
+
     if created:
         previous_url = request.META.get('HTTP_REFERER', '/')
         return HttpResponseRedirect(previous_url)

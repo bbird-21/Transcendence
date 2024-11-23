@@ -5,7 +5,7 @@ from django.urls import reverse
 
 # ---- Authentication -------------------
 from django.contrib.auth.models import User
-from .models import FriendRequest
+from .models import FriendRequest, Notification
 
 # ---- Forms ----------------------------
 from .forms import (
@@ -163,4 +163,13 @@ def social(request, searched_username="", user_found=True):
 @login_required
 @never_cache
 def notifications(request):
-    return render(request, "core/notifications.html")
+    notifications = request.user.notification_receiver.all()
+
+    context = {
+        "notifications": notifications
+    }
+
+    print(f"notifications : {notifications}")
+    for notification in notifications:
+        print(notification.friend_request.sender)
+    return render(request, "core/notifications.html", context)
