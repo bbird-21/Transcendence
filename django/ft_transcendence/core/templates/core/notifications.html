@@ -24,7 +24,13 @@
 				{% for notification in notifications %}
 					{% if notification.friend_request.sender %}
 						<div class="notification">
-							request received from {{ notification.friend_request.sender }}
+							<img	src="{{ notification.friend_request.sender.userprofile.avatar.url }}"
+									alt="User Avatar"
+									class="notif-user-avatar-img"/>
+							<span class="notif-text">Request received from
+								<a href="/profile/{{ notification.friend_request.sender }}">  {{notification.friend_request.sender}}
+							</a>
+							</span>
 						</div>
 					{% endif %}
 				{% endfor %}

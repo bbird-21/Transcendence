@@ -72,6 +72,11 @@
                             </button>
                             {% elif received_friend_request %}
                             <button type="submit" class="social--user-profile-buttons-design buttons-design">
+                                <a href="{% url 'core:accept_friend_request' received_friend_request.id %}">
+                                    Accept Friend Request <img src="{% static 'core/images/accept-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
+                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
                                 <a href="{% url 'core:decline_friend_request' received_friend_request.id %}">
                                     Decline Friend Request <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
                                 </a>

@@ -61,6 +61,7 @@
 }
 
 .notification {
+	display: flex;
 	background-color: rgba(25,0,56, 0.5);
 	text-align: center;
 	justify-content: center;
@@ -70,4 +71,19 @@
 	margin: 5%;
 	width: 90%;
 	height: 10%;
+}
+
+.notif-user-avatar-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 3%;
+	margin-left: 2%;
+	margin-top: 1%;
+}
+
+.notif-text {
+    margin-top: 0.8%;
+	flex: 1;
+    text-align: left;
 }
