@@ -40,8 +40,9 @@ class FriendRequest(models.Model):
 
 # One Notification per User.
 class Notification(models.Model):
-    user            = models.OneToOneField(User, related_name="notification_user", on_delete=models.CASCADE)
-    friend_request  = models.ForeignKey(FriendRequest, related_name="friend_request", on_delete=models.CASCADE)
-    message         = models.ForeignKey(Message, related_name="message_notification", on_delete=models.CASCADE)
-    chat            = models.ForeignKey(Chat, related_name="chat", on_delete=models.CASCADE)
+    receiver        = models.ForeignKey(User, null=True, related_name="notification_receiver", on_delete=models.CASCADE)
+    sender          = models.ForeignKey(User, null=True, related_name="notification_sender", on_delete=models.CASCADE)
+    friend_request  = models.ForeignKey(FriendRequest, null=True, related_name="notification_friend_request", on_delete=models.CASCADE)
+    message         = models.ForeignKey(Message, null=True, related_name="message_notification", on_delete=models.CASCADE)
+    chat            = models.ForeignKey(Chat, null=True, related_name="chat", on_delete=models.CASCADE)
     total_notifs    = models.IntegerField(default=0)
