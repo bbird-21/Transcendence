@@ -147,6 +147,7 @@ def profile(request, username):
 @login_required
 @never_cache
 def social(request, searched_username="", user_found=True):
+
     context = get_social_data(request)
     search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
@@ -155,6 +156,12 @@ def social(request, searched_username="", user_found=True):
             return user_profile(request, search_user_form)
         else:
             return redirect("/home/")
+
+
+    exception_value = request.session.pop('exception_value', None)
+    if exception_value:
+        # Handle or display the exception value
+        context['exception_value'] = exception_value
 
     context['search_form'] = search_user_form
     context['user_found'] = user_found

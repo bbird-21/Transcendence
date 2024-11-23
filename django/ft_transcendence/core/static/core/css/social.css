@@ -42,7 +42,7 @@
 	.buttons-active{
 		color: #1A003E; /* text color */
 		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
-		transition: .5s; 
+		transition: .5s;
 	}
 
 	/* Search User Field Design */
@@ -116,7 +116,7 @@
 		100% {
 			width: 48%;
 		}
-	}	
+	}
 
 	/* ----- Full Friend list Container ----- */
 	.social--display-list{
@@ -170,7 +170,7 @@
 		justify-content: center;
 		padding-bottom: 21px;
 	}
-	
+
 	/* ----- Buttons Chat + Game Container ----- */
 	.social--user-profile-buttons{
 		display: flex;
@@ -202,3 +202,24 @@
 		font-size: 14px;
 		color: white;
 	}
+
+.exception {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background-color: #444;
+	color: #fff;
+	padding: 10px 20px;
+	border-radius: 5px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.exception.show {
+	opacity: 1;
+}
+
+.exception.hidden {
+	display: none;
+}
