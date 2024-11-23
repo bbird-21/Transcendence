@@ -89,6 +89,11 @@
                                     <span> Message </span>
                                 </button>
                             </form>
+                            <button type="submit" class="profile--buttons buttons-design">
+                                <a href="{% url 'core:remove_friend' user_profile.id %}">
+                                    Remove this friend <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
                         </div>
                         {% else %}
                         <div class="add-friend">
