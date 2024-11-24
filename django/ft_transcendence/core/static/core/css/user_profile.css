@@ -1,3 +1,7 @@
+	a{
+		text-decoration: none;
+		color: white;
+	}
 	/* ---------- Profile Containers ---------- */
 	.profile--info-container {
 		position: relative;
@@ -67,7 +71,7 @@
 		position: absolute;
 		align-items: center;
 		text-align: center;
-		top: 12%;
+		top: 8%;
 	}
 
 	/* ---------- Profile + Username Container ---------- */
@@ -100,7 +104,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 25%;
+		margin-top: 15%;
 		gap: 10px;
 	}
 
@@ -129,14 +133,4 @@ input[type="text"], input[type="file"], input[type="password"] {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 1rem;
-}
-
-.direct-message, .add-friend {
-    flex: 1;                             /* Both containers will take equal width */
-    display: flex;                       /* Use flexbox for internal alignment */
-    justify-content: center;             /* Center the button or text */
-}
-
-.add-friend {
-    text-align: center;                  /* Center aligns the text */
 }
