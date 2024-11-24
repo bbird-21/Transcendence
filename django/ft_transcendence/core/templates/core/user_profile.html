@@ -61,26 +61,33 @@
                             <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/add-friend-logo.png'%}" class="icons-logos">
                                     <span>Send a Friend Request</span>
                                 </button>
                             </form>
+
                             {% elif sent_friend_request %}
-                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
-                                <a href="{% url 'core:decline_friend_request' sent_friend_request.id %}">
-                                    Delete this friend request<img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
-                                </a>
-                            </button>
+                            <form action="{% url 'core:decline_friend_request' sent_friend_request.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/decline-logo.png'%}" class="icons-logos">
+                                    <span>Delete friend request</span>
+                                </button>
+                            </form>
                             {% elif received_friend_request %}
-                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
-                                <a href="{% url 'core:accept_friend_request' received_friend_request.id %}">
-                                    Accept Friend Request <img src="{% static 'core/images/accept-logo.png'%}" class="social--buttons-section-logos">
-                                </a>
-                            </button>
-                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
-                                <a href="{% url 'core:decline_friend_request' received_friend_request.id %}">
-                                    Decline Friend Request <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
-                                </a>
-                            </button>
+                            <form action="{% url 'core:accept_friend_request' received_friend_request.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/accept-logo.png'%}" class="icons-logos">
+                                    <span>Accept Friend Request</span>
+                                </button>
+                            </form>
+                            <form action="{% url 'core:decline_friend_request' received_friend_request.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/decline-logo.png'%}" class="icons-logos">
+                                    <span>Decline Friend Request</span>
+                                </button>
                             {% endif %}
                         </div>
 
@@ -94,15 +101,15 @@
                                     <span> Message </span>
                                 </button>
                             </form>
-                            <button type="submit" class="profile--buttons buttons-design">
-                                <a href="{% url 'core:remove_friend' user_profile.id %}">
-                                    Remove this friend <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
-                                </a>
-                            </button>
                         </div>
-                        {% else %}
-                        <div class="add-friend">
-                            <p>Add this friend to send a direct message</p>
+                        <div class="profile--remove-button-container">
+                            <form action="{% url 'core:remove_friend' user_profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/decline-logo.png'%}" class="icons-logos">
+                                    <span> Remove friend </span>
+                                </button>
+                            </form>
                         </div>
                         {% endif %}
                     {% endif %}

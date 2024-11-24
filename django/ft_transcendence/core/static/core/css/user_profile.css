@@ -6,10 +6,11 @@
 		width: 65vw;
 		height: 70vh;
 		margin: 8%;
-		background: rgba(0, 0, 0, 0.15); /* Fond semi-transparent */
+		background: rgba(0, 0, 0, 0.21); /* semi-transparent background */
 		border: 1px solid white;
 		border-radius: 42px;
-		overflow: hidden; /* ForbiEmpêche les effets de brillance de déborder */
+		overflow: hidden; /* 
+		Prevents shine effects from overflowing */
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Smooth shadow for depth */
 		animation: smoothAppearence 1.3s ease forwards, borderGlow 5s ease-in-out infinite;
 	}
@@ -26,7 +27,7 @@
 		border: 1px solid white;
 		border-radius: 42px;
 		background: #1A003E;
-		padding: 15px 5px;
+		padding: 15px 4px;
 	}
 
 	.profile--stats-content {
@@ -65,16 +66,24 @@
 
 	.profile--main-info-container {
 		position: absolute;
+		top: 10%;
+		display: flex;
+		flex-direction: column; /* Vertical layout (avatar above buttons) */
+		justify-content: center;
 		align-items: center;
-		text-align: center;
-		top: 12%;
+		text-align: center; 
 	}
 
 	/* ---------- Profile + Username Container ---------- */
 
 	.profile--avatar-username-container{
-		margin-top: 15%;
-		padding: 30px 42px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		width: 56%;
+		padding: 18px 40px; /* internal space */
 		background: #1A003E;
 		border: 1px solid white;
 		border-radius: 30px;
@@ -84,14 +93,21 @@
 
 	.profile--user-avatar.user-avatar-img {
 		width: 8em;
+		height: auto;
+		object-fit: cover; /* avoid image distortion */
+		margin-bottom: 15px; /* Space under avatar*/
 	}
 
 	/* Profile Username */
 
 	.profile--username {
-		margin-top: 18%;
-		font-family: 'Stacker', sans-serif; /* Google Font */
+		text-align: center;
+		margin-top: 5%;
+		margin-bottom: 15%;
+		font-size: 1.1em;
+		font-family: 'Stacker', sans-serif;
 		color: white;
+		white-space: nowrap; /* Prevent text from breaking */
 	}
 
 	/* ---------- Buttons Container ---------- */
@@ -100,12 +116,11 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 25%;
-		gap: 10px;
+		margin-top: 21%;
+		gap: 8%;
 	}
 
 	.profile--buttons.buttons-design{
-		font-size: 20px;
 		gap: 17px; /* space between text and logos */
 		border-radius: 50px;
 	}
@@ -118,8 +133,8 @@
 	.profile--block-button-container{
 		display: flex;
 		justify-content: center;
+		margin-top: 14%;
 	}
-
 
 
 input[type="text"], input[type="file"], input[type="password"] {
@@ -129,14 +144,4 @@ input[type="text"], input[type="file"], input[type="password"] {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 1rem;
-}
-
-.direct-message, .add-friend {
-    flex: 1;                             /* Both containers will take equal width */
-    display: flex;                       /* Use flexbox for internal alignment */
-    justify-content: center;             /* Center the button or text */
-}
-
-.add-friend {
-    text-align: center;                  /* Center aligns the text */
 }
