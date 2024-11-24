@@ -7,6 +7,7 @@ import json
 from django.utils.safestring import mark_safe
 from .chat_utils import get_or_create_chat
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def index(request):
@@ -27,11 +28,10 @@ def room(request, room_name, userID):
 
     from_user = request.user.id
     to_user   = User.objects.get(id=userID)
-    user_profile = User.objects.get(id=userID)
 
     context = {
         "room_name": room_name,
-        "userID": to_user.id,
+        "userID": to_user.username,
         "sender_username": request.user.username,
         "receiver_username": to_user.username,
         "user_chats": user_chats

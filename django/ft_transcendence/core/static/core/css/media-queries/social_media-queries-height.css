@@ -9,7 +9,7 @@
     .social-bar--line{
         display: none;
     }
-    
+
     /* ----- Container for one user ----- */
     .social--each-user-profile-container{
         padding: 8px 20px; /* padding between text and border */
@@ -28,7 +28,7 @@
     .social--each-user-profile-container a {
         font-size: 16px;
     }
-	
+
 	/* ----- Buttons Chat + Game Container ----- */
 	.social--user-profile-buttons{
 		margin: 5px;

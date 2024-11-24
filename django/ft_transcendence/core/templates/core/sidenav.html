@@ -12,9 +12,9 @@
 
 <div id="SidenavID" class="sidenav">
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav(); openMenu()">&times;</a>
-	<a href="/home/">Home</a>
-	<a href="/my_profile/">Profile</a>
-	<a href="/social/">Social</a>
+	<a href="{% url 'core:home' %}">Home</a>
+	<a href="{% url 'core:my_profile' %}">Profile</a>
+	<a href="{% url 'core:social' %}">Social</a>
 	<a href=" {% url 'chat:direct_message' %}">Chat</a>
 	<a href="#">Game Stats</a>
 	<a href="{% url 'core:logout' %}">Logout</a>

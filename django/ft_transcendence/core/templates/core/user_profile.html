@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'core/css/user_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/social.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <title>Profile Page</title>
@@ -56,15 +57,30 @@
                     {% if request.user.id != user_profile.id %}
                         <!---------- Random user ---------->
                         <div class="profile--friend-request-button-container">
-                            {% if not is_friend and not has_friend_request %}
+                            {% if not is_friend and not sent_friend_request and not received_friend_request %}
                             <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="profile--buttons buttons-design">
                                     <span>Send a Friend Request</span>
                                 </button>
                             </form>
-                            {% elif has_friend_request %}
-                                <input type="submit" value="Request has been submitted" class="buttons-design" disabled>
+                            {% elif sent_friend_request %}
+                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
+                                <a href="{% url 'core:decline_friend_request' sent_friend_request.id %}">
+                                    Delete this friend request<img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
+                            {% elif received_friend_request %}
+                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
+                                <a href="{% url 'core:accept_friend_request' received_friend_request.id %}">
+                                    Accept Friend Request <img src="{% static 'core/images/accept-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
+                            <button type="submit" class="social--user-profile-buttons-design buttons-design">
+                                <a href="{% url 'core:decline_friend_request' received_friend_request.id %}">
+                                    Decline Friend Request <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
                             {% endif %}
                         </div>
 
@@ -76,16 +92,21 @@
                                 <button type="submit" class="profile--buttons buttons-design">
                                     <img src="{% static 'core/images/chat-logo.png' %}" class="icons-logos">
                                     <span> Message </span>
-                                </button>						
+                                </button>
                             </form>
+                            <button type="submit" class="profile--buttons buttons-design">
+                                <a href="{% url 'core:remove_friend' user_profile.id %}">
+                                    Remove this friend <img src="{% static 'core/images/decline-logo.png'%}" class="social--buttons-section-logos">
+                                </a>
+                            </button>
                         </div>
                         {% else %}
                         <div class="add-friend">
                             <p>Add this friend to send a direct message</p>
-                        </div>					
+                        </div>
                         {% endif %}
                     {% endif %}
-                    
+
                     <!---------- Block Button ---------->
                     <div class="profile--block-button-container">
                         {% if user_profile != user %}
