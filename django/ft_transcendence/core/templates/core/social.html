@@ -26,12 +26,14 @@
             Your browser does not support the video tag.
         </video>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                showNotification("{{ exception_value }}");
-            });
-        </script>
-        <div id="exception" class="exception hidden"> {{ exception_value }} </div>
+        {% if exception_value %}
+            <div id="exception" class="exception hidden"> {{ exception_value }} </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showNotification("{{ exception_value }}");
+                });
+            </script>
+        {% endif %}
 
         <!---------- Social Buttons on top of the page ---------->
         <div class="social-bar">

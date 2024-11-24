@@ -8,7 +8,7 @@ console.log(senderUsername);
 console.log(roomName)
 
 const chatSocket = new WebSocket(
-	'ws://' + window.location.host + '/ws/chat/' + roomName + '/' + userID + '/'
+	'ws://' + window.location.host + '/ws/chat/' + roomName
 );
 
 chatSocket.onopen = function(e) {
@@ -44,9 +44,9 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
 	chatSocket.send(JSON.stringify({
 		"message": message,
 		"command": "new_message",
-		"from": senderUsername,
+		"author": senderUsername,
+		"receiver": receiverUsername,
 		"refChat": roomName,
-		"author": userID,
 		"type": 0,
 		"extraData": ""
 	}));

@@ -23,8 +23,9 @@ class Chat(models.Model):
     def get_all_chat(fromUser):
         return Chat.objects.filter(fromUser=fromUser)
 
-    def get_last_message(fromUser):
-        return Chat.message_set.last()
+    # @classmethod
+    def get_last_message(chat):
+        return chat.message_set.last()
 
     @classmethod
     def reverse_query_set(cls, user, querySet):
