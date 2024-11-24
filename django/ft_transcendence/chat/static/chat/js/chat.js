@@ -8,7 +8,7 @@ console.log(senderUsername);
 console.log(roomName)
 
 const chatSocket = new WebSocket(
-	'ws://' + window.location.host + '/ws/chat/' + roomName + '/' + userID + '/'
+	'ws://' + window.location.host + '/ws/chat/' + roomName
 );
 
 chatSocket.onopen = function(e) {
@@ -19,11 +19,10 @@ chatSocket.onmessage = function(e) {
 	const data = JSON.parse(e.data);
 	if (data['command'] === 'messages') {
 		for (let i = 0; i < data['messages'].length; i++) {
-			console.log(`from : ${data['messages'][i].author}`)
 			createMessage(data['messages'][i], data['messages'][i].author);
 		}
 	} else if (data['command'] === 'new_message') {
-		createMessage(data['message'], data['message'].author);
+			createMessage(data['message'], data['message'].author);
 	}
 };
 
@@ -44,9 +43,9 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
 	chatSocket.send(JSON.stringify({
 		"message": message,
 		"command": "new_message",
-		"from": senderUsername,
+		"author": senderUsername,
+		"receiver": receiverUsername,
 		"refChat": roomName,
-		"author": userID,
 		"type": 0,
 		"extraData": ""
 	}));

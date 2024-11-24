@@ -5,7 +5,7 @@ from django.urls import reverse
 
 # ---- Authentication -------------------
 from django.contrib.auth.models import User
-from .models import FriendRequest
+from .models import FriendRequest, Notification
 
 # ---- Forms ----------------------------
 from .forms import (
@@ -77,10 +77,32 @@ def logout(request):
 @login_required
 @never_cache
 def home(request):
-    received_friend_requests = request.user.receiver.values_list('sender__username')
+    chats = Chat.get_all_chats(request.user)
+    for chat in chats:
+        unread_messages = chat.message_set.order_by('createdAt').filter(isRead=False)
+        readed_messages = chat.message_set.order_by('createdAt').filter(isRead=True)
+        for unread_message in unread_messages:
+            if unread_message.author != request.user:
+                print(f"You have unread message : {unread_message.message} from {unread_message.author}")
+                Notification.objects.get_or_create(
+                    receiver=request.user,
+                    message=unread_message
+                )
+        for readed_message in readed_messages:
+            if readed_message.author != request.user.username:
+                notification = Notification.objects.filter(message=readed_message).first()
+                if notification:
+                    notification.delete()
+
+    notifications = request.user.notification_receiver.all()
+    total_notifs     = 0
+
+    for total_notifs in range(len(notifications)):
+        total_notifs += 1
 
     context = {
-        "friend_requests": received_friend_requests
+        "notifications": notifications,
+        "total_notifs": total_notifs
     }
     return render(request, "core/home.html", context)
 
@@ -126,9 +148,6 @@ def profile(request, username):
     room_name = chat.id
     all_users = User.objects.all()
 
-    print(f"received_friend_request : {received_friend_request}")
-    print(f"sent_friend_request     : {sent_friend_request}")
-    print(f"username                : {username}")
     context = {
         "all_users": all_users,
         "user_profile": user_profile,
@@ -144,6 +163,7 @@ def profile(request, username):
 @login_required
 @never_cache
 def social(request, searched_username="", user_found=True):
+
     context = get_social_data(request)
     search_user_form = SearchUser(prefix="search")
     if request.method == "POST":
@@ -153,7 +173,29 @@ def social(request, searched_username="", user_found=True):
         else:
             return redirect("/home/")
 
+
+    exception_value = request.session.pop('exception_value', None)
+    if exception_value:
+        # Handle or display the exception value
+        context['exception_value'] = exception_value
+
     context['search_form'] = search_user_form
     context['user_found'] = user_found
     return render(request, "core/social.html", context)
 
+@login_required
+@never_cache
+def notifications(request):
+    notifications = request.user.notification_receiver.all()
+
+    context = {
+        "notifications": notifications
+    }
+
+    print(f"notifications : {notifications}")
+    for notification in notifications:
+        if notification.friend_request:
+            print(notification.friend_request.sender)
+        if notification.message:
+            print(notification.message.message)
+    return render(request, "core/notifications.html", context)

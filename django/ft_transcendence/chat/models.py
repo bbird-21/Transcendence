@@ -20,11 +20,12 @@ class Chat(models.Model):
     def __str__(self):
         return u'%s - %s' % (self.fromUser,self.toUser)
 
-    def get_all_chat(fromUser):
-        return Chat.objects.filter(fromUser=fromUser)
+    def get_all_chats(user):
+        return Chat.objects.filter(Q(fromUser=user) | Q(toUser=user))
 
-    def get_last_message(fromUser):
-        return Chat.message_set.last()
+    # @classmethod
+    def get_last_message(chat):
+        return chat.message_set.last()
 
     @classmethod
     def reverse_query_set(cls, user, querySet):
@@ -65,6 +66,8 @@ class Chat(models.Model):
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    author = models.ForeignKey(User, db_index=True, related_name='author', on_delete=models.SET_NULL,null=True)
+    message_receiver = models.ForeignKey(User, db_index=True, related_name='message_receiver', on_delete=models.SET_NULL,null=True)
     refChat = models.ForeignKey(Chat, db_index=True,on_delete=models.CASCADE)
     message = models.TextField()
     msg_type = (
@@ -74,7 +77,6 @@ class Message(models.Model):
     )
     type = models.IntegerField(choices=msg_type, default=0)
     extraData = models.CharField(default='', null=True, blank=True, max_length=255)
-    author = models.ForeignKey(User, db_index=True, related_name='author', on_delete=models.SET_NULL,null=True)
     isRead = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)

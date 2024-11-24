@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
 from chat.models import Chat
+from core.models import Notification
+from django.urls import reverse
 
 def	user_profile(request, search_user_form):
 	searched_username = search_user_form.cleaned_data["username"]
@@ -54,7 +56,13 @@ def send_friend_request(request, userID):
     sender = request.user
     receiver   = User.objects.get(id=userID)
     friend_request, created = FriendRequest.objects.get_or_create(
-        sender=sender, receiver=receiver)
+        sender=sender, receiver=receiver
+    )
+    Notification.objects.get_or_create(
+        receiver=receiver,
+        friend_request=friend_request
+    )
+
     if created:
         previous_url = request.META.get('HTTP_REFERER', '/')
         return HttpResponseRedirect(previous_url)
@@ -83,15 +91,16 @@ def accept_friend_request(request, friendRequestID):
 
 # Decline friend request that has been received.
 # Ensuring that the request has been sent from the logged-user.
-# TRY BLOCK NEEDED
 @login_required
 @never_cache
 def decline_friend_request(request, friendRequestID):
-    friend_request = FriendRequest.objects.get(id=friendRequestID)
+    try:
+        friend_request = FriendRequest.objects.get(id=friendRequestID)
+    except Exception as e:
+        request.session['exception_value'] = "No Friend Request exists"
+        return redirect(reverse('core:social'))
 
-    print(f'friend request id : {friendRequestID}')
     if friend_request and friend_request.receiver == request.user or friend_request.sender == request.user:
-        print("DELETING")
         friend_request.delete()
     previous_url = request.META.get('HTTP_REFERER', '/')
     return HttpResponseRedirect(previous_url)
