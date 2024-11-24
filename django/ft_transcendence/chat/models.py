@@ -20,8 +20,8 @@ class Chat(models.Model):
     def __str__(self):
         return u'%s - %s' % (self.fromUser,self.toUser)
 
-    def get_all_chat(fromUser):
-        return Chat.objects.filter(fromUser=fromUser)
+    def get_all_chats(user):
+        return Chat.objects.filter(Q(fromUser=user) | Q(toUser=user))
 
     # @classmethod
     def get_last_message(chat):

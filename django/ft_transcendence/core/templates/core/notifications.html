@@ -40,6 +40,16 @@
 								</button>
 							</div>
 						</div>
+					{% elif notification.message %}
+						<div class="notification">
+							<div class="notif-text">
+								<img	src="{{ notification.message.author.userprofile.avatar.url }}"
+										alt="User Avatar"
+										class="notif-user-avatar-img"/>
+								Message from
+								{{ notification.message.author }} : {{ notification.message.message }}
+							</div>
+						</div>
 					{% endif %}
 				{% endfor %}
 		</div>

@@ -19,11 +19,10 @@ chatSocket.onmessage = function(e) {
 	const data = JSON.parse(e.data);
 	if (data['command'] === 'messages') {
 		for (let i = 0; i < data['messages'].length; i++) {
-			console.log(`from : ${data['messages'][i].author}`)
 			createMessage(data['messages'][i], data['messages'][i].author);
 		}
 	} else if (data['command'] === 'new_message') {
-		createMessage(data['message'], data['message'].author);
+			createMessage(data['message'], data['message'].author);
 	}
 };
 

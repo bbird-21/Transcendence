@@ -9,16 +9,15 @@ from django.contrib.auth.models import User
 class ChatConsumer(WebsocketConsumer):
 
     def mark_as_read(self, chat_id):
-        # Assuming you have a way to fetch the chat and messages
         chat = Chat.objects.get(id=chat_id)
-        message = chat.message_set.order_by('createdAt').last()
+        messages = chat.message_set.order_by('createdAt').filter(isRead=False)
 
-        print(f"message : {message.message}")
-        if message and message.message_receiver == self.user:
-            message.isRead = True
-            message.save()
 
-        # return render(request, 'chat/chat_room.html', {'chat': chat})
+        if messages:
+            for message in messages:
+                if message.author != self.user:
+                    message.isRead = True
+                    message.save()
 
     def fetch_messages(self, data):
         messages = Message.get_all_messages_from_chat(self.room_name)
@@ -58,7 +57,8 @@ class ChatConsumer(WebsocketConsumer):
         return {
             'author': message.author.username,
             'content': message.message,
-            'timestamp': str(message.createdAt),
+            'refChat': str(message.refChat.id),
+            'timestamp': str(message.createdAt)
         }
 
     commands = {
@@ -74,7 +74,6 @@ class ChatConsumer(WebsocketConsumer):
                 print("==Not authorized")
                 return
             self.room_name = self.scope['url_route']['kwargs']['room_name']
-            # self.user_id = self.scope['url_route']['kwargs']['user_id']
             chat = Chat.objects.get(id=self.room_name)
             if chat.fromUser == self.user:
                 self.user_id = chat.toUser
@@ -87,13 +86,14 @@ class ChatConsumer(WebsocketConsumer):
                 self.room_group_name,
                 self.channel_name
             )
-
+            print(f"{self.user} connected")
             self.accept()
         except Chat.DoesNotExist as e:
             print(e)
             return
     def disconnect(self, close_code):
         # Leave room group
+        print(f"{self.user} disconnected")
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
@@ -119,6 +119,9 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         message = event["message"]
+        author = message['message']['author']
+        chat_id = message['message']['refChat']
 
-        # Send message to WebSocket
+        if self.user.username != author:
+            self.mark_as_read(chat_id)
         self.send(text_data=json.dumps(message))

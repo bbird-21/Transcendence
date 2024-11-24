@@ -77,15 +77,31 @@ def logout(request):
 @login_required
 @never_cache
 def home(request):
-    friend_requests = request.user.receiver.all()
+    chats = Chat.get_all_chats(request.user)
+    for chat in chats:
+        unread_messages = chat.message_set.order_by('createdAt').filter(isRead=False)
+        readed_messages = chat.message_set.order_by('createdAt').filter(isRead=True)
+        for unread_message in unread_messages:
+            if unread_message.author != request.user:
+                print(f"You have unread message : {unread_message.message} from {unread_message.author}")
+                Notification.objects.get_or_create(
+                    receiver=request.user,
+                    message=unread_message
+                )
+        for readed_message in readed_messages:
+            if readed_message.author != request.user.username:
+                notification = Notification.objects.filter(message=readed_message).first()
+                if notification:
+                    notification.delete()
+
+    notifications = request.user.notification_receiver.all()
     total_notifs     = 0
 
-    for total_notifs in range(len(friend_requests)):
+    for total_notifs in range(len(notifications)):
         total_notifs += 1
 
-    print(f"total notif : {total_notifs}")
     context = {
-        "friend_requests": friend_requests,
+        "notifications": notifications,
         "total_notifs": total_notifs
     }
     return render(request, "core/home.html", context)
@@ -178,5 +194,8 @@ def notifications(request):
 
     print(f"notifications : {notifications}")
     for notification in notifications:
-        print(notification.friend_request.sender)
+        if notification.friend_request:
+            print(notification.friend_request.sender)
+        if notification.message:
+            print(notification.message.message)
     return render(request, "core/notifications.html", context)
