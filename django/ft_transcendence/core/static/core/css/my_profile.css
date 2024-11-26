@@ -28,3 +28,22 @@
 	display: flex;
 	gap:10%;
 }
+
+input[type="file"] {
+	display: none;
+}
+
+.file-upload-wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.avataar {
+	background-color: green;
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	text-align: center;
+	/* Ensure consistent size */
+}

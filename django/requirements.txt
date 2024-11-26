@@ -13,11 +13,14 @@ cryptography==42.0.7
 daphne==4.1.2
 Django==4.2.13
 django-allauth==0.63.1
+django-filter==24.3
 django-prometheus==2.3.1
 django-redis==5.4.0
+djangorestframework==3.15.2
 hyperlink==21.0.0
 idna==3.7
 incremental==22.10.0
+Markdown==3.7
 msgpack==1.0.8
 oauthlib==3.2.2
 pillow==10.4.0
@@ -27,6 +30,7 @@ psycopg2-binary==2.9.9
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
 pycparser==2.22
+Pygments==2.18.0
 PyJWT==2.8.0
 pyOpenSSL==24.1.0
 redis==5.0.4

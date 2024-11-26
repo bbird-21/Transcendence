@@ -18,12 +18,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from core import views
+from django.contrib.auth.models import User
+from rest_framework import routers
+from api import views
+
+
+# Routers provide an easy way of automatically determining the URL conf.
+# Because we use ViewSet Routers generate several URL (/users/) (/users/<id>) mapping with corresponding HTTP method (CRUD Operations).
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+
 
 urlpatterns = [
+    path("", include("core.urls")),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("fortytwo/", include("fortytwo.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", include("core.urls")),
     path("prometheus/", include("django_prometheus.urls")),
     path("chat/", include("chat.urls")),
+    path("game/", include("game.urls"))
 ]

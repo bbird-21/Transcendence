@@ -31,17 +31,13 @@
     </div>
 
 
-    <div class="welcome-box">
-        <div class="white-box">
-            <div class="welcome-message">
-                <h1>Welcome {{ user.username }}!</h1>
-            </div>
-            <div class="button">
-                <form method="post" action="{% url 'core:logout' %}">
-                {% csrf_token %}
-                    <button type="submit">Log Out</button>
-                </form>
-            </div>
+    <div class="container">
+        <div class="welcome-message">
+            <button class="buttons-design">
+                <a href="{% url 'game:game' %}">
+                    <span> Play Now ! </span>
+                </a>
+            </button>
         </div>
     </div>
 </body>
