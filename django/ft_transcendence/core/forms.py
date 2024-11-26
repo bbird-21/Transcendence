@@ -104,14 +104,17 @@ class AvatarForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ["avatar"]
+        labels = {
+            'avatar': '',  # Remove the default "avatar" label
+        }
         widgets = {
             'avatar': forms.ClearableFileInput(
                 attrs={
-                    'multiple': False,             # Single file upload
+                    'class': 'avataar',  # Custom class
+                    'id': 'file-upload',  # Link to the label
                 }
-            )
+            ),
         }
-
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
         w, h = get_image_dimensions(avatar)
