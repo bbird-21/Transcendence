@@ -42,18 +42,24 @@
                 </div>
             </div>
 
-			<div class="my-profile--main-info-container">
+			<div class="profile--main-info-container">
                 <!---------- Avatar ---------->
-                <div class="my-profile--avatar-options-container">
+                <div class="profile--avatar-username-container">
                     <div class="container--user-avatar">
-						<img src="{{ user.userprofile.avatar.url }}" alt="User Avatar" class="my-profile--avatar user-avatar-img"/>
-					</div>
+						<img src="{{ user.userprofile.avatar.url }}" alt="User Avatar" class="profile--user-avatar user-avatar-img"/>
+					</div>		
+                <!---------- Username ---------->
+					<div class="profile--username">
+                        <h2>{{ user.username }}</h2>
+                    </div>				
+				</div>
+				<div class="profile--buttons-container">
 					<!-- Avatar Upload Form -->
 					<div class="my-profile--change-avatar-form">
 						<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
 							{% csrf_token %}
 							{{ avatar_form.as_p }}
-							<input type="submit" value="Update Avatar" class="btn-submit">							
+							<button type="submit" class="profile--buttons buttons-design">Update Avatar</button>						
 						</form>
 						<!-- Avatar validation messages -->
 						{% if avatar_is_valid %}
@@ -64,21 +70,15 @@
 						<p class="error-message">The file size should not exceed 1Mo.</p>
 						{% endif %}
 					</div>
-				</div>				
-                <!---------- Username ---------->
-                <div class="my-profile--username-options-container">
-					<div class="my-profile--username">
-                        <h2>{{ user.username }}</h2>
-                    </div>
 					<!-- Username Form -->
 					<div class="my-profile--change-username-form">
 						<form action="/profile/" method="post" id="username-form" class="form-box">
 							{% csrf_token %}
 							{{ username_form.as_p }}
-							<input type="submit" value="Update Username" class="btn-submit">
+							<button type="submit" class="profile--buttons buttons-design">Change Username</button>
 						</form>
 					</div>					
-				</div>
+				</div>		
 			</div>
 		</div>
 	</div>

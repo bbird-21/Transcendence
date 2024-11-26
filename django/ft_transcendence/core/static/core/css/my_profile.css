@@ -1,46 +1,8 @@
-	/* ---------- My Profile Main Container ---------- */
-	.my-profile--main-info-container{
-		position: absolute;
-		top: 10%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center; 
-	}
 
-	/* ---------- My Profile Avatar options Container ---------- */
-	.my-profile--avatar-options-container{
-
-	}
-
-	/* Avatar img */
-	.my-profile--avatar.user-avatar-img{
-		width: 10em;
-	}
-
-	/* ---------- My Profile Username options Container ---------- */
-	.my-profile--username-options-container{
-	}
-
-	/* Username */
-	.my-profile--username{
-
-	}
-
-
-.btn-submit {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	font-size: 1rem;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-.btn-submit:hover {
-	background-color: #45a049;
+.my-profile--change-avatar-form{
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* Messages */
@@ -52,9 +14,4 @@
 .error-message {
 	color: #f44336;
 	font-weight: bold;
-}
-
-.template-form {
-	display: flex;
-	gap:10%;
 }

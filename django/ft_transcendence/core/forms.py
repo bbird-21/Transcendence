@@ -105,7 +105,11 @@ class AvatarForm(ModelForm):
         model = UserProfile
         fields = ["avatar"]
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'multiple': False}),  # Single file upload
+            'avatar': forms.ClearableFileInput(
+                attrs={
+                    'multiple': False,             # Single file upload
+                }
+            )
         }
 
     def clean_avatar(self):
