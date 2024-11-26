@@ -60,24 +60,3 @@
 		width: 1.8em; /* Width relative to the size of the police */
 		height: auto;
 	}
-
-    /* Profile Avatar */
-
-	.profile--user-avatar.user-avatar-img {
-		width: 8em;
-		height: auto;
-		object-fit: cover; /* avoid image distortion */
-		margin-bottom: 15px; /* Space under avatar*/
-	}
-
-    /* Profile Username */
-
-	.profile--username {
-		text-align: center;
-		margin-top: 5%;
-		margin-bottom: 15%;
-		font-size: 1.1em;
-		font-family: 'Stacker', sans-serif;
-		color: white;
-		white-space: nowrap; /* Prevent text from breaking */
-	}

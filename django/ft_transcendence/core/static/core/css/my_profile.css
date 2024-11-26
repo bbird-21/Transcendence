@@ -3,11 +3,30 @@
 		position: absolute;
 		top: 10%;
 		display: flex;
-		flex-direction: column; 
 		justify-content: center;
 		align-items: center;
 		text-align: center; 
 	}
+
+	/* ---------- My Profile Avatar options Container ---------- */
+	.my-profile--avatar-options-container{
+
+	}
+
+	/* Avatar img */
+	.my-profile--avatar.user-avatar-img{
+		width: 10em;
+	}
+
+	/* ---------- My Profile Username options Container ---------- */
+	.my-profile--username-options-container{
+	}
+
+	/* Username */
+	.my-profile--username{
+
+	}
+
 
 .btn-submit {
 	background-color: #4CAF50;
