@@ -105,3 +105,25 @@
 			box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.6);
 		}
 	}
+
+	/* Submit button design */
+	.submit-button{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 20px;
+		text-align: center;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		padding: 10px 40px; /* padding between text and border */
+		border: 2px solid white;
+		border-radius: 12px;
+		cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
+		transition: .5s; /* smooth transition to submit-button:hover */
+	}
+
+	/* smooth animation when the curser is hover the button */
+	.submit-button:hover{
+		color: black; /* text color */
+  		background-color: white; /* background color */
+	}

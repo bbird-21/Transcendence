@@ -130,8 +130,7 @@ def my_profile(request):
         "avatar_form": avatar_form,
         "username_form": username_form,
         "avatar": avatar_url,
-        "avatar_is_valid": avatar_is_valid,
-        "userprofile": request.user.userprofile
+        "avatar_is_valid": avatar_is_valid
     })
 
 # ---- <social.html> ---------------------------

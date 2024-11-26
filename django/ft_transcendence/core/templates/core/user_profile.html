@@ -7,10 +7,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/user_profile.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/social.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/media-queries/user_profile-media-queries-width.css' %}" media="screen and (max-width: 1100px)">
+    <link rel="stylesheet" href="{% static 'core/css/media-queries/user_profile-media-queries-height.css' %}" media="screen and (max-height: 780px)">
     <title>Profile Page</title>
 </head>
 
@@ -48,7 +51,7 @@
                         <img src="{{ user_profile.userprofile.avatar.url }}" alt="User Avatar" class="profile--user-avatar user-avatar-img"/>
                     </div>
                     <!---------- Username ---------->
-                    <div class="profile--username ">
+                    <div class="profile--username">
                         <h2>{{ user_profile.username }}</h2>
                     </div>
                 </div>

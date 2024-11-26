@@ -1,0 +1,72 @@
+/* Responsive Version - Max Height : 780px */
+
+    @media (max-width: 1285px) {
+        /* ---------- Profile Stats ---------- */
+        .profile--stats-global-container{
+            display: none;
+        }
+    }
+    /* ---------- Profile Main Container ---------- */
+
+	.profile--main-info-container {
+        flex-direction: row;
+        top: 24%;
+		gap: 30%;
+        left: 16%;
+	}
+
+    /* ---------- Profile Stats ---------- */
+
+    .profile--stats-global-container{
+		padding: 12px 4px;
+	}
+
+	.profile--stats-title{
+		font-size: 1rem;
+	}
+
+	.profile--stats{
+		font-size: 22px;
+	}
+
+	.stats-logos{
+		width: 1.6em; /* Width relative to the size of the police */
+	}
+
+	/* ---------- Profile + Username Container ---------- */
+
+	.profile--avatar-username-container{
+		padding: 10px 21px;
+	}
+
+	/* Profile Avatar */
+
+	.profile--user-avatar.user-avatar-img {
+		width: 6em;
+		margin-bottom: 10px; /* Space under avatar*/
+	}
+
+	/* Profile Username */
+
+	.profile--username {
+		margin-top: 4%;
+		margin-bottom: 12%;
+		font-size: 0.9em;
+	}
+
+    /* ---------- Buttons Container ---------- */
+
+	.profile--buttons-container{
+		margin-top: 0;
+	}
+
+	.profile--buttons.buttons-design{
+		font-size: 16px;
+		gap: 15px; /* space between text and logos */
+        white-space: nowrap; /* Prevent text from breaking */
+	}
+
+
+	.profile--block-button-container{
+		margin-top: 6%;
+	}

@@ -9,7 +9,6 @@
 		left: 10%;
 		gap: 1%;
 		border-radius: 20%;
-		border: 0px solid white;
 	}
 
 	/* ---------- Social Bar Buttons ---------- */
@@ -56,6 +55,7 @@
 	}
 
 	.buttons-design.social--search-username-field:hover{
+		color: white;
 		background: #1A003E;
 	}
 
