@@ -3,32 +3,19 @@ a {
     color: white;
 }
 
-.welcome-box {
+.container-selection {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20%;
+    height: 100vh;
 }
 
-.white-box {
+.selection {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-}
-
-.welcome-message {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
+    gap: 10px;
 }
 
 .actions {

@@ -7,6 +7,6 @@ app_name = 'game'
 
 urlpatterns = [
 	path("", views.game, name='game'),
-	path("selection", views.game_selection, name='game_selection')
+	path("selection", views.selection, name='selection')
 ]
 
