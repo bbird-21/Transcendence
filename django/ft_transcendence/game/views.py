@@ -10,3 +10,11 @@ def	game(request):
 @login_required
 def	selection(request):
 	return render(request, "game/selection.html")
+
+@login_required
+def invite(request):
+	friend_list = request.user.userprofile.friends.all()
+	context = {
+		'friend_list': friend_list,
+	}
+	return render(request, 'game/invite.html', context)
