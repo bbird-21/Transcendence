@@ -1,5 +1,5 @@
 from channels.generic.websocket import WebsocketConsumer
-from game.models import Game
+from game.models import Game, Invitation
 from asgiref.sync import async_to_sync
 from django.db.models import Q
 
@@ -27,24 +27,30 @@ class WaitingConsumer(WebsocketConsumer):
         self.user = self.scope['user']
         self.waiting_game_id = self.scope["url_route"]["kwargs"]["waitingGameID"]
         self.room_group_name = f"game_{self.waiting_game_id}"
+
         try:
-            # Check if the game exists
-            game = Game.objects.filter(Q(player_one=self.user) | Q(player_two=self.user))[0]
-        except Game.DoesNotExist as e:
+            waiting_game = Invitation.objects.get(id=self.waiting_game_id)
+            self.player_one = waiting_game.invitation_sender
+            self.player_two = waiting_game.invitation_receiver
+        except Invitation.DoesNotExist as e:
             print(e)
             self.close()
+
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
 
-        if (game.player_one == self.user ):
-            game.player_one_conneted = True
-            game.save()
+        if ( self.player_one == self.user ):
+            waiting_game.player_one_conneted = True
+            waiting_game.save()
+        elif ( self.player_two == self.user ):
+            waiting_game.player_two_conneted = True
+            waiting_game.save()
         else:
-            game.player_two_conneted = True
-            game.save()
-        if ( game.player_one_conneted and game.player_two_conneted ):
+            print("User unauthorized to connect to this session.")
+            self.close()
+        if ( waiting_game.player_one_conneted and waiting_game.player_two_conneted ):
             print("All Players Are Ready !")
         else:
             print("Waiting for Players")
