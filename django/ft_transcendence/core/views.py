@@ -1,6 +1,5 @@
 # ---- Shorcuts -------------------------
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 # ---- Authentication -------------------
@@ -122,7 +121,6 @@ def my_profile(request):
             return HttpResponseRedirect("/my_profile/")
         else:
             avatar_is_valid = False
-            print(avatar_form.errors)  # For debugging purposes
     avatar_form = AvatarForm(prefix="avatar")
     username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
@@ -173,10 +171,10 @@ def social(request, searched_username="", user_found=True):
             return redirect("/home/")
 
 
-    exception_value = request.session.pop('exception_value', None)
-    if exception_value:
+    notification = request.session.pop('message_to_user', None)
+    if notification:
         # Handle or display the exception value
-        context['exception_value'] = exception_value
+        context['message_to_user'] = notification
 
     context['search_form'] = search_user_form
     context['user_found'] = user_found
@@ -190,6 +188,12 @@ def notifications(request):
     context = {
         "notifications": notifications
     }
+
+    message_to_user = request.session.pop('message_to_user', None)
+    if message_to_user:
+        # Handle or display the exception value
+        print(f"notification {message_to_user}")
+        context['message_to_user'] = message_to_user
 
     print(f"notifications : {notifications}")
     for notification in notifications:
