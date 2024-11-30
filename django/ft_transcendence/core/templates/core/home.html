@@ -12,12 +12,23 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
+    <script src="{% static 'core/js/social_utils.js' %}"></script>
 
     <!---------- Background Video ---------->
     <video autoplay muted loop class="video-background">
         <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
+    {% if message_to_user %}
+        <div id="message_to_user" class="exception hidden"> {{ message_to_user }} </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showNotification("{{ message_to_user }}");
+            });
+        </script>
+    {% endif %}
+
 
     <div class="notifs">
         {% if total_notifs > 0 %}

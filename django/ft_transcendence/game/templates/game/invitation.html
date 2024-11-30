@@ -1,0 +1,20 @@
+{% load socialaccount %}
+{% load static %}
+{% include 'core/sidenav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    {{ game_name|json_script:"game-name" }}
+    <!---------- Background Video ---------->
+    <video autoplay muted loop class="video-background">
+        <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</body>
+</html>
