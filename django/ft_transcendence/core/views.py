@@ -101,8 +101,13 @@ def home(request):
 
     context = {
         "notifications": notifications,
-        "total_notifs": total_notifs
+        "total_notifs": total_notifs,
     }
+
+    message_to_user = request.session.pop('message_to_user', None)
+    if message_to_user:
+        context['message_to_user'] = message_to_user
+
     return render(request, "core/home.html", context)
 
 @login_required
@@ -173,7 +178,6 @@ def social(request, searched_username="", user_found=True):
 
     notification = request.session.pop('message_to_user', None)
     if notification:
-        # Handle or display the exception value
         context['message_to_user'] = notification
 
     context['search_form'] = search_user_form
@@ -191,14 +195,6 @@ def notifications(request):
 
     message_to_user = request.session.pop('message_to_user', None)
     if message_to_user:
-        # Handle or display the exception value
-        print(f"notification {message_to_user}")
         context['message_to_user'] = message_to_user
 
-    print(f"notifications : {notifications}")
-    for notification in notifications:
-        if notification.friend_request:
-            print(notification.friend_request.sender)
-        if notification.message:
-            print(notification.message.message)
     return render(request, "core/notifications.html", context)
