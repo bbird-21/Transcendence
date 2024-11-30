@@ -19,8 +19,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ft_transcendence.settings")
 
 django_asgi_app = get_asgi_application()
 
-from chat.routing import websocket_urlpatterns
+from chat.routing import websocket_urlpatterns as chat_urlpatterns
+from game.routing import websocket_urlpatterns as game_urlpatterns
 
+websocket_urlpatterns = chat_urlpatterns + game_urlpatterns
 # Specify different handlers for different protocols, such as HTTP and WebSocket.
 application = ProtocolTypeRouter(
     {

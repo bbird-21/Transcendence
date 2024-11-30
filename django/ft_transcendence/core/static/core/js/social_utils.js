@@ -1,5 +1,5 @@
 function showNotification(message) {
-    const exception = document.getElementById('exception');
+    const exception = document.getElementById('message_to_user');
     exception.textContent = message;
     exception.classList.remove('hidden');
     exception.classList.add('show');

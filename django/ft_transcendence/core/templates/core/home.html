@@ -19,6 +19,16 @@
         Your browser does not support the video tag.
     </video>
 
+    {% if user_message %}
+        <div id="exception" class="exception hidden"> {{ user_message }} </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showNotification("{{ exception_value }}");
+            });
+        </script>
+    {% endif %}
+
+
     <div class="notifs">
         {% if total_notifs > 0 %}
             <div class="alert_notifs"></div>
