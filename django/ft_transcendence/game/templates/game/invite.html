@@ -24,7 +24,11 @@
 				{% for friend in friend_list %}
 					<li class="item">
 						<span>{{ friend.username }}</span>
-						<button class="buttons-design" onclick="inviteFriend('{{ friend.id }}')">Invite</button>
+						<button class="buttons-design">
+							<a href="{% url 'game:game_invitation' friend.id %}">
+								<span>Invite</span>
+							</a>
+						</button>
 					</li>
 				{% endfor %}
 			</ul>
