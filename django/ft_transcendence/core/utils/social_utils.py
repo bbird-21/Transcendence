@@ -97,7 +97,7 @@ def decline_friend_request(request, friendRequestID):
     try:
         friend_request = FriendRequest.objects.get(id=friendRequestID)
     except Exception as e:
-        request.session['exception_value'] = "No Friend Request exists"
+        request.session['message_to_user'] = "No Friend Request exists"
         return redirect(reverse('core:social'))
 
     if friend_request and friend_request.receiver == request.user or friend_request.sender == request.user:

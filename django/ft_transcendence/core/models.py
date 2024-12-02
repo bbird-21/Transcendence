@@ -6,6 +6,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User
 from chat.models import Chat, Message
+from game.models import Game, Invitation
 
 # Tips :
 #  -Django can't have two reverse query names that are the same \
@@ -43,5 +44,5 @@ class Notification(models.Model):
     receiver        = models.ForeignKey(User, null=True, related_name="notification_receiver", on_delete=models.CASCADE)
     friend_request  = models.ForeignKey(FriendRequest, null=True, related_name="notification_friend_request", on_delete=models.CASCADE)
     message         = models.ForeignKey(Message, null=True, related_name="message_notification", on_delete=models.CASCADE)
-    chat            = models.ForeignKey(Chat, null=True, related_name="chat", on_delete=models.CASCADE)
+    game_invitation = models.ForeignKey(Invitation, null=True, related_name="game_invitation", on_delete=models.CASCADE)
     total_notifs    = models.IntegerField(default=0)
