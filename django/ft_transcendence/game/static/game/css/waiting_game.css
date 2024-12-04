@@ -14,8 +14,10 @@
 }
 
 .buttons-design.ready {
-    background: #28a745; /* Green when ready */
+    background: #28a745; /* Green */
+    color: white;
 }
+
 
 .countdown {
     position: absolute;

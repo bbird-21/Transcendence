@@ -1,24 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer
-from game.models import Invitation
-from asgiref.sync import async_to_sync
 import json
-
-class GameConsumer(WebsocketConsumer):
-    def connect(self):
-        self.game_name = self.scope["url_route"]["kwargs"]["game_name"]
-        self.room_group_name = f"chat_{self.game_name}"
-
-        # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name, self.channel_name
-        )
-        self.accept()
-
-    def disconnect(self, close_code):
-        # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name, self.channel_name
-        )
+from asgiref.sync import async_to_sync
+from game.models import Invitation
 
 class WaitingConsumer(WebsocketConsumer):
     def connect(self):
@@ -27,11 +10,11 @@ class WaitingConsumer(WebsocketConsumer):
         self.room_group_name = f"game_{self.waiting_game_id}"
 
         try:
-            self.waiting_game = Invitation.objects.get(id=self.waiting_game_id)
-            self.player_one = self.waiting_game.invitation_sender
-            self.player_two = self.waiting_game.invitation_receiver
+            waiting_game = Invitation.objects.get(id=self.waiting_game_id)
+            self.player_one = waiting_game.invitation_sender
+            self.player_two = waiting_game.invitation_receiver
         except Invitation.DoesNotExist as e:
-            print(f"Invitation not found: {e}")
+            print(e)
             self.close()
 
         # Join room group
@@ -39,26 +22,8 @@ class WaitingConsumer(WebsocketConsumer):
             self.room_group_name, self.channel_name
         )
 
-        if self.player_one == self.user:
-            self.waiting_game.player_one_connected = True
-        elif self.player_two == self.user:
-            self.waiting_game.player_two_connected = True
-        else:
-            print("Unauthorized user attempting to connect.")
-            self.close()
-
-        self.waiting_game.save()
+        # Accept the WebSocket connection
         self.accept()
-
-        # Notify the room about the connection status
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                "type": "update_status",
-                "player_one_connected": self.waiting_game.player_one_connected,
-                "player_two_connected": self.waiting_game.player_two_connected,
-            },
-        )
 
     def disconnect(self, close_code):
         # Leave room group
@@ -68,36 +33,50 @@ class WaitingConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         data = json.loads(text_data)
+        player = data.get("player")
+        ready = data.get("ready", False)
 
-        # Handle readiness
-        if data["type"] == "ready":
-            if self.user == self.player_one:
-                self.waiting_game.player_one_ready = True
-            elif self.user == self.player_two:
-                self.waiting_game.player_two_ready = True
-            self.waiting_game.save()
+        try:
+            waiting_game = Invitation.objects.get(id=self.waiting_game_id)
 
-            # Notify all players about readiness updates
+            if player == "player_one" and self.user == self.player_one:
+                waiting_game.player_one_ready = ready
+            elif player == "player_two" and self.user == self.player_two:
+                waiting_game.player_two_ready = ready
+
+            waiting_game.save()
+
+            # Broadcast the readiness state to all clients in the room
             async_to_sync(self.channel_layer.group_send)(
                 self.room_group_name,
                 {
-                    "type": "update_status",
-                    "player_one_ready": self.waiting_game.player_one_ready,
-                    "player_two_ready": self.waiting_game.player_two_ready,
+                    "type": "ready_state",
+                    "player": player,
+                    "ready": ready
                 },
             )
 
-            # Start countdown if both players are ready
-            if self.waiting_game.player_one_ready and self.waiting_game.player_two_ready:
+            # If both players are ready, broadcast a countdown message
+            if waiting_game.player_one_ready and waiting_game.player_two_ready:
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
-                    {"type": "start_countdown"},
+                    {"type": "start_countdown"}
                 )
 
-    def update_status(self, event):
-        # Send status update to WebSocket
-        self.send(text_data=json.dumps(event))
+        except Invitation.DoesNotExist:
+            print("Invitation does not exist")
+            self.close()
+
+    def ready_state(self, event):
+        # Send the readiness state to the WebSocket client
+        self.send(text_data=json.dumps({
+            "type": "ready_state",
+            "player": event["player"],
+            "ready": event["ready"]
+        }))
 
     def start_countdown(self, event):
-        # Send countdown trigger to WebSocket
-        self.send(text_data=json.dumps({"type": "start_countdown"}))
+        # Start the countdown
+        self.send(text_data=json.dumps({
+            "type": "start_countdown"
+        }))
