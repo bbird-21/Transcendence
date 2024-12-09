@@ -15,5 +15,5 @@ class Game(models.Model):
 class Invitation(models.Model):
 	invitation_sender	= models.ForeignKey(User, null=True, db_index=True, related_name="invitation_sender", on_delete=models.CASCADE)
 	invitation_receiver	= models.ForeignKey(User, null=True, db_index=True, related_name="invitation_receiver", on_delete=models.CASCADE)
-	player_one_conneted	= models.BooleanField(default=False)
-	player_two_conneted	= models.BooleanField(default=False)
+	player_one_ready	= models.BooleanField(default=False)
+	player_two_ready	= models.BooleanField(default=False)

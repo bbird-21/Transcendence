@@ -26,7 +26,8 @@ def	waiting_game(request, game_invitationID):
 	context = {
 		"game_id": game_invitationID,
 		"player_one": game_invitation.invitation_sender,
-		"player_two": game_invitation.invitation_receiver
+		"player_two": game_invitation.invitation_receiver,
+		"player": "player_one" if request.user == game_invitation.invitation_sender else "player_two",
 	}
 	return render(request, "game/waiting_game.html", context)
 
