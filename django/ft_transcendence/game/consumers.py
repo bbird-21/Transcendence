@@ -1,4 +1,4 @@
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer # type: ignore
 import json
 from asgiref.sync import async_to_sync
 from game.models import Invitation
@@ -34,7 +34,7 @@ class WaitingConsumer(WebsocketConsumer):
     def receive(self, text_data):
         data = json.loads(text_data)
         player = data.get("player")
-        ready = data.get("ready", False)
+        ready = data.get("ready")
 
         try:
             waiting_game = Invitation.objects.get(id=self.waiting_game_id)

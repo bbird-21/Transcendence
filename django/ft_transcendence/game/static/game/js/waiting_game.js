@@ -3,7 +3,6 @@ const countdown = document.getElementById("countdown");
 
 // WebSocket connection
 const socket = new WebSocket(`ws://${window.location.host}/ws/waiting_game/${gameId}/`);
-
 // Variables to track button status
 let isPlayerOneReady = false;
 let isPlayerTwoReady = false;
@@ -34,7 +33,7 @@ function handleReadyButton(player) {
     const button = player === "player_one"
         ? document.getElementById("player-one-button")
         : document.getElementById("player-two-button");
-
+    console.log(player)
     // If the button is already "Ready!", do nothing
     if (button.textContent === "Ready!") return;
 
