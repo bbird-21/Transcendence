@@ -47,38 +47,32 @@
                 <div class="profile--avatar-username-container">
                     <div class="container--user-avatar">
 						<img src="{{ user.userprofile.avatar.url }}" alt="User Avatar" class="profile--user-avatar user-avatar-img"/>
-					</div>		
+					</div>
                 <!---------- Username ---------->
 					<div class="profile--username">
                         <h2>{{ user.username }}</h2>
-                    </div>				
+                    </div>
 				</div>
 				<div class="profile--buttons-container">
 					<!-- Avatar Upload Form -->
-					<div class="my-profile--change-avatar-form">
-						<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
-							{% csrf_token %}
-							{{ avatar_form.as_p }}
-							<button type="submit" class="profile--buttons buttons-design">Update Avatar</button>						
-						</form>
-						<!-- Avatar validation messages -->
-						{% if avatar_is_valid %}
-						<p class="valid-message"></p>
-						{% else %}
-						<p class="error-message">The specified file {{ avatar_name }} could not be uploaded.</p>
-						<p class="error-message">Only files with the following extensions are allowed: png, jpg, jpeg.</p>
-						<p class="error-message">The file size should not exceed 1Mo.</p>
-						{% endif %}
-					</div>
-					<!-- Username Form -->
-					<div class="my-profile--change-username-form">
-						<form action="/profile/" method="post" id="username-form" class="form-box">
-							{% csrf_token %}
-							{{ username_form.as_p }}
-							<button type="submit" class="profile--buttons buttons-design">Change Username</button>
-						</form>
-					</div>					
-				</div>		
+					<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
+						{% csrf_token %}
+						{{ avatar_form.avatar }}  <!-- This renders the input field -->
+						<label for="file-upload" class="btn-submit">  <!-- Links to the input field -->
+							Custom Upload
+						</label>
+						<input type="submit" value="Update Avatar" class="btn-submit">
+					</form>
+				</div>
+
+				<!-- Avatar validation messages -->
+				{% if avatar_is_valid %}
+					<p class="valid-message">Avatar is valid.</p>
+				{% else %}
+					<p class="error-message">The specified file {{ avatar_name }} could not be uploaded.</p>
+					<p class="error-message">Only files with the following extensions are allowed: png, jpg, jpeg.</p>
+					<p class="error-message">The file size should not exceed 1Mo.</p>
+				{% endif %}
 			</div>
 		</div>
 	</div>

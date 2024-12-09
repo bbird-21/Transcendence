@@ -26,11 +26,11 @@
             Your browser does not support the video tag.
         </video>
 
-        {% if exception_value %}
-            <div id="exception" class="exception hidden"> {{ exception_value }} </div>
+        {% if message_to_user %}
+            <div id="message_to_user" class="exception hidden"> {{ message_to_user }} </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    showNotification("{{ exception_value }}");
+                    showNotification("{{ message_to_user }}");
                 });
             </script>
         {% endif %}
@@ -106,7 +106,7 @@
                                         </a>
                                     </button>
                                     <button type="submit" class="social--user-profile-buttons-design buttons-design">
-                                        <a href="{% url 'chat:get_room_redirect' friend.id %}">
+                                        <a href="{% url 'game:game_invitation' friend.id %}">
                                             <img src="{% static 'core/images/game-logo.png' %}" class="social--buttons-section-logos">
                                         </a>
                                     </button>

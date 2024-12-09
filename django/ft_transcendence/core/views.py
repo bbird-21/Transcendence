@@ -1,6 +1,5 @@
 # ---- Shorcuts -------------------------
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 # ---- Authentication -------------------
@@ -102,8 +101,13 @@ def home(request):
 
     context = {
         "notifications": notifications,
-        "total_notifs": total_notifs
+        "total_notifs": total_notifs,
     }
+
+    message_to_user = request.session.pop('message_to_user', None)
+    if message_to_user:
+        context['message_to_user'] = message_to_user
+
     return render(request, "core/home.html", context)
 
 @login_required
@@ -122,7 +126,6 @@ def my_profile(request):
             return HttpResponseRedirect("/my_profile/")
         else:
             avatar_is_valid = False
-            print(avatar_form.errors)  # For debugging purposes
     avatar_form = AvatarForm(prefix="avatar")
     username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
@@ -173,10 +176,9 @@ def social(request, searched_username="", user_found=True):
             return redirect("/home/")
 
 
-    exception_value = request.session.pop('exception_value', None)
-    if exception_value:
-        # Handle or display the exception value
-        context['exception_value'] = exception_value
+    notification = request.session.pop('message_to_user', None)
+    if notification:
+        context['message_to_user'] = notification
 
     context['search_form'] = search_user_form
     context['user_found'] = user_found
@@ -191,10 +193,8 @@ def notifications(request):
         "notifications": notifications
     }
 
-    print(f"notifications : {notifications}")
-    for notification in notifications:
-        if notification.friend_request:
-            print(notification.friend_request.sender)
-        if notification.message:
-            print(notification.message.message)
+    message_to_user = request.session.pop('message_to_user', None)
+    if message_to_user:
+        context['message_to_user'] = message_to_user
+
     return render(request, "core/notifications.html", context)

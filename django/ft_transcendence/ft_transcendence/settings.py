@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     "fortytwo",
     "chat",
     "core",
+    "game",
+    "rest_framework",
+    'api',
 ]
 
 LOGIN_URL = "core:login"
@@ -194,6 +197,14 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": "redis://redis:6379",
     }
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

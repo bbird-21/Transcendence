@@ -18,7 +18,8 @@ django/ft_transcendence/core/migrations
 
 ### DB ###
 django/ft_transcendence/chat/migrations/
-
+django/ft_transcendence/api/migrations/
+django/ft_transcendence/game/migrations/
 ### Commitzen ###
 package.json
 package-lock.json

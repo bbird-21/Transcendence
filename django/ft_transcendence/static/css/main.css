@@ -81,7 +81,7 @@
     display: flex;
     justify-content: center;
   }
-    
+
   /* Avatar Image */
   .user-avatar-img{
     width: 5em; /* Width relative to the size of the police */
@@ -127,3 +127,26 @@
 		color: black; /* text color */
   		background-color: white; /* background color */
 	}
+
+
+.exception {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background-color: #444;
+	color: #fff;
+	padding: 10px 20px;
+	border-radius: 5px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.exception.show {
+	z-index: 100;
+	opacity: 1;
+}
+
+.exception.hidden {
+	display: none;
+}
