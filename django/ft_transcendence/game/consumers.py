@@ -54,8 +54,6 @@ class WaitingConsumer(WebsocketConsumer):
                         "player": "player_two",
                     },
                 )
-            # elif ( self.waiting_game.player_one_ready == False and self.waiting_game.player_two_ready == False ):
-            #     self.waiting_game.delete()
         except Invitation.DoesNotExist:
             pass  # No action needed if the game no longer exists
 
@@ -82,13 +80,21 @@ class WaitingConsumer(WebsocketConsumer):
 
         try:
             if player == "player_one" and self.user == self.player_one:
-                self.waiting_game.player_one_ready = ready
+                print("player one ready")
+                self.waiting_game.player_one_ready = True
             elif player == "player_two" and self.user == self.player_two:
-                self.waiting_game.player_two_ready = ready
-            else:
-                return  # Ignore invalid actions
-
+                print("player two ready")
+                self.waiting_game.player_two_ready = True
             self.waiting_game.save()
+
+
+            # Check if both players are ready
+            if self.waiting_game.player_one_ready == True and self.waiting_game.player_two_ready == True:
+                print("start countdown")
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {"type": "start_countdown"},
+                )
 
             # Broadcast readiness state
             async_to_sync(self.channel_layer.group_send)(
@@ -99,13 +105,6 @@ class WaitingConsumer(WebsocketConsumer):
                     "ready": ready,
                 },
             )
-
-            # Check if both players are ready
-            if self.waiting_game.player_one_ready and self.waiting_game.player_two_ready:
-                async_to_sync(self.channel_layer.group_send)(
-                    self.room_group_name,
-                    {"type": "start_countdown"},
-                )
 
         except Invitation.DoesNotExist:
             self.close()
