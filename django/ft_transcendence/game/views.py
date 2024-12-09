@@ -77,3 +77,15 @@ def	decline_game(request, game_invitationID):
 
 	request.session['message_to_user'] = "You have declined the Game Request"
 	return redirect(reverse('core:notifications'))
+
+@login_required
+def	selection(request):
+	return render(request, "game/selection.html")
+
+@login_required
+def invite(request):
+	friend_list = request.user.userprofile.friends.all()
+	context = {
+		'friend_list': friend_list,
+	}
+	return render(request, 'game/invite.html', context)

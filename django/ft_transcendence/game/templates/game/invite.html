@@ -1,0 +1,48 @@
+{% load socialaccount %}
+{% load static %}
+{% include 'core/sidenav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'game/css/invite.css' %}">
+</head>
+<body>
+    <!---------- Background Video ---------->
+    <video autoplay muted loop class="video-background">
+        <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+	<div class="invite-container">
+		{% if friend_list %}
+			<h1 class="item">Invite a friend!</h1>
+			<ul class="friend-list">
+				{% for friend in friend_list %}
+					<li class="item">
+						<span>{{ friend.username }}</span>
+						<button class="buttons-design">
+							<a href="{% url 'game:game_invitation' friend.id %}">
+								<span>Invite</span>
+							</a>
+						</button>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<div class="no-friends">
+				<h1 class="item">You don't have any friends yet!</h1>
+				<button class="buttons-design">
+					<a href="{% url 'core:social' %}">
+						<span> Go to Social Tab </span>
+					</a>
+				</button>
+			</div>
+		{% endif %}
+	</div>
+	
+</body>
+</html>

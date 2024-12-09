@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/game.css' %}">
+    <link rel="stylesheet" href="{% static 'game/css/selection.css' %}">
 </head>
 <body>
     <!---------- Background Video ---------->
@@ -17,5 +17,19 @@
         Your browser does not support the video tag.
     </video>
 
+    
+    <div class="container-selection">
+        <div class="selection">
+            <button class="buttons-design">
+                <a href="{% url 'game:game' %}">
+                    <span> Local Game </span>
+                </a>
+            </button>
+            <button class="buttons-design">
+                <a href="{% url 'game:invite' %}">
+                    <span> Multiplayer Game </span>
+                </a>
+            </button>
+        </div>
 </body>
 </html>
