@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playerTwoButton) {
         playerTwoButton.addEventListener("click", () => handleReadyButton("player_two"));
     }
-    
+
 });
 
 // Prevent a player from clicking the "Ready?" button multiple times or for the other player
@@ -64,6 +64,10 @@ function handleReadyButton(player) {
 // WebSocket message handler for updates from the server
 socket.onmessage = function (event) {
     const message = JSON.parse(event.data);
+
+    if (message.type === "redirect") {
+        window.location.href = message.url;
+    }
 
     if (message.type === "current_state") {
         const playerOneButton = document.getElementById("player-one-button");
@@ -116,17 +120,43 @@ socket.onmessage = function (event) {
 
 // Function to start the countdown when both players are ready
 function startCountdown() {
-    let timeLeft = 3;  // 3-second countdown
-    countdown.textContent = timeLeft;
+    // Create and style the centered countdown div
+    const countdownOverlay = document.createElement('div');
+    countdownOverlay.style.position = 'fixed';
+    countdownOverlay.style.top = '0';
+    countdownOverlay.style.left = '0';
+    countdownOverlay.style.width = '100vw';
+    countdownOverlay.style.height = '100vh';
+    countdownOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black
+    countdownOverlay.style.display = 'flex';
+    countdownOverlay.style.justifyContent = 'center';
+    countdownOverlay.style.alignItems = 'center';
+    countdownOverlay.style.zIndex = '1000'; // Ensure it appears on top of everything else
+    countdownOverlay.style.color = 'white';
+    countdownOverlay.style.fontSize = '5rem';
+    countdownOverlay.style.fontWeight = 'bold';
+
+    // Add the countdown timer text to the overlay
+    const countdownText = document.createElement('div');
+    countdownOverlay.appendChild(countdownText);
+    document.body.appendChild(countdownOverlay);
+
+    let timeLeft = 3; // 3-second countdown
+    countdownText.textContent = timeLeft;
 
     const interval = setInterval(() => {
         timeLeft -= 1;
-        countdown.textContent = timeLeft;
+        countdownText.textContent = timeLeft;
 
         if (timeLeft <= 0) {
             clearInterval(interval);
-            // You can start the game here, or redirect to a new page
-            console.log("Game starting!");
+            document.body.removeChild(countdownOverlay); // Remove the overlay
+            startGame(); // Start the game
         }
     }, 1000);
+}
+
+
+function startGame() {
+    socket.send(JSON.stringify({ action: "play" }));
 }

@@ -6,11 +6,12 @@ from core.models import Notification
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.views.decorators.cache import never_cache
 
 
 @login_required
-def	game(request):
-	return render(request, "game/game.html")
+def	play(request):
+	return render(request, "game/play.html")
 
 @login_required
 def	waiting_game(request, game_invitationID):
