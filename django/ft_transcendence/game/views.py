@@ -9,7 +9,7 @@ from django.db.models import Q
 
 
 @login_required
-def	game(request):
+def	play(request):
 	return render(request, "game/game.html")
 
 @login_required

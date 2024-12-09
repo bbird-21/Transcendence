@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playerTwoButton) {
         playerTwoButton.addEventListener("click", () => handleReadyButton("player_two"));
     }
-    
+
 });
 
 // Prevent a player from clicking the "Ready?" button multiple times or for the other player
@@ -64,6 +64,10 @@ function handleReadyButton(player) {
 // WebSocket message handler for updates from the server
 socket.onmessage = function (event) {
     const message = JSON.parse(event.data);
+
+    if (message.type === "redirect") {
+        window.location.href = message.url;
+            }
 
     if (message.type === "current_state") {
         const playerOneButton = document.getElementById("player-one-button");
@@ -125,8 +129,11 @@ function startCountdown() {
 
         if (timeLeft <= 0) {
             clearInterval(interval);
-            // You can start the game here, or redirect to a new page
-            console.log("Game starting!");
+            startGame()
         }
     }, 1000);
+}
+
+function startGame() {
+    socket.send(JSON.stringify({ action: "play" }));
 }

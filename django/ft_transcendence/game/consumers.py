@@ -34,11 +34,9 @@ class WaitingConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         try:
-            waiting_game = Invitation.objects.get(id=self.waiting_game_id)
-
             if self.user == self.player_one:
-                waiting_game.player_one_ready = False
-                waiting_game.save()
+                self.waiting_game.player_one_ready = False
+                self.waiting_game.save()
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
@@ -47,8 +45,8 @@ class WaitingConsumer(WebsocketConsumer):
                     },
                 )
             elif self.user == self.player_two:
-                waiting_game.player_two_ready = False
-                waiting_game.save()
+                self.waiting_game.player_two_ready = False
+                self.waiting_game.save()
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
@@ -56,6 +54,8 @@ class WaitingConsumer(WebsocketConsumer):
                         "player": "player_two",
                     },
                 )
+            # elif ( self.waiting_game.player_one_ready == False and self.waiting_game.player_two_ready == False ):
+            #     self.waiting_game.delete()
         except Invitation.DoesNotExist:
             pass  # No action needed if the game no longer exists
 
@@ -75,18 +75,20 @@ class WaitingConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         player = data.get("player")
         ready = data.get("ready")
+        action = data.get("action")
+
+        if action is not None:
+            self.play()
 
         try:
-            waiting_game = Invitation.objects.get(id=self.waiting_game_id)
-
             if player == "player_one" and self.user == self.player_one:
-                waiting_game.player_one_ready = ready
+                self.waiting_game.player_one_ready = ready
             elif player == "player_two" and self.user == self.player_two:
-                waiting_game.player_two_ready = ready
+                self.waiting_game.player_two_ready = ready
             else:
                 return  # Ignore invalid actions
 
-            waiting_game.save()
+            self.waiting_game.save()
 
             # Broadcast readiness state
             async_to_sync(self.channel_layer.group_send)(
@@ -99,7 +101,7 @@ class WaitingConsumer(WebsocketConsumer):
             )
 
             # Check if both players are ready
-            if waiting_game.player_one_ready and waiting_game.player_two_ready:
+            if self.waiting_game.player_one_ready and self.waiting_game.player_two_ready:
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {"type": "start_countdown"},
@@ -117,3 +119,11 @@ class WaitingConsumer(WebsocketConsumer):
 
     def start_countdown(self, event):
         self.send(text_data=json.dumps({"type": "start_countdown"}))
+
+    def play(self):
+        # Send a message to the client to redirect them to the play page
+        self.send(json.dumps({
+            "type": "redirect",
+            "url": "/game/play/"  # Replace with the actual URL of your play page
+        }))
+
