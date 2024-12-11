@@ -53,6 +53,20 @@ from .utils.social_utils import (
     _is_friend_
 )
 
+# ---- Rest Framework JWT ---------------
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
+class HomeTest(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        return Response(content)
 
 # ---- <login.html> ---------------------
 def login(request):

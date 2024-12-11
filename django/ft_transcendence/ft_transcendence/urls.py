@@ -21,7 +21,7 @@ from core import views
 from django.contrib.auth.models import User
 from rest_framework import routers
 from api import views
-
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # Routers provide an easy way of automatically determining the URL conf.
 # Because we use ViewSet Routers generate several URL (/users/) (/users/<id>) mapping with corresponding HTTP method (CRUD Operations).
@@ -31,6 +31,8 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path("", include("core.urls")),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("fortytwo/", include("fortytwo.urls")),
