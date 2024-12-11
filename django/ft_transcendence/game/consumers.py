@@ -2,7 +2,7 @@ from channels.generic.websocket import WebsocketConsumer  # type: ignore
 import json
 from asgiref.sync import async_to_sync
 from game.models import Invitation
-
+import random
 
 class WaitingConsumer(WebsocketConsumer):
     def connect(self):
@@ -127,23 +127,121 @@ class WaitingConsumer(WebsocketConsumer):
             "url": "/game/play/" + str(self.waiting_game.id)  # Replace with the actual URL of your play page
         }))
 
-
-
 class GameConsumer(WebsocketConsumer):
     def connect(self):
         self.game_id = self.scope['url_route']['kwargs']['GameID']
-        # Code for joining a game room
+        self.room_group_name = f"game_{self.game_id}"
+
+        print(f"Connecting player to game {self.game_id}")
+
+        # Ensure the game state is initialized
+        if not hasattr(self.channel_layer, "game_state"):
+            self.channel_layer.game_state = {}
+
+        # Initialize the game state for the specific room if not set
+        if self.room_group_name not in self.channel_layer.game_state:
+            print(f"Initializing game state for {self.room_group_name}")
+            self.channel_layer.game_state[self.room_group_name] = self.initialize_game_state()
+
+        # Add the player to the group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
+
         self.accept()
 
+        # Update the players_connected count
+        game_state = self.channel_layer.game_state[self.room_group_name]
+        game_state['players_connected'] += 1
+        print(f"Players connected: {game_state['players_connected']}")
+
+        # If both players are connected, start the game
+        if game_state['players_connected'] == 2:
+            self.start_game()
+
+        # Send the current game state to the connected player
+        self.send_game_state()
+
     def disconnect(self, close_code):
-        # Code for handling player disconnection
-        pass
+        # Decrement the number of connected players on disconnect
+        game_state = self.channel_layer.game_state.get(self.room_group_name, {})
+        if game_state:
+            game_state['players_connected'] -= 1
+
+        print(f"Player disconnected. Players connected: {game_state['players_connected']}")
+
+        # Clean up the group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    def start_game(self):
+        """Start the game by setting initial ball and paddle positions."""
+        game_state = self.channel_layer.game_state[self.room_group_name]
+        
+        # Reset game state values (positions, scores, etc.)
+        game_state['ball'] = {'top': 50, 'left': 50}
+        game_state['paddle1'] = {'top': 50}
+        game_state['paddle2'] = {'top': 50}
+        game_state['score1'] = 0
+        game_state['score2'] = 0
+        game_state['dx'] = 1 if random.choice([True, False]) else -1
+        game_state['dy'] = 1 if random.choice([True, False]) else -1
+        game_state['status'] = 'playing'  # Mark the game as 'playing'
+        
+        print("Game started!")
+
+        # Broadcast the start game event to all connected players
+        self.broadcast_game_state()
 
     def receive(self, text_data):
+        """Handle incoming messages."""
         data = json.loads(text_data)
-        # Handle game updates (ball movement, paddle movement, etc.)
+        game_state = self.channel_layer.game_state[self.room_group_name]
 
-        # Broadcast the updated game state to other players
+        if data['type'] == 'move_paddle':
+            player = data['player']
+            top = data['top']
+            if player == 1:
+                game_state['paddle1']['top'] = top
+            elif player == 2:
+                game_state['paddle2']['top'] = top
+
+            self.broadcast_game_state()
+
+        elif data['type'] == 'ball_update':
+            self.update_ball_position(game_state)
+
+    def broadcast_game_state(self):
+        """Send the current game state to all players."""
+        game_state = self.channel_layer.game_state[self.room_group_name]
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                'type': 'update_game_state',
+                'state': game_state
+            }
+        )
+
+    def update_game_state(self, event):
+        """Send updated game state to the client."""
         self.send(text_data=json.dumps({
-            'game_state': data  # Or any data you want to send
+            'type': 'game_state',
+            'state': event['state']
         }))
+
+    def initialize_game_state(self):
+        """Initialize or reset the game state."""
+        return {
+            'ball': {'top': 50, 'left': 50},
+            'paddle1': {'top': 50},
+            'paddle2': {'top': 50},
+            'score1': 0,
+            'score2': 0,
+            'dx': 1,
+            'dy': 1,
+            'players_connected': 0,
+            'status': 'waiting'
+        }
