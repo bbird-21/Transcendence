@@ -17,5 +17,22 @@
         Your browser does not support the video tag.
     </video>
 
+    <div class="board">
+        <div class='ball'>
+            <div class="ball_effect"></div>
+        </div>
+        <div class="paddle_1 paddle"></div>
+        <div class="paddle_2  paddle"></div>
+        <div class="player_1_username"> {{ player_one }}</div>
+        <div class="player_2_username"> {{ player_two }}</div>
+        <h1 class="player_1_score">0</h1>
+        <h1 class="player_2_score">0</h1>
+        <h1 class="message">
+            Press Enter to Play Pong
+        </h1>
+    </div>
+
+    <script src="{% static 'game/js/play.js' %}"></script>
+
 </body>
 </html>

@@ -120,9 +120,10 @@ class WaitingConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({"type": "start_countdown"}))
 
     def play(self):
+        # url = '/game/play/' + self.waiting_game.id
         # Send a message to the client to redirect them to the play page
         self.send(json.dumps({
             "type": "redirect",
-            "url": "/game/play/"  # Replace with the actual URL of your play page
+            "url": "/game/play/" + str(self.waiting_game.id)  # Replace with the actual URL of your play page
         }))
 
