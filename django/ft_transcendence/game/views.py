@@ -16,6 +16,7 @@ def	play(request, waitingGameID):
 	except:
 		return redirect(reverse('core:home'))
 	context = {
+		"game_id": waitingGameID,
 		"player_one": waiting_game.invitation_sender,
 		"player_two": waiting_game.invitation_receiver
 	}

@@ -127,3 +127,23 @@ class WaitingConsumer(WebsocketConsumer):
             "url": "/game/play/" + str(self.waiting_game.id)  # Replace with the actual URL of your play page
         }))
 
+
+
+class GameConsumer(WebsocketConsumer):
+    def connect(self):
+        self.game_id = self.scope['url_route']['kwargs']['GameID']
+        # Code for joining a game room
+        self.accept()
+
+    def disconnect(self, close_code):
+        # Code for handling player disconnection
+        pass
+
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        # Handle game updates (ball movement, paddle movement, etc.)
+
+        # Broadcast the updated game state to other players
+        self.send(text_data=json.dumps({
+            'game_state': data  # Or any data you want to send
+        }))

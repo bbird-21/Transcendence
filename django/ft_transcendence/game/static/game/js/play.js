@@ -1,3 +1,8 @@
+// game.js (client-side WebSocket connection)
+const gameId = JSON.parse(document.getElementById("game_id").textContent);
+console.log(`GameId: ${gameId}`)
+const socket = new WebSocket(`ws://${window.location.host}/ws/play/${gameId}/`);
+
 let gameState = 'start';
 let paddle_1 = document.querySelector('.paddle_1');
 let paddle_2 = document.querySelector('.paddle_2');
@@ -20,6 +25,13 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
+socket.onopen = function() {
+    console.log('WebSocket connection established');
+};
+
+socket.onclose = function() {
+    console.log('WebSocket connection closed');
+};
 
 document.addEventListener('keydown', (e) => {
 	if (e.key == 'Enter') {
@@ -142,6 +154,8 @@ function moveBall(dx, dy, dxd, dyd) {
     ball.style.top = ball_coord.top + movementY + 'px';
     ball.style.left = ball_coord.left + movementX + 'px';
     ball_coord = ball.getBoundingClientRect();
+
+    // Send the updated game state to the server
 
     // Continue animating
     requestAnimationFrame(() => {
