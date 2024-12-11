@@ -1,6 +1,6 @@
 // game.js (client-side WebSocket connection)
 const gameId = JSON.parse(document.getElementById("game_id").textContent);
-console.log(`GameId: ${gameId}`)
+console.log(`GameId: ${gameId}`);
 const socket = new WebSocket(`ws://${window.location.host}/ws/play/${gameId}/`);
 
 let gameState = 'start';
@@ -33,57 +33,69 @@ socket.onclose = function() {
     console.log('WebSocket connection closed');
 };
 
+socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    if (data.game_state) {
+        // Update game state based on data received from the server
+        updateGameState(data.game_state);
+    }
+};
+
 document.addEventListener('keydown', (e) => {
-	if (e.key == 'Enter') {
-		gameState = gameState == 'start' ? 'play' : 'start';
-		if (gameState == 'play') {
-		message.innerHTML = 'Game Started';
-		message.style.left = 42 + 'vw';
-		requestAnimationFrame(() => {
-			dx = Math.floor(Math.random() * 4) + 3;
-			dy = Math.floor(Math.random() * 4) + 3;
-			dxd = Math.floor(Math.random() * 2);
-			dyd = Math.floor(Math.random() * 2);
-			moveBall(dx, dy, dxd, dyd);
-		});
-		}
-	}
+    if (e.key == 'Enter') {
+        gameState = gameState == 'start' ? 'play' : 'start';
+        if (gameState == 'play') {
+            message.innerHTML = 'Game Started';
+            message.style.left = 42 + 'vw';
+            requestAnimationFrame(() => {
+                dx = Math.floor(Math.random() * 4) + 3;
+                dy = Math.floor(Math.random() * 4) + 3;
+                dxd = Math.floor(Math.random() * 2);
+                dyd = Math.floor(Math.random() * 2);
+                moveBall(dx, dy, dxd, dyd);
+            });
+        }
+    }
 
-	if (gameState == 'play') {
-		if (e.key == 'w') {
-		paddle_1.style.top =
-			Math.max(
-			board_coord.top,
-			paddle_1_coord.top - window.innerHeight * 0.06
-			) + 'px';
-		paddle_1_coord = paddle_1.getBoundingClientRect();
-		}
-		if (e.key == 's') {
-		paddle_1.style.top =
-			Math.min(
-			board_coord.bottom - paddle_common.height,
-			paddle_1_coord.top + window.innerHeight * 0.06
-			) + 'px';
-		paddle_1_coord = paddle_1.getBoundingClientRect();
-		}
+    if (gameState == 'play') {
+        if (e.key == 'w') {
+            paddle_1.style.top =
+                Math.max(
+                    board_coord.top,
+                    paddle_1_coord.top - window.innerHeight * 0.06
+                ) + 'px';
+            paddle_1_coord = paddle_1.getBoundingClientRect();
+            sendGameState();
+        }
+        if (e.key == 's') {
+            paddle_1.style.top =
+                Math.min(
+                    board_coord.bottom - paddle_common.height,
+                    paddle_1_coord.top + window.innerHeight * 0.06
+                ) + 'px';
+            paddle_1_coord = paddle_1.getBoundingClientRect();
+            sendGameState();
+        }
 
-		if (e.key == 'ArrowUp') {
-		paddle_2.style.top =
-			Math.max(
-			board_coord.top,
-			paddle_2_coord.top - window.innerHeight * 0.1
-			) + 'px';
-		paddle_2_coord = paddle_2.getBoundingClientRect();
-		}
-		if (e.key == 'ArrowDown') {
-		paddle_2.style.top =
-			Math.min(
-			board_coord.bottom - paddle_common.height,
-			paddle_2_coord.top + window.innerHeight * 0.1
-			) + 'px';
-		paddle_2_coord = paddle_2.getBoundingClientRect();
-		}
-	}
+        if (e.key == 'ArrowUp') {
+            paddle_2.style.top =
+                Math.max(
+                    board_coord.top,
+                    paddle_2_coord.top - window.innerHeight * 0.1
+                ) + 'px';
+            paddle_2_coord = paddle_2.getBoundingClientRect();
+            sendGameState();
+        }
+        if (e.key == 'ArrowDown') {
+            paddle_2.style.top =
+                Math.min(
+                    board_coord.bottom - paddle_common.height,
+                    paddle_2_coord.top + window.innerHeight * 0.1
+                ) + 'px';
+            paddle_2_coord = paddle_2.getBoundingClientRect();
+            sendGameState();
+        }
+    }
 });
 
 let lastTime = null; // To track the last frame's timestamp
@@ -156,9 +168,45 @@ function moveBall(dx, dy, dxd, dyd) {
     ball_coord = ball.getBoundingClientRect();
 
     // Send the updated game state to the server
+    sendGameState();
 
     // Continue animating
     requestAnimationFrame(() => {
         moveBall(dx, dy, dxd, dyd);
     });
+}
+
+function sendGameState() {
+    const gameState = {
+        ball: { top: ball_coord.top, left: ball_coord.left },
+        paddle1: { top: paddle_1_coord.top },
+        paddle2: { top: paddle_2_coord.top },
+        score1: score_1.innerHTML,
+        score2: score_2.innerHTML
+    };
+
+    socket.send(JSON.stringify({
+        type: 'gameState',
+        state: gameState
+    }));
+}
+
+function updateGameState(data) {
+    // Update game state based on the data received from the server
+    if (data.ball) {
+        ball.style.top = data.ball.top + 'px';
+        ball.style.left = data.ball.left + 'px';
+    }
+    if (data.paddle1) {
+        paddle_1.style.top = data.paddle1.top + 'px';
+    }
+    if (data.paddle2) {
+        paddle_2.style.top = data.paddle2.top + 'px';
+    }
+    if (data.score1) {
+        score_1.innerHTML = data.score1;
+    }
+    if (data.score2) {
+        score_2.innerHTML = data.score2;
+    }
 }
