@@ -6,11 +6,21 @@ from core.models import Notification
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.views.decorators.cache import never_cache
 
 
 @login_required
-def	game(request):
-	return render(request, "game/game.html")
+def	play(request, waitingGameID):
+	try:
+		waiting_game = Invitation.objects.get(id=waitingGameID)
+	except:
+		return redirect(reverse('core:home'))
+	context = {
+		"player_one": waiting_game.invitation_sender,
+		"player_two": waiting_game.invitation_receiver
+	}
+
+	return render(request, "game/play.html", context)
 
 @login_required
 def	waiting_game(request, game_invitationID):
@@ -26,7 +36,8 @@ def	waiting_game(request, game_invitationID):
 	context = {
 		"game_id": game_invitationID,
 		"player_one": game_invitation.invitation_sender,
-		"player_two": game_invitation.invitation_receiver
+		"player_two": game_invitation.invitation_receiver,
+		"player": "player_one" if request.user == game_invitation.invitation_sender else "player_two",
 	}
 	return render(request, "game/waiting_game.html", context)
 
