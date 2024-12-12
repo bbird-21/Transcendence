@@ -11,42 +11,44 @@
     <link rel="stylesheet" href="{% static 'core/css/notifications.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<body>
-    <script src="{% static 'core/js/social_utils.js' %}"></script>
 
-    <!---------- Background Video ---------->
-    <video autoplay muted loop class="video-background">
-        <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    {% if message_to_user %}
-        <div id="message_to_user" class="exception hidden"> {{ message_to_user }} </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                showNotification("{{ message_to_user }}");
-            });
-        </script>
-    {% endif %}
-
-
-    <div class="notifs">
-        {% if total_notifs > 0 %}
-            <div class="alert_notifs"></div>
-            <span class="notifstext">You have unread notifications.</span>
-        {% endif %}
-        <a href="{% url 'core:notifications' %}" class="buttons-design btn-notifs">
-            {{ total_notifs }}
-        </a>
-        </button>
-    </div>
-
-
+<body class="no-scroll">
     <div class="container">
-        <div class="welcome-message">
-            <button class="buttons-design">
+        <script src="{% static 'core/js/social_utils.js' %}"></script>
+
+        <!---------- Background Video ---------->
+        <video autoplay muted loop class="video-background">
+            <source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        {% if message_to_user %}
+        <div id="message_to_user" class="exception hidden"> {{ message_to_user }}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showNotification("{{ message_to_user }}");
+                });
+            </script>
+        </div>
+        {% endif %}
+
+
+        <div class="home--notifs-container">
+            {% if total_notifs > 0 %}
+                <div class="home--alert-notifs"></div>
+                <span class="home--notifs-text">You have unread notifications.</span>
+            {% endif %}
+                <a href="{% url 'core:notifications' %}" class="notifs-button buttons-design">
+                    <img src="{% static 'core/images/notifications-logo.png' %}" class="icons-logos">
+                    {{ total_notifs }}
+                </a>
+            </button>
+        </div>
+
+        <div class="home--play-button-container border-container">
+            <button class="home--play-button buttons-design">
                 <a href="{% url 'game:selection' %}">
-                    <span> Play Now ! </span>
+                        <span> Play Now </span>
                 </a>
             </button>
         </div>

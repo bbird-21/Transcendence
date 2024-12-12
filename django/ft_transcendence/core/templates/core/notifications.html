@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="{% static 'css/main.css' %}">
 	</head>
 
-	<body>
+	<body class="no-scroll">
 		<script src="{% static 'core/js/social_utils.js' %}"></script>
 		<!---------- Background Video ---------->
 		<video autoplay muted loop class="video-background">
@@ -40,13 +40,15 @@
 									alt="User Avatar"
 									class="notif-user-avatar-img"/>
 							<div class="notif-text">Request received from
-								<a href="/profile/{{ notification.friend_request.sender }}">  {{notification.friend_request.sender}}</a>
+								<a href="/profile/{{ notification.friend_request.sender }}"> {{notification.friend_request.sender}}</a>
 								<button type="submit" class="buttons-design">
-									<a href="{% url 'core:accept_friend_request' notification.friend_request.id %}"> Accept
+									<a href="{% url 'core:accept_friend_request' notification.friend_request.id %}">
+										Accept
 									</a>
 								</button>
 								<button type="submit" class="buttons-design">
-									<a href="{% url 'core:decline_friend_request' notification.friend_request.id %}"> Deny
+									<a href="{% url 'core:decline_friend_request' notification.friend_request.id %}">
+										Decline
 									</a>
 								</button>
 							</div>
