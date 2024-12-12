@@ -1,0 +1,21 @@
+/* Responsive Version - Max Height : 650px */
+
+.notifs-button.buttons-design{
+	font-size: 20px;
+}
+
+/* Centered container for play now button */
+.border-container.home--play-button-container {
+	border: none;
+	background: transparent;
+	box-shadow: none;
+	animation: none;
+	transform: none; /* Start scale from 0 */
+	opacity: 1; /* Start fully transparent */
+}
+
+.home--play-button.buttons-design{
+	font-size: 2.5em;
+	animation: buttonSmoothAppearence 1s ease forwards, borderGlow 5s ease-in-out infinite;
+	animation-delay: 0s; /* Matches the container animation duration */
+}

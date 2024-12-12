@@ -7,8 +7,8 @@
     .home--notifs-container {
 		position: absolute;
         max-width: 80px;
-		top : 5%;
-		right: 8%;
+		top : 3%;
+		right: 5%;
 	}
     
     .home--notifs-text {
@@ -39,8 +39,8 @@
     }
 
     .notifs-button.buttons-design{
+        font-size: 22px;
         gap: 12px;
-
     }
     
     /* ---------- Play button ---------- */
@@ -67,7 +67,6 @@
     }	
     
     .home--play-button.buttons-design{
-        position: fixed;
         font-family: 'Stacker', sans-serif; /* Google Font */
         font-size: 3em;
         opacity: 0; /* Fully hidden initially */

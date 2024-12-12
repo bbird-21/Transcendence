@@ -39,26 +39,26 @@
     width: 100vw;
   }
 
-  .buttons-design{
+  .buttons-design {
     display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		font-size: 18px;
-		color: white; /* text color */
-		background: #1A003E; /* background color */
-		border: 1px solid white;
-		padding: 8px 30px; /* padding between text and border */
-		border-radius: 12px;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-size: 18px;
+	color: white; /* text color */
+	background: #1A003E; /* background color */
+	border: 1px solid white;
+	padding: 8px 30px; /* padding between text and border */
+	border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Smooth shadow for depth */
     cursor: pointer; /* small hand logo will appear on the button when we'll be hover it */
-		transition: .5s; /* smooth transition to buttons-design:hover */
+	transition: .5s; /* smooth transition to buttons-design:hover */
   }
 
   	/* smooth animation when the curser is hover the button */
 	.buttons-design:hover {
 		color: #1A003E; /* text color */
-  	background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
 	}
 
   .icons-logos {
