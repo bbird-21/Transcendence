@@ -31,52 +31,61 @@
 		{% endif %}
 
 
-		<div class="notification_container">
-			<div class="black-box">
+		<div class="container">
+			
+			<div class="notifications--black-box">
 				{% for notification in notifications %}
 					{% if notification.friend_request.sender %}
-						<div class="notification">
-							<img	src="{{ notification.friend_request.sender.userprofile.avatar.url }}"
-									alt="User Avatar"
-									class="notif-user-avatar-img"/>
-							<div class="notif-text">Request received from
+						<div class="notification--each-container">
+							<div class="container--user-avatar">
+								<img src="{{ notification.friend_request.sender.userprofile.avatar.url }}" alt="User Avatar" class="notif-avatar user-avatar-img"/>
+							</div>
+							<div class="notifications--text">Friend request received from
 								<a href="/profile/{{ notification.friend_request.sender }}"> {{notification.friend_request.sender}}</a>
-								<button type="submit" class="buttons-design">
-									<a href="{% url 'core:accept_friend_request' notification.friend_request.id %}">
-										Accept
-									</a>
-								</button>
-								<button type="submit" class="buttons-design">
-									<a href="{% url 'core:decline_friend_request' notification.friend_request.id %}">
-										Decline
-									</a>
-								</button>
+								<div class="notifications-buttons-container">
+									<button type="submit" class="notifications--options-buttons buttons-design">
+										<a href="{% url 'core:accept_friend_request' notification.friend_request.id %}">
+											<img src="{% static 'core/images/accept-logo.png' %}" class="icons-logos">
+										</a>
+									</button>
+									<button type="submit" class="notifications--options-buttons buttons-design">
+										<a href="{% url 'core:decline_friend_request' notification.friend_request.id %}">
+											<img src="{% static 'core/images/decline-logo.png' %}" class="icons-logos">
+										</a>
+									</button>
+								</div>
 							</div>
 						</div>
 					{% elif notification.message %}
-						<div class="notification">
-							<div class="notif-text">
-								<img	src="{{ notification.message.author.userprofile.avatar.url }}"
-										alt="User Avatar"
-										class="notif-user-avatar-img"/>
+						<div class="notification--each-container">
+							<div class="notifications--text">
+								<div class="notif--avatar-container container--user-avatar">
+									<img src="{{ notification.message.author.userprofile.avatar.url }}" alt="User Avatar" class="notif-avatar user-avatar-img"/>
+								</div>
 								Message from
 								{{ notification.message.author }} : {{ notification.message.message }}
 							</div>
 						</div>
 						{% elif notification.game_invitation %}
-						<div class="notification">
-							<div class="notif-text">
-								<img	src="{{ notification.game_invitation.invitation_sender.userprofile.avatar.url }}"
-										alt="User Avatar"
-										class="notif-user-avatar-img"/>
+						<div class="notification--each-container">
+							<div class="notifications--text">
+								<div class="container--user-avatar">
+									<img src="{{ notification.game_invitation.invitation_sender.userprofile.avatar.url }}" alt="User Avatar" class="notif-avatar user-avatar-img"/>
+								</div>
 								Game Invitation from
 								{{ notification.game_invitation.invitation_sender }}
-								<button type="submit" class="buttons-design">
-									<a href="{% url 'game:accept_game' notification.game_invitation.id %}"> Accept Invitation Game </a>
-								</button>
-								<button type="submit" class="buttons-design">
-									<a href="{% url 'game:decline_game' notification.game_invitation.id %}"> Decline Invitation Game</a>
-								</button>
+								<div class="notifications-buttons-container">
+									<button type="submit" class="notifications--options-buttons buttons-design">
+										<a href="{% url 'game:accept_game' notification.game_invitation.id %}"> Accept Invitation Game 
+											<img src="{% static 'core/images/game-logo.png' %}" class="icons-logos">
+										</a>
+									</button>
+									<button type="submit" class="notifications--options-buttons buttons-design">
+										<a href="{% url 'game:decline_game' notification.game_invitation.id %}"> Decline Invitation Game
+											<img src="{% static 'core/images/decline-logo.png' %}" class="icons-logos">
+										</a>
+									</button>
+								</div>
 							</div>
 						</div>
 					{% endif %}
