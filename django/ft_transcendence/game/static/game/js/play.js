@@ -74,56 +74,77 @@ document.addEventListener('keydown', (e) => {
 	}
 });
 
+let lastTime = null; // To track the last frame's timestamp
+let speedMultiplier = 0.7;
 function moveBall(dx, dy, dxd, dyd) {
-	if (ball_coord.top <= board_coord.top) {
-		dyd = 1;
-	}
-	if (ball_coord.bottom >= board_coord.bottom) {
-		dyd = 0;
-	}
-	if (
-		ball_coord.left <= paddle_1_coord.right &&
-		ball_coord.top >= paddle_1_coord.top &&
-		ball_coord.bottom <= paddle_1_coord.bottom
-	) {
-		dxd = 1;
-		dx = Math.floor(Math.random() * 4) + 3;
-		dy = Math.floor(Math.random() * 4) + 3;
-	}
-	if (
-		ball_coord.right >= paddle_2_coord.left &&
-		ball_coord.top >= paddle_2_coord.top &&
-		ball_coord.bottom <= paddle_2_coord.bottom
-	) {
-		dxd = 0;
-		dx = Math.floor(Math.random() * 4) + 3;
-		dy = Math.floor(Math.random() * 4) + 3;
-	}
-	if (
-		ball_coord.left <= board_coord.left ||
-		ball_coord.right >= board_coord.right
-	) {
-		if (ball_coord.left <= board_coord.left) {
-			score_2.innerHTML = +score_2.innerHTML + 1;
-		}
-		else {
-			score_1.innerHTML = +score_1.innerHTML + 1;
-		}
-		if ( score_1.innerHTML == '1' || score_2.innerHTML == '1' ) {
-			console.log(`VICTORY`)
-		}
-		gameState = 'start';
+    const currentTime = performance.now(); // High-resolution time for accuracy
 
-		ball_coord = initial_ball_coord;
-		ball.style = initial_ball.style;
-		message.innerHTML = 'Press Enter to Play Pong';
-		message.style.left = 38 + 'vw';
-		return;
-	}
-	ball.style.top = ball_coord.top + dy * (dyd == 0 ? -1 : 1) + 'px';
-	ball.style.left = ball_coord.left + dx * (dxd == 0 ? -1 : 1) + 'px';
-	ball_coord = ball.getBoundingClientRect();
-	requestAnimationFrame(() => {
-		moveBall(dx, dy, dxd, dyd);
-	});
-	}
+    if (!lastTime) {
+        lastTime = currentTime;
+    }
+
+    // Time difference between frames in seconds
+    const deltaTime = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
+
+    // Calculate movement relative to board size
+    const baseSpeed = 0.5; // Adjust this for desired speed; it's a fraction of board size per second
+    const velocityX = baseSpeed * board_coord.width * deltaTime * speedMultiplier;
+    const velocityY = baseSpeed * board_coord.height * deltaTime * speedMultiplier;
+
+    const movementX = velocityX * (dxd === 0 ? -1 : 1);
+    const movementY = velocityY * (dyd === 0 ? -1 : 1);
+
+    // Bounce off top and bottom
+    if (ball_coord.top <= board_coord.top) {
+        dyd = 1;
+    }
+    if (ball_coord.bottom >= board_coord.bottom) {
+        dyd = 0;
+    }
+
+    // Bounce off paddles
+    if (
+        ball_coord.left <= paddle_1_coord.right &&
+        ball_coord.top >= paddle_1_coord.top &&
+        ball_coord.bottom <= paddle_1_coord.bottom
+    ) {
+        dxd = 1;
+    }
+    if (
+        ball_coord.right >= paddle_2_coord.left &&
+        ball_coord.top >= paddle_2_coord.top &&
+        ball_coord.bottom <= paddle_2_coord.bottom
+    ) {
+        dxd = 0;
+    }
+
+    // Reset if ball goes out of bounds
+    if (
+        ball_coord.left <= board_coord.left ||
+        ball_coord.right >= board_coord.right
+    ) {
+        if (ball_coord.left <= board_coord.left) {
+            score_2.innerHTML = +score_2.innerHTML + 1;
+        } else {
+            score_1.innerHTML = +score_1.innerHTML + 1;
+        }
+        gameState = 'start';
+        ball_coord = initial_ball_coord;
+        ball.style = initial_ball.style;
+        message.innerHTML = 'Press Enter to Play Pong';
+        message.style.left = 38 + 'vw';
+        lastTime = null; // Reset lastTime for the next round
+        return;
+    }
+
+    // Move the ball
+    ball.style.top = ball_coord.top + movementY + 'px';
+    ball.style.left = ball_coord.left + movementX + 'px';
+    ball_coord = ball.getBoundingClientRect();
+
+    // Continue animating
+    requestAnimationFrame(() => {
+        moveBall(dx, dy, dxd, dyd);
+    });
+}
