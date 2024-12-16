@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.http import HttpResponseRedirect
 from core.forms import SignupForm, SigninForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from allauth.mfa.adapter import DefaultMFAAdapter
+from django.contrib.auth import logout as django_logout
 
 def create_user(request, signup_form):
 	username = signup_form.cleaned_data["username"]
@@ -30,6 +32,11 @@ def sign_in_strategy(request):
 		user = authenticate(username=signin_form.cleaned_data['username'], password=signin_form.cleaned_data['password'])
 		if user:
 			django_login(request, user)
+			adapter = DefaultMFAAdapter()
+			if adapter.is_mfa_enabled(request.user):
+				print("MFA Enabled")
+			else:
+				print("MFA Disabled")
 			return HttpResponseRedirect("/home/")
 		else:
 			return render(request, "core/500.html")

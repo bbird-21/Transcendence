@@ -58,7 +58,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import api_view, permission_classes
 
+# --- Django-allauth MFA
+from allauth.mfa.adapter import DefaultMFAAdapter
 
 class HomeTest(APIView):
     authentication_classes = [JWTAuthentication]
@@ -70,6 +73,10 @@ class HomeTest(APIView):
 
 # ---- <login.html> ---------------------
 def login(request):
+    if DefaultMFAAdapter().is_mfa_enabled(request.user):
+        print("MFA enabled")
+    else:
+        print("MFA disabled")
     if request.user.is_authenticated:
         return redirect("/home/")
     if request.method == "POST":
@@ -90,6 +97,11 @@ def logout(request):
 @login_required
 @never_cache
 def home(request):
+    adapter = DefaultMFAAdapter()
+    if adapter.is_mfa_enabled(request.user):
+        print("MFA Enabled")
+    else:
+        print("MFA Disabled")
     chats = Chat.get_all_chats(request.user)
     for chat in chats:
         unread_messages = chat.message_set.order_by('createdAt').filter(isRead=False)
@@ -124,8 +136,8 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
-@login_required
-@never_cache
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":
