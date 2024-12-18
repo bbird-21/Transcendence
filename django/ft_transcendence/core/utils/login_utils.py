@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.http import HttpResponseRedirect
-from core.forms import SignupForm, SigninForm
+from core.forms import SignupForm, SigninForm, MFAForm
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from allauth.mfa.adapter import DefaultMFAAdapter
 from django.contrib.auth import logout as django_logout
 
@@ -22,7 +23,7 @@ def login_page(request):
 	signup_form = SignupForm(prefix="signup")
 	return render(request, "core/login.html", {
 		"signin_form": signin_form,
-		"signup_form": signup_form,
+		"signup_form": signup_form
 	})
 
 
@@ -32,17 +33,18 @@ def sign_in_strategy(request):
 		user = authenticate(username=signin_form.cleaned_data['username'], password=signin_form.cleaned_data['password'])
 		if user:
 			django_login(request, user)
-			adapter = DefaultMFAAdapter()
-			if adapter.is_mfa_enabled(request.user):
-				print("MFA Enabled")
+			if DefaultMFAAdapter().is_mfa_enabled(request.user):
+				user_id = request.user.id
+				django_logout(request)
+				request.session["pending_user_id"] = user_id
+				print(f'request user id : {request.session.get("pending_user_id")}')
+				return HttpResponseRedirect(reverse("core:mfa"))
 			else:
-				print("MFA Disabled")
-			return HttpResponseRedirect("/home/")
+				return HttpResponseRedirect("/home/")
 		else:
 			return render(request, "core/500.html")
 	else:
 		return render(request, "core/login.html", {
-			"signin_invalid_credentials": True,
 			"signin_form": signin_form
 		})
 
@@ -57,6 +59,5 @@ def	sign_up_strategy(request):
 			return render(request, "core/500.html")
 	else:
 		return render(request, "core/login.html", {
-			"signup_invalid_credentials": True,
 			"signup_form": signup_form
 		})

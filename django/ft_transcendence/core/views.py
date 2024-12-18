@@ -8,10 +8,10 @@ from .models import FriendRequest, Notification
 
 # ---- Forms ----------------------------
 from .forms import (
-    NameForm,
     AvatarForm,
     UsernameForm,
-    SearchUser
+    SearchUser,
+    MFAForm
 )
 
 # ---- Decorators ----------------------
@@ -25,6 +25,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from chat.models import Chat
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth import login as django_login
 from django.db.models import Q
 
 
@@ -73,10 +74,6 @@ class HomeTest(APIView):
 
 # ---- <login.html> ---------------------
 def login(request):
-    if DefaultMFAAdapter().is_mfa_enabled(request.user):
-        print("MFA enabled")
-    else:
-        print("MFA disabled")
     if request.user.is_authenticated:
         return redirect("/home/")
     if request.method == "POST":
@@ -92,6 +89,25 @@ def login(request):
 def logout(request):
         django_logout(request)
         return redirect(reverse('core:login'))
+
+def mfa(request):
+    try:
+        mfa_form = MFAForm(prefix='mfa')
+        user_id = request.session.get("pending_user_id")
+        user = User.objects.get(id=user_id)
+        if request.method == "POST":
+            mfa_form = MFAForm(request.POST, user=user, prefix="mfa")
+            if mfa_form.is_valid():
+                django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                del request.session['pending_user_id']
+                return HttpResponseRedirect("/home/")
+        return render(request, "core/mfa.html", {
+            "mfa_form": mfa_form
+        })
+    except Exception as e:
+        return render(request, "core/500.html", {"exception": e})
+
+
 
 # ---- <home.html> ----------------------
 @login_required
@@ -136,8 +152,8 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@login_required
+@never_cache
 def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":

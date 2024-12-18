@@ -9,11 +9,6 @@ from allauth.mfa.adapter import DefaultMFAAdapter
 from allauth.mfa import totp
 from allauth.mfa.models import Authenticator
 
-# --------------- Login Page ---------------
-class NameForm(forms.Form):
-    your_name = forms.CharField(label="Your name", max_length=100)
-    second_name = forms.CharField(label="Second Name", max_length=100)
-
 # --------------- Sign Up Form ---------------
 class SignupForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -90,38 +85,49 @@ class SigninForm(forms.Form):
         'placeholder': 'password'              # HTML attribute placeolder
         }))
 
-    mfa_code = forms.CharField(
-        required=False,  # Not required unless MFA is enabled
-        label="",
-        widget=forms.TextInput(attrs={
-            'class': 'username-password-field',  # CSS Class
-            'placeholder': 'Enter MFA Code'  # HTML attribute placeholder
-        })
-    )
-
-
     def clean(self):
         cleaned_data = super().clean()
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
-        mfa_code = cleaned_data.get('mfa_code')
 
 
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
                 raise forms.ValidationError("Incorrect Username or Password")
-            adapter = DefaultMFAAdapter()
-            if adapter.is_mfa_enabled(user):
-                totp_instance = Authenticator.objects.get(user=user, type=Authenticator.Type.TOTP)
-                secret = adapter.decrypt(totp_instance.data["secret"])
-                if not mfa_code:
-                    raise forms.ValidationError("MFA code is required for login.")
-                # Verify the MFA code
-                if not totp.validate_totp_code(secret, mfa_code):
-                    raise forms.ValidationError("Invalid MFA code. Please try again.")
         return cleaned_data
 
+
+# --------------- MFAForm -----------------------
+class MFAForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        super(MFAForm, self).__init__(*args, **kwargs)
+
+
+    mfa_code = forms.CharField(
+        required=True,  # Not required unless MFA is enabled
+        label="",
+        widget=forms.TextInput(attrs={
+            'class': 'username-password-field invalid_credentials',  # CSS Class
+            'placeholder': 'Enter MFA Code'  # HTML attribute placeholder
+        })
+    )
+
+    def clean_mfa_code(self):
+        cleaned_data = super().clean()
+        mfa_code = cleaned_data.get('mfa_code')
+
+        print("called clean")
+        if not mfa_code:
+            raise forms.ValidationError("MFA code is required for login.")
+        else:
+            totp_instance = Authenticator.objects.get(user=self.user, type=Authenticator.Type.TOTP)
+            secret = DefaultMFAAdapter().decrypt(totp_instance.data["secret"])
+            if not totp.validate_totp_code(secret, mfa_code):
+                print("NOT VALID TOTP CODE")
+                raise forms.ValidationError("Invalid MFA code. Please try again.")
+        return cleaned_data
 
 # --------------- User Management ---------------
 class AvatarForm(ModelForm):
