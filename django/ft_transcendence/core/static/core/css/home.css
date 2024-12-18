@@ -1,57 +1,92 @@
-a {
-    text-decoration: none;
-    color: white;
-}
+    a {
+        text-decoration: none;
+        color: white;
+    }
 
-.welcome-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20%;
-}
+    /* ---------- Notifications ---------- */
+    .home--notifs-container {
+		position: absolute;
+        max-width: 80px;
+		top : 3%;
+		right: 5%;
+	}
+    
+    .home--notifs-text {
+		visibility: hidden;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		width: 200px;
+		/* Position the notifs */
+		position: absolute;
+		right : 100%;
+		z-index: 1;
+	}
 
-.white-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-}
+    .home--alert-notifs {
+        position: absolute;
+        top: -15%;
+        left: -8%;
+        width: 20px;
+        height: 20px;
+        background-color: orange;
+        border-radius: 50%;
+    }
 
-.welcome-message {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-}
+    .home--notifs-container:hover .home--notifs-text {
+        visibility: visible;
+    }
 
-.actions {
-    margin-top: 20px;
-}
+    .notifs-button.buttons-design{
+        font-size: 22px;
+        gap: 12px;
+    }
+    
+    /* ---------- Play button ---------- */
 
-.actions button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px 0;
-    width: 100%;
-}
+    /* Centered container for play now button */
+    .border-container.home--play-button-container {
+        animation: smoothAppearence 1.3s ease forwards, TurnOn 1.5s ease forwards;
+        transform: scale(0); /* Start scale from 0 */
+        opacity: 0; /* Start fully transparent */
+    }
 
-.actions button:hover {
-    background-color: #0056b3;
-}
+    /* Animation keyframes for TV-like turn on effect */
+    @keyframes TurnOn {
+        0% {
+            transform: scale(0); /* Start small */
+            opacity: 0; /* Fully transparent */
+        }
+        50% {
+            opacity: 1; /* Become fully visible */
+        }
+        100% {
+            transform: scale(1); /* Final size */
+        }
+    }	
+    
+    .home--play-button.buttons-design{
+        font-family: 'Stacker', sans-serif; /* Google Font */
+        font-size: 3em;
+        opacity: 0; /* Fully hidden initially */
+        transform: translateY(20px); /* Slightly off position */
+        animation: buttonSmoothAppearence 0.8s ease forwards, borderGlow 5s ease-in-out infinite;
+        animation-delay: 1.4s; /* Matches the container animation duration */
+    }
 
-.button {
-    display: flex;
+    /* Keyframes for button appearance */
+    @keyframes buttonSmoothAppearence {
+        0% {
+            opacity: 0; /* Fully transparent */
+            transform: translateY(20px); /* Below its position */
+        }
+        100% {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Back to original position */
+        }
+    }
 
-}
+    .home--play-button.buttons-design:hover{
+        color: #1A003E;
+    }

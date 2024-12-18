@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.files.images import get_image_dimensions
 from core.models import UserProfile
+from allauth.mfa.adapter import DefaultMFAAdapter
+from allauth.mfa import totp
+from allauth.mfa.models import Authenticator
 
 # --------------- Login Page ---------------
 class NameForm(forms.Form):
@@ -87,15 +90,36 @@ class SigninForm(forms.Form):
         'placeholder': 'password'              # HTML attribute placeolder
         }))
 
+    mfa_code = forms.CharField(
+        required=False,  # Not required unless MFA is enabled
+        label="",
+        widget=forms.TextInput(attrs={
+            'class': 'username-password-field',  # CSS Class
+            'placeholder': 'Enter MFA Code'  # HTML attribute placeholder
+        })
+    )
+
+
     def clean(self):
         cleaned_data = super().clean()
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
+        mfa_code = cleaned_data.get('mfa_code')
+
 
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
                 raise forms.ValidationError("Incorrect Username or Password")
+            adapter = DefaultMFAAdapter()
+            if adapter.is_mfa_enabled(user):
+                totp_instance = Authenticator.objects.get(user=user, type=Authenticator.Type.TOTP)
+                secret = adapter.decrypt(totp_instance.data["secret"])
+                if not mfa_code:
+                    raise forms.ValidationError("MFA code is required for login.")
+                # Verify the MFA code
+                if not totp.validate_totp_code(secret, mfa_code):
+                    raise forms.ValidationError("Invalid MFA code. Please try again.")
         return cleaned_data
 
 

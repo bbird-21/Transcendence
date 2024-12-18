@@ -44,21 +44,6 @@
 		transition: .5s;
 	}
 
-	/* Search User Field Design */
-	.buttons-design.social--search-username-field{
-		border: 2px solid white;
-		padding: 8px 20px; /* padding between text and border */
-		margin-top: 5px;
-		border-radius: 20px;
-		cursor: auto;
-		animation: smoothAppearence 0.8s ease forwards;
-	}
-
-	.buttons-design.social--search-username-field:hover{
-		color: white;
-		background: #1A003E;
-	}
-
 	/* ---------- Info Container : displays either friends list, pending requests or blocked users ---------- */
 
 	.social--info-container{

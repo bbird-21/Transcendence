@@ -13,10 +13,13 @@ cryptography==42.0.7
 daphne==4.1.2
 Django==4.2.13
 django-allauth==0.63.1
+django-allauth-2fa==0.11.1
 django-filter==24.3
+django-otp==1.5.4
 django-prometheus==2.3.1
 django-redis==5.4.0
 djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
 hyperlink==21.0.0
 idna==3.7
 incremental==22.10.0
@@ -33,6 +36,7 @@ pycparser==2.22
 Pygments==2.18.0
 PyJWT==2.8.0
 pyOpenSSL==24.1.0
+qrcode==8.0
 redis==5.0.4
 requests==2.31.0
 requests-oauthlib==2.0.0

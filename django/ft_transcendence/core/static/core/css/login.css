@@ -52,7 +52,6 @@ h1, h2, h3, h4, h5, h6, p {
 	.login-buttons--bottom{ /* Child container of parent container login page */
 		display: flex;
 		gap: 30px; /* space between the two buttons */
-		margin-bottom: 30px;
 	}
 
 	/* Three buttons design */
