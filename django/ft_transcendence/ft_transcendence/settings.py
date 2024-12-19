@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,8 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # modules and plugins
     "django_prometheus",
-    "allauth",
     # "channels",
+    "allauth",
+    'allauth.mfa',
     "allauth.account",
     "allauth.socialaccount",
     # customs app
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     "core",
     "game",
     "rest_framework",
+    'rest_framework_simplejwt',
     'api',
 ]
 
@@ -200,11 +203,20 @@ CACHES = {
 }
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
 }
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -219,3 +231,6 @@ SITE_ID = 1
 # Represents the base directory for storing uploaded media files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# 2FA
+MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
