@@ -235,7 +235,3 @@ MEDIA_URL = '/media/'
 
 # 2FA
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
-<<<<<<< HEAD
-
-=======
->>>>>>> main
