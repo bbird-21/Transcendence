@@ -43,6 +43,11 @@
             </div>
 
 			<div class="profile--main-info-container">
+				<form action="{% url 'mfa_activate_totp' %}" method="get">
+					<input type="submit" class="panel" value="{% if mfa_is_enabled %}Deactivate 2FA{% else %}Activate 2FA{% endif %}">
+					</button>
+				</form>
+
                 <!---------- Avatar ---------->
                 <div class="profile--avatar-username-container">
                     <div class="container--user-avatar">

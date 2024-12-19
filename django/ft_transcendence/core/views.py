@@ -8,10 +8,10 @@ from .models import FriendRequest, Notification
 
 # ---- Forms ----------------------------
 from .forms import (
-    NameForm,
     AvatarForm,
     UsernameForm,
-    SearchUser
+    SearchUser,
+    MFAForm
 )
 
 # ---- Decorators ----------------------
@@ -25,6 +25,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from chat.models import Chat
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth import login as django_login
 from django.db.models import Q
 
 
@@ -63,13 +64,19 @@ from rest_framework.decorators import api_view, permission_classes
 # --- Django-allauth MFA
 from allauth.mfa.adapter import DefaultMFAAdapter
 
-class HomeTest(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+from django.urls import reverse
+from django.shortcuts import redirect
+from allauth.account.views import LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+class Deactivate2FAView(LoginRequiredMixin, View):
+    # Your view code for deactivating 2FA
+
+    def get_success_url(self):
+        # Specify where to redirect after deactivation
+        return reverse('core:my_profile')  # Adjust the URL name as per your project setup
+
 
 # ---- <login.html> ---------------------
 def login(request):
@@ -92,6 +99,25 @@ def login(request):
 def logout(request):
         django_logout(request)
         return redirect(reverse('core:login'))
+
+def mfa(request):
+    try:
+        mfa_form = MFAForm(prefix='mfa')
+        user_id = request.session.get("pending_user_id")
+        user = User.objects.get(id=user_id)
+        if request.method == "POST":
+            mfa_form = MFAForm(request.POST, user=user, prefix="mfa")
+            if mfa_form.is_valid():
+                django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                del request.session['pending_user_id']
+                return HttpResponseRedirect("/home/")
+        return render(request, "core/mfa.html", {
+            "mfa_form": mfa_form
+        })
+    except Exception as e:
+        return render(request, "core/500.html", {"exception": e})
+
+
 
 # ---- <home.html> ----------------------
 @login_required
@@ -136,8 +162,14 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
+<<<<<<< HEAD
+
+@login_required
+@never_cache
+=======
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+>>>>>>> main
 def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":
@@ -153,13 +185,16 @@ def my_profile(request):
         else:
             avatar_is_valid = False
     avatar_form = AvatarForm(prefix="avatar")
+    mfa_is_enabled = DefaultMFAAdapter().is_mfa_enabled(request.user)
+    print(f"mfa is enabled : {mfa_is_enabled}")
     username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
     return render(request, "core/my_profile.html", {
         "avatar_form": avatar_form,
         "username_form": username_form,
         "avatar": avatar_url,
-        "avatar_is_valid": avatar_is_valid
+        "avatar_is_valid": avatar_is_valid,
+        "mfa_is_enabled": mfa_is_enabled
     })
 
 # ---- <social.html> ---------------------------

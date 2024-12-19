@@ -1,0 +1,24 @@
+{% extends "allauth/layouts/base.html" %}
+{% load allauth %}
+{% load i18n %}
+{% load static %}
+
+
+<!DOCTYPE html>
+
+{% block content %}
+        <h1>{% trans "Confirm Access" %}</h1>
+        <p>{% blocktranslate %}Please reauthenticate to safeguard your account.{% endblocktranslate %}</p>
+
+        {% block reauthenticate_content %} {% endblock %}
+
+        {% if reauthentication_alternatives %}
+            <hr />
+            <h2>{% trans "Alternative options" %}</h2>
+            <ul>
+                {% for alt in reauthentication_alternatives %}
+                    <li><a href="{{ alt.url }}">{{ alt.description }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endblock content %}
