@@ -80,6 +80,10 @@ class Deactivate2FAView(LoginRequiredMixin, View):
 
 # ---- <login.html> ---------------------
 def login(request):
+    if DefaultMFAAdapter().is_mfa_enabled(request.user):
+        print("MFA enabled")
+    else:
+        print("MFA disabled")
     if request.user.is_authenticated:
         return redirect("/home/")
     if request.method == "POST":
@@ -158,9 +162,14 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
+<<<<<<< HEAD
 
 @login_required
 @never_cache
+=======
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+>>>>>>> main
 def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":
