@@ -2,14 +2,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.http import HttpResponseRedirect
-<<<<<<< HEAD
 from core.forms import SignupForm, SigninForm, MFAForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
-=======
-from core.forms import SignupForm, SigninForm
-from django.shortcuts import render, redirect
->>>>>>> main
 from allauth.mfa.adapter import DefaultMFAAdapter
 from django.contrib.auth import logout as django_logout
 
@@ -42,7 +37,6 @@ def sign_in_strategy(request):
 				user_id = request.user.id
 				django_logout(request)
 				request.session["pending_user_id"] = user_id
-				print(f'request user id : {request.session.get("pending_user_id")}')
 				return HttpResponseRedirect(reverse("core:mfa"))
 			else:
 				return HttpResponseRedirect("/home/")

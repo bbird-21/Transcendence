@@ -34,10 +34,10 @@
 				<div class="container--submit-button gap">
 
 					<input type="hidden" name="next" value="{% url 'mfa_activate_totp' %}">
-					<button type="submit" class="btn btn-primary">Deactivate 2FA</button>
 					<button type="button" onclick="window.history.back();" class="btn btn-primary">
 						{% trans "Back" %}
 					</button>
+					<button type="submit" class="btn btn-primary">Deactivate 2FA</button>
 				</div>
 			</form>
 		</div>

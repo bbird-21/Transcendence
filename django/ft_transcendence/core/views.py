@@ -162,14 +162,9 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
-<<<<<<< HEAD
 
 @login_required
 @never_cache
-=======
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
->>>>>>> main
 def my_profile(request):
     avatar_is_valid = True
     if request.method == "POST":
