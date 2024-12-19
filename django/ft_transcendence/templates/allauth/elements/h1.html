@@ -1,0 +1,5 @@
+{% load allauth %}
+<div class="myproject-h1 aa-{{ origin|slugify }}"
+	style="font-size: {% if "foo" in attrs.tags %}3{% else %}5{% endif %}rem">
+    {% slot %}{% endslot %}
+</div>

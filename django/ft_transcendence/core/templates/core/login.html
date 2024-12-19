@@ -28,15 +28,10 @@
       </video>
 
     <!---------- Invalid Signin Credentials ---------->
-    {% if signin_invalid_credentials %}
+    {% if signin_form.errors %}
       <div class="title">
         <h1 class="title--style">SpacePong</h1>
       </div>
-
-      <div class="error-message-container">
-        <p>{{ error_message }}</p>
-      </div>
-
       <div class="container--login-form">
         <form action="/" method="post" id="signin-form">
           <div class="container--username-password-field">
@@ -54,7 +49,7 @@
 
 
     <!---------- Invalid Signup Credentials ---------->
-    {% elif signup_invalid_credentials %}
+    {% elif signup_form.errors %}
       <div class="title">
         <h1 class="title--style">SpacePong</h1>
       </div>
@@ -73,7 +68,6 @@
     </div>
   </body>
 </html>
-
 
     {% else %}
     <div class="title">

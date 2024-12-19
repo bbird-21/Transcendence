@@ -1,0 +1,157 @@
+.container--mfa-form {
+    border: 4px solid rgba(255, 255, 255); /* Dark borders with transparency */
+    padding: 20px 30px; /* Add some padding inside the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the form */
+    width: 100%;
+    height: 40%;
+    max-width: 1000px; /* Limit max width of the form */
+    max-height: 1000px; /* Limit max width of the form */
+    text-align: center; /* Center text inside the form */
+}
+
+.container--mfa-form h1 {
+	color:white;
+    margin-top: 20px;
+}
+
+.container--mfa-form p {
+	/* margin-top: 10px; */
+	color:white;
+}
+
+.container--mfa-form form {
+	margin-top:10%;
+}
+
+.mfa-form {
+    display: inline-block;
+}
+
+.auth-app {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* General Container Styling */
+.container {
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	position: relative;
+	overflow: hidden;
+}
+
+/* Background Video */
+.video-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -1;
+}
+
+/* Authenticator App Section */
+.auth-app {
+	background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	backdrop-filter: blur(10px); /* Blurred glass effect */
+	padding: 30px;
+	border-radius: 12px;
+	width: 100%;
+	max-width: 500px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	text-align: center;
+}
+
+/* Header Styling */
+.auth-header {
+	margin-bottom: 20px;
+}
+
+.auth-title {
+	font-size: 1.8rem;
+	color: white;
+	margin-bottom: 10px;
+}
+
+.auth-description {
+	color: #f0f0f0;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+/* QR Code Styling */
+.qr-code-container {
+	margin: 20px 0;
+}
+
+.qr-code {
+	width: 150px;
+	height: 150px;
+}
+
+/* Form Styling */
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+}
+
+.form-label {
+	color: white;
+	font-size: 1rem;
+	margin-bottom: 5px;
+}
+
+.form-control {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.2);
+	color: white;
+	font-size: 1rem;
+    margin-top: 40px;
+}
+
+.form-help-text {
+	font-size: 0.9rem;
+	color: #f0f0f0;
+	margin-top: 5px;
+}
+
+/* Button Styling */
+.btn {
+	padding: 10px 20px;
+	font-size: 1rem;
+	color: white;
+	background: linear-gradient(135deg, #007bff, #0056b3);
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+.btn:hover {
+	background: linear-gradient(135deg, #0056b3, #004080);
+}
+
+.gap {
+    gap: 10px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+	.auth-app {
+		padding: 20px;
+	}
+}

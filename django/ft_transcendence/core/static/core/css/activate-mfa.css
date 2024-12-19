@@ -1,0 +1,50 @@
+.reauthenticate-container {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+.reauthenticate-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.reauthenticate-container p {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.reauthenticate-container hr {
+    border: none;
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+}
+.reauthenticate-container h2 {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.reauthenticate-container ul {
+    list-style: none;
+    padding: 0;
+}
+.reauthenticate-container ul li {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.reauthenticate-container ul li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+.reauthenticate-container ul li a:hover {
+    text-decoration: underline;
+}

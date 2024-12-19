@@ -182,3 +182,22 @@
 .exception.hidden {
 	display: none;
 }
+
+
+	/* Error Message Container */
+	.errorlist {
+		display: inline-block;
+		text-align: center; /* Center the text */
+		font-size: 1.2rem !important;
+		color: white; /* White text */
+		background: linear-gradient(135deg, rgba(255, 0, 0, 0.7), rgba(200, 0, 0, 0.7)); /* Red gradient with 70% opacity */
+		padding: 10px 15px; /* Padding inside the block */
+		border-radius: 8px; /* Rounded corners */
+		margin: 20px 0; /* Add margin above and below the block */
+		gap : 1px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle 3D effect */
+	}
+
+	.errorlist {
+		list-style: none;
+	}
