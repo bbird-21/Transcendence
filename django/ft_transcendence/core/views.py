@@ -64,13 +64,19 @@ from rest_framework.decorators import api_view, permission_classes
 # --- Django-allauth MFA
 from allauth.mfa.adapter import DefaultMFAAdapter
 
-class HomeTest(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+from django.urls import reverse
+from django.shortcuts import redirect
+from allauth.account.views import LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+class Deactivate2FAView(LoginRequiredMixin, View):
+    # Your view code for deactivating 2FA
+
+    def get_success_url(self):
+        # Specify where to redirect after deactivation
+        return reverse('core:my_profile')  # Adjust the URL name as per your project setup
+
 
 # ---- <login.html> ---------------------
 def login(request):
@@ -152,6 +158,7 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
+
 @login_required
 @never_cache
 def my_profile(request):
@@ -169,13 +176,16 @@ def my_profile(request):
         else:
             avatar_is_valid = False
     avatar_form = AvatarForm(prefix="avatar")
+    mfa_is_enabled = DefaultMFAAdapter().is_mfa_enabled(request.user)
+    print(f"mfa is enabled : {mfa_is_enabled}")
     username_form = UsernameForm(prefix="username")
     avatar_url = request.user.userprofile.avatar.url
     return render(request, "core/my_profile.html", {
         "avatar_form": avatar_form,
         "username_form": username_form,
         "avatar": avatar_url,
-        "avatar_is_valid": avatar_is_valid
+        "avatar_is_valid": avatar_is_valid,
+        "mfa_is_enabled": mfa_is_enabled
     })
 
 # ---- <social.html> ---------------------------

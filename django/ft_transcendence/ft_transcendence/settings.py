@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # modules and plugins
     "django_prometheus",
+    'widget_tweaks',
     # "channels",
     "allauth",
     'allauth.mfa',
@@ -58,7 +59,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_URL = "core:login"
-LOGIN_REDIRECT_URL = "core:login"
+LOGIN_REDIRECT_URL = "core:home"
 ACCOUNT_LOGOUT_REDIRECT = "core:login"
 
 # Order of middleware should matter
@@ -234,3 +235,4 @@ MEDIA_URL = '/media/'
 
 # 2FA
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
+

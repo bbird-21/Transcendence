@@ -9,6 +9,45 @@ from allauth.mfa.adapter import DefaultMFAAdapter
 from allauth.mfa import totp
 from allauth.mfa.models import Authenticator
 
+from allauth.account.forms import LoginForm
+
+# forms.py
+from allauth.account.forms import LoginForm
+from django import forms
+
+class CustomLoginForm(LoginForm):
+    # Modify the label for username field
+    username = forms.CharField(
+        label="Your Custom Username",  # Custom label for username
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your username',
+            'class': 'form-control custom-class'
+        })
+    )
+
+    # Modify the label for password field
+    password = forms.CharField(
+        label="Your Custom Password",  # Custom label for password
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter your password',
+            'class': 'form-control custom-class'
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # You can modify the error messages or any additional field attributes here
+        self.fields['username'].help_text = 'Your username should be unique.'
+        self.fields['password'].help_text = 'Your password must be at least 8 characters long.'
+
+    def login(self, *args, **kwargs):
+
+        # Add your own processing here.
+
+        # You must return the original result.
+        return super(CustomLoginForm, self).login(*args, **kwargs)
+
 # --------------- Sign Up Form ---------------
 class SignupForm(ModelForm):
     def __init__(self, *args, **kwargs):
