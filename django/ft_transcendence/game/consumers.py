@@ -161,7 +161,7 @@ class GameConsumer(WebsocketConsumer):
             self.start_game()
 
         # Send the current game state to the connected player
-        self.send_game_state()
+        self.broadcast_game_state()  # Change this line
 
     def disconnect(self, close_code):
         # Decrement the number of connected players on disconnect
@@ -178,23 +178,32 @@ class GameConsumer(WebsocketConsumer):
         )
 
     def start_game(self):
-        """Start the game by setting initial ball and paddle positions."""
         game_state = self.channel_layer.game_state[self.room_group_name]
         
-        # Reset game state values (positions, scores, etc.)
+        # Ball starts at the center of the board in percentage terms
         game_state['ball'] = {'top': 50, 'left': 50}
-        game_state['paddle1'] = {'top': 50}
+        game_state['paddle1'] = {'top': 50}  # Percent from the top
         game_state['paddle2'] = {'top': 50}
-        game_state['score1'] = 0
-        game_state['score2'] = 0
-        game_state['dx'] = 1 if random.choice([True, False]) else -1
-        game_state['dy'] = 1 if random.choice([True, False]) else -1
-        game_state['status'] = 'playing'  # Mark the game as 'playing'
-        
-        print("Game started!")
+        game_state['dx'] = 2  # Move by 2% increments
+        game_state['dy'] = 2
+        game_state['status'] = 'playing'
 
-        # Broadcast the start game event to all connected players
         self.broadcast_game_state()
+
+    def update_ball_position(self, game_state):
+        ball = game_state['ball']
+        dx = game_state['dx']
+        dy = game_state['dy']
+
+        ball['top'] += dy
+        ball['left'] += dx
+
+        # Check for wall collisions
+        if ball['top'] <= 0 or ball['top'] >= 100:
+            game_state['dy'] *= -1  # Reverse direction
+
+        # TODO: Add paddle collision logic
+
 
     def receive(self, text_data):
         """Handle incoming messages."""
@@ -204,15 +213,23 @@ class GameConsumer(WebsocketConsumer):
         if data['type'] == 'move_paddle':
             player = data['player']
             top = data['top']
+
+            # Enforce boundaries (0% to 100% - paddle height in %)
+            paddle_height_percentage = 20  # Assuming paddles are 20% of the board height
+            top = max(0, min(100 - paddle_height_percentage, top))
+
+            # Update the server-side paddle position
             if player == 1:
                 game_state['paddle1']['top'] = top
             elif player == 2:
                 game_state['paddle2']['top'] = top
 
+            # Debug: Log the new paddle position
+            print(f"Player {player} paddle updated to {top}%")
+
+            # Broadcast the updated game state
             self.broadcast_game_state()
 
-        elif data['type'] == 'ball_update':
-            self.update_ball_position(game_state)
 
     def broadcast_game_state(self):
         """Send the current game state to all players."""

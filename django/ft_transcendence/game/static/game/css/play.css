@@ -15,11 +15,14 @@ body {
 }
 
 .board {
-    height: 85vh;
-    width: 80vw;
+    position: relative;
+    width: 90%; /* Full width */
+    max-width: 1500px; /* Optional: maximum width for larger screens */
+    aspect-ratio: 16 / 9; /* Maintain a 16:9 aspect ratio */
+    overflow: hidden; /* Ensure elements stay within the board */
+    margin: 0 auto; /* Center the board */
     background-image: linear-gradient(
-            to right, #5c6e91, #839b97);
-    border-radius: 14px;
+        to right, #5c6e91, #839b97);
 }
 
 .ball {
@@ -53,10 +56,11 @@ body {
 }
 
 .paddle {
-    height: 150px;
-    width: 18px;
+    position: absolute;
     border-radius: 50%;
     position: fixed;
+    width: 2%; /* Adjust as needed */
+    height: 20%; /* Adjust paddle height */
 }
 
 .paddle_1 {
@@ -89,7 +93,7 @@ body {
     color: white;
     font-size: 5vh;
     font-size: 3vw;
-    left: 15%;
+    left: 18.5%;
     margin-top: 30px;
 }
 
@@ -99,27 +103,27 @@ body {
     color: white;
     font-size: 5vh;
     font-size: 3vw;
-    right: 15%;
+    right: 18.5%;
     margin-top: 30px;
 }
 
 
 .player_1_score {
-    height: 50px;
-    width: 50px;
-    color: chartreuse;
     position: fixed;
-    left: 30vw;
-    margin-top: 30px;
+    color: chartreuse;
+    font-size: 5vh;
+    font-size: 3vw;
+    left: 15%;
+    margin-top: 36px;
 }
 
 .player_2_score {
-    height: 50px;
-    width: 50px;
-    color: chartreuse;
     position: fixed;
-    left: 70vw;
-    margin-top: 30px;
+    color: chartreuse;
+    font-size: 5vh;
+    font-size: 3vw;
+    right: 15%;
+    margin-top: 36px;
 }
 
 .message {
