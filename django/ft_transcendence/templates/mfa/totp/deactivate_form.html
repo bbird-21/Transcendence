@@ -11,7 +11,7 @@
 <video autoplay muted loop class="video-background">
 		<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
 		Your browser does not support the video tag.
-	</video>
+</video>
 
     {% url 'mfa_deactivate_totp' as action_url %}
 
@@ -28,18 +28,14 @@
 				</p>
 			</header>
 
-			<form method="POST" action="{% url 'mfa_deactivate_totp' %}" id="mfa_deactivate_totp" class="mfa-form">
-				{% csrf_token %}
-
-				<div class="container--submit-button gap">
-
-					<input type="hidden" name="next" value="{% url 'mfa_activate_totp' %}">
-					<button type="button" onclick="window.history.back();" class="btn btn-primary">
-						{% trans "Back" %}
-					</button>
-					<button type="submit" class="btn btn-primary">Deactivate 2FA</button>
-				</div>
-			</form>
+			<div class="container--submit-button gap">
+				<a href="{% url 'core:my_profile' %}"><button type="submit" class="btn btn-primary"> {% trans "Back" %} </button></a>
+				<form method="POST" action="{% url 'mfa_deactivate_totp' %}" id="mfa_deactivate_totp" class="mfa-form">
+					{% csrf_token %}
+						<input type="hidden" name="next" value="{% url 'mfa_activate_totp' %}">
+						<button type="submit" class="btn btn-primary">Deactivate 2FA</button>
+				</form>
+			</div>
 		</div>
 	</div>
 
