@@ -1,0 +1,46 @@
+{% extends "account/base_reauthenticate.html" %}
+{% load allauth %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+{% block reauthenticate_content %}
+
+<div class="container">
+	<video autoplay muted loop class="video-background">
+		<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
+
+	<!-- <div class="container--mfa-form"> -->
+	<div class="auth-app">
+
+		<h1 class="auth-title">
+
+			<header class="auth-header">
+				<h1 class="auth-title">
+					{% translate "Confirm Access" %}
+				</h1>
+				<p class="auth-description">
+					{% blocktranslate %}Please reauthenticate to safeguard your account.{% endblocktranslate %}
+					</p>
+		<form method="POST" action="{% url 'account_reauthenticate' %}" id="reauthenticate-form" class="mfa-form">
+			{% csrf_token %}
+			{{ form.password.errors }}
+
+			<div class="form-group">
+				{% render_field form.password placeholder="Enter Your Password" id="password" class="form-control" %}
+			</div>
+			<div class="container--submit-button">
+
+
+				<input type="hidden" name="next" value="{% url 'core:my_profile' %}">
+				<button type="submit" class="btn btn-primary"> Confirm </button>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+{% endblock %}

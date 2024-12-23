@@ -7,7 +7,7 @@ app_name = 'core'
 
 urlpatterns = [
 	path("", views.login, name="login"),
-	path('hometest/', views.HomeTest.as_view()),
+	path("mfa/", views.mfa, name="mfa"),
 	path("logout/", views.logout, name="logout"),
 	path("home/", views.home, name="home"),
 	path("my_profile/", views.my_profile, name="my_profile"),
