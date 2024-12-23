@@ -162,7 +162,6 @@ def home(request):
 
     return render(request, "core/home.html", context)
 
-
 @login_required
 @never_cache
 def my_profile(request):
