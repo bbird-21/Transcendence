@@ -21,16 +21,27 @@ socket.onopen = () => console.log("WebSocket connection established");
 socket.onclose = () => console.log("WebSocket connection closed");
 socket.onerror = (error) => console.error("WebSocket error:", error);
 
+let playerRole = null;
+
 socket.onmessage = function (e) {
     const data = JSON.parse(e.data);
+
+    // Handle player role assignment
+    if (data.type === "player_role") {
+        playerRole = data.player_role;
+        console.log(`You are Player ${playerRole}`);
+        return;
+    }
 
     // Check for game state updates
     if (data.state) {
         updateGameState(data.state);
     }
-        gameState = 'play';
-        // startBallMovement();  // This is where the ball should start moving
+
+    gameState = "play";
+    // startBallMovement();  // This is where the ball should start moving
 };
+
 
 
 function startBallMovement() {
@@ -114,6 +125,11 @@ document.addEventListener("keydown", (e) => {
 });
 
 function movePaddle(player, direction) {
+    if (playerRole !== player) {
+        // Ignore movement if the player tries to move the other paddle
+        return;
+    }
+
     const paddle = player === 1 ? paddle_1 : paddle_2;
     const boardHeight = board_coord.height;
 
@@ -141,8 +157,8 @@ function movePaddle(player, direction) {
         })
     );
     console.log(`Player: ${player}, Direction: ${direction}, Current Top (px): ${currentTopPx}, New Top (px): ${newTopPx}, New Top (%): ${newTopPercent}%`);
-
 }
+
 
 function updateGameState(state) {
     // Update paddle positions

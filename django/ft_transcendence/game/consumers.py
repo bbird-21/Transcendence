@@ -134,11 +134,9 @@ class GameConsumer(WebsocketConsumer):
 
         print(f"Connecting player to game {self.game_id}")
 
-        # Ensure the game state is initialized
         if not hasattr(self.channel_layer, "game_state"):
             self.channel_layer.game_state = {}
 
-        # Initialize the game state for the specific room if not set
         if self.room_group_name not in self.channel_layer.game_state:
             print(f"Initializing game state for {self.room_group_name}")
             self.channel_layer.game_state[self.room_group_name] = self.initialize_game_state()
@@ -148,20 +146,39 @@ class GameConsumer(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
         self.accept()
 
-        # Update the players_connected count
+        # Assign roles
         game_state = self.channel_layer.game_state[self.room_group_name]
+        if 'player1_channel' not in game_state:
+            game_state['player1_channel'] = self.channel_name
+            self.player_role = 1
+        elif 'player2_channel' not in game_state:
+            game_state['player2_channel'] = self.channel_name
+            self.player_role = 2
+        else:
+            # If both players are already connected, reject this connection
+            self.close()
+            return
+
+        # Notify the player of their role
+        self.send(text_data=json.dumps({
+            'type': 'player_role',
+            'player_role': self.player_role
+        }))
+
+        print(f"Player {self.player_role} connected.")
+
+        # Update the players_connected count
         game_state['players_connected'] += 1
-        print(f"Players connected: {game_state['players_connected']}")
 
         # If both players are connected, start the game
         if game_state['players_connected'] == 2:
             self.start_game()
 
-        # Send the current game state to the connected player
-        self.broadcast_game_state()  # Change this line
+        # Broadcast the current game state to the connected player
+        self.broadcast_game_state()
+
 
     def disconnect(self, close_code):
         # Decrement the number of connected players on disconnect
@@ -214,6 +231,12 @@ class GameConsumer(WebsocketConsumer):
             player = data['player']
             top = data['top']
 
+            # Verify that the player is controlling their assigned paddle
+            if (player == 1 and self.channel_name != game_state.get('player1_channel')) or \
+            (player == 2 and self.channel_name != game_state.get('player2_channel')):
+                print(f"Invalid paddle control attempt by player {player}")
+                return
+
             # Enforce boundaries (0% to 100% - paddle height in %)
             paddle_height_percentage = 20  # Assuming paddles are 20% of the board height
             top = max(0, min(100 - paddle_height_percentage, top))
@@ -231,16 +254,22 @@ class GameConsumer(WebsocketConsumer):
             self.broadcast_game_state()
 
 
+
     def broadcast_game_state(self):
-        """Send the current game state to all players."""
-        game_state = self.channel_layer.game_state[self.room_group_name]
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'update_game_state',
-                'state': game_state
-            }
-        )
+        try:
+            game_state = self.channel_layer.game_state[self.room_group_name]
+            # Ensure game state is JSON serializable
+            json.dumps(game_state)  # This will raise an error if it's not
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type': 'update_game_state',
+                    'state': game_state,
+                }
+            )
+        except Exception as e:
+            print(f"Error in broadcast_game_state: {e}")
+            self.close()
 
     def update_game_state(self, event):
         """Send updated game state to the client."""
