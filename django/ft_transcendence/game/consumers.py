@@ -3,6 +3,7 @@ import json
 from asgiref.sync import async_to_sync
 from game.models import Invitation
 import random
+from .models import Game
 
 class WaitingConsumer(WebsocketConsumer):
     def connect(self):
@@ -132,8 +133,29 @@ class GameConsumer(WebsocketConsumer):
         self.game_id = self.scope['url_route']['kwargs']['GameID']
         self.room_group_name = f"game_{self.game_id}"
 
-        print(f"Connecting player to game {self.game_id}")
+        # Authenticate the user
+        user = self.scope['user']
+        if not user.is_authenticated:
+            print("Unauthenticated user tried to connect.")
+            self.close()
+            return
 
+        # Validate the GameID and check if the user is a valid player
+
+        try:
+            # Fetch the game from the database
+            game = Game.objects.get(id=self.game_id)
+            # Check if the user is either player_one or player_two
+            if not (user == game.player_one or user == game.player_two):
+                self.close()
+                return
+        except Game.DoesNotExist:
+            print(f"Game with ID {self.game_id} does not exist.")
+            # return False
+
+        print(f"Connecting player {user.username} to game {self.game_id}")
+
+        # Initialize game state if it doesn't exist
         if not hasattr(self.channel_layer, "game_state"):
             self.channel_layer.game_state = {}
 
@@ -153,7 +175,8 @@ class GameConsumer(WebsocketConsumer):
         if 'player1_channel' not in game_state:
             game_state['player1_channel'] = self.channel_name
             self.player_role = 1
-        elif 'player2_channel' not in game_state:
+        elif 'player2' not in game_state:
+            game_state['player2'] = user.username
             game_state['player2_channel'] = self.channel_name
             self.player_role = 2
         else:
@@ -167,7 +190,7 @@ class GameConsumer(WebsocketConsumer):
             'player_role': self.player_role
         }))
 
-        print(f"Player {self.player_role} connected.")
+        print(f"Player {self.player_role} ({user.username}) connected.")
 
         # Update the players_connected count
         game_state['players_connected'] += 1
