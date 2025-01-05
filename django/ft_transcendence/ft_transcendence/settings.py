@@ -237,3 +237,5 @@ MEDIA_URL = '/media/'
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
 
 # SECURE_SSL_REDIRECT = True
+
+CSRF_TRUSTED_ORIGINS = ['https://localhost']
