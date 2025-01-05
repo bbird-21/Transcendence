@@ -1,0 +1,44 @@
+/* Responsive Version - Max Width : 1100px */
+
+	/* ---------- Profile Stats ---------- */
+	.profile--stats-global-container{
+		display: none;
+	}
+
+	/* ---------- Profile Main Container ---------- */
+
+	.profile--main-info-container {
+		top: 12%;
+	}
+
+	/* ---------- Profile + Username Container ---------- */
+
+	.profile--avatar-username-container{
+		padding: 14px 28px;
+	}
+
+	/* Profile Avatar */
+
+	.profile--user-avatar.user-avatar-img {
+		width: 6em;
+		margin-bottom: 12px; /* Space under avatar*/
+	}
+
+	/* Profile Username */
+
+	.profile--username {
+		margin-top: 5%;
+		margin-bottom: 12%;
+		font-size: 0.9em;
+	}
+
+	/* ---------- Buttons Container ---------- */
+
+	.profile--buttons-container{
+		margin-top: 28%;
+	}
+
+	.profile--buttons.buttons-design{
+		font-size: 16px;
+		gap: 15px; /* space between text and logos */
+	}

@@ -97,21 +97,21 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
     restart: unless-stopped
-  # caddy:
-  #   image: caddy
-  #   container_name: caddy
-  #   build: ./caddy
-  #   # environment:
-  #   #   - HOSTNAME=${HOSTNAME}
-  #   #   - BACKEND_URL=${BACKEND_URL}
-  #   #   - FRONTEND_URL=${FRONTEND_URL}
-  #   # depends_on:
-  #   #   backend:
-  #   #     condition: service_healthy
-  #   # networks:
-  #   #   - app-frontend
-  #   #   - app-backend
-  #   restart: always
+  caddy:
+    image: caddy
+    container_name: caddy
+    depends_on:
+      django:
+        condition: service_started
+    build: ./caddy
+    volumes:
+      - django-data:/django
+    networks:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
 
 networks:
   app:
