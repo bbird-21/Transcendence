@@ -10,17 +10,17 @@ from django.views.decorators.cache import never_cache
 
 
 @login_required
-def	play(request, waitingGameID):
-	try:
-		waiting_game = Invitation.objects.get(id=waitingGameID)
-	except:
-		return redirect(reverse('core:home'))
-	context = {
-		"player_one": waiting_game.invitation_sender,
-		"player_two": waiting_game.invitation_receiver
-	}
+def	play(request):
+	# try:
+	# 	waiting_game = Invitation.objects.get(id=waitingGameID)
+	# except:
+	# 	return redirect(reverse('core:home'))
+	# context = {
+	# 	"player_one": waiting_game.invitation_sender,
+	# 	"player_two": waiting_game.invitation_receiver
+	# }
 
-	return render(request, "game/play.html", context)
+	return render(request, "game/play.html")
 
 @login_required
 def	waiting_game(request, game_invitationID):
