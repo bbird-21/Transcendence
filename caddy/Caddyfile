@@ -1,7 +1,14 @@
-{
-    auto_https off
-}
+localhost {
+	handle /static/* {
+		root * /django/ft_transcendence
+		file_server
+	}
 
-:8080 {
-    reverse_proxy backend:8000
+	handle /media/* {
+		root * /django/ft_transcendence
+		file_server
+	}
+	handle {
+		reverse_proxy django:8000
+	}
 }

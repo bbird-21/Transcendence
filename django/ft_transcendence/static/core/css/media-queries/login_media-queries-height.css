@@ -1,0 +1,65 @@
+/* Responsive Version - Max Height : 500px */
+
+/* ---------- Title Page ---------- */
+    .title {
+        margin-bottom: 20px;
+    }
+    
+	/* Title's style */
+	.title--move {
+		font-size: 55px;
+	}
+
+	/* Moves title to the top of the page */
+	@keyframes moveToTop {
+        0% {
+            transform: translateY(180px); /* Initial position in the middle */
+        }
+        100% {
+            transform: translateY(14px); /* Moves title to the top of the page */
+        }
+        }
+
+/* ---------- Login Buttons ---------- */
+
+    .container--login-buttons{ /* Child container of parent login page */
+        position: absolute;
+    }
+
+    /* Three buttons design */
+	.buttons-design {
+		font-size: 5vh; /* Responsive buttons : button's size depends on the screen's size */
+		padding: 10px 42px; /* padding between text and border */
+	}
+
+/* ---------- Login Forms ---------- */
+
+	.container--login-form{ /* Child container of parent login page */
+		top: 45%;
+	}
+
+	/* username and password fields container */
+	.container--username-password-field{
+		display: flex;
+		justify-content: center;
+		flex-direction: row;
+		gap: 30px;
+	}
+
+	.container--submit-button{
+		display: flex;
+		justify-content: center;
+		margin: 30px;
+	}
+
+	/* Username and Password field */
+	.username-password-field{
+		font-size: 18px;
+		padding: 8px 35px; /* padding between text and border */
+	}
+
+	/* Submit button design */
+	.submit-button{
+		font-size: 20px;
+		padding: 10px 38px; /* padding between text and border */
+	}

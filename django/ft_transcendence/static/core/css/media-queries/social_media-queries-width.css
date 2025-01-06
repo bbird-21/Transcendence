@@ -1,0 +1,73 @@
+/* Responsive Version - Max Width : 950px */
+
+/* ---------- Social Bar on top of the page ---------- */
+
+    .social-bar {
+        align-items: center;
+        top: 3%; /* Adjust position if needed */
+        width: 100vw;
+        left: 7%; /* Center-align the bar on small screens */
+    }
+    
+    .social-bar--buttons {
+        padding: 12px 15px; /* Ajustez le padding pour centrer le logo */
+        border-radius: 50px;
+    }
+
+    /* hide button's text */
+    .social-bar--buttons span {
+        display: none;
+    }
+
+	/* Search User Field Design */
+	.social--search-username-field{
+        margin-top: 12px;
+        font-size: 16px;
+		padding: 8px 2px;
+        border-radius: 30px;
+	}
+
+    /* ----- Container for one user ----- */
+    .social--each-user-profile-container{
+        padding: 8px 20px; /* padding between text and border */
+    }
+
+    /* Avatar Image */
+	.user-avatar-img{
+		width: 4em; /* Width relative to the size of the police */
+	}
+
+    /* ----- Username + Link to Profile Page ----- */
+	.social--user-profile-username{
+		padding-bottom: 12px;
+	}
+
+    .social--each-user-profile-container a {
+        font-size: 14px;
+    }
+	
+	/* ----- Buttons Chat + Game Container ----- */
+	.social--user-profile-buttons{
+		margin: 5px;
+		margin-bottom: 10px;
+		gap: 15px;
+	}
+
+	/* Buttons Design */
+	.social--user-profile-buttons-design{
+		padding: 8px; /* padding between logo and border */
+	}
+
+    .social--buttons-section-logos{
+		width: 1.2em; /* Width relative to the size of the police */
+		height: auto;
+	}
+
+    /* ----- Unblock Button ----- */
+	.social--user-profile-unblock-button-design{
+		padding: 8px; /* padding between logo and border */
+	}
+
+	a.social--buttons-section-text{
+		font-size: 12px;
+	}
