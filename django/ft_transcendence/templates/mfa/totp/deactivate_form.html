@@ -1,0 +1,47 @@
+{% extends "allauth/layouts/base.html" %}
+{% load i18n %}
+{% load allauth %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block head_title %}
+    {% trans "Deactivate Authenticator App" %}
+{% endblock head_title %}
+
+{% block content %}
+<video autoplay muted loop class="video-background">
+		<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+		Your browser does not support the video tag.
+</video>
+
+    {% url 'mfa_deactivate_totp' as action_url %}
+
+	<div class="container">
+		<div class="auth-app">
+			<header class="auth-header">
+				<h1 class="auth-title">
+					{% translate "Deactivate Authenticator App" %}
+				</h1>
+				<p class="auth-description">
+					{% blocktranslate %}
+					You are about to deactivate authenticator app based authentication. Are you sure ?
+					{% endblocktranslate %}
+				</p>
+			</header>
+
+			<form method="POST" action="{% url 'mfa_deactivate_totp' %}" id="mfa_deactivate_totp" class="mfa-form">
+				{% csrf_token %}
+
+				<div class="container--submit-button gap">
+
+					<input type="hidden" name="next" value="{% url 'mfa_activate_totp' %}">
+					<button type="button" onclick="window.history.back();" class="btn btn-primary">
+						{% trans "Back" %}
+					</button>
+					<button type="submit" class="btn btn-primary">Deactivate 2FA</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+{% endblock content %}
