@@ -1,3 +1,16 @@
+networks:
+  app:
+    name: app
+    driver: bridge
+
+volumes:
+  db-data:
+    name: db-data
+    driver: local
+  grafana-data: {}
+  prometheus-data: {}
+
+
 services:
   db:
     container_name: db
@@ -45,14 +58,9 @@ services:
     networks:
       - app
     volumes:
-      - django-data:/django
+      - ./django:/django
     ports:
       - 8000:8000
-    # healthcheck:
-    #   test: ["CMD-SHELL", "curl -f localhost:8000/metrics || exit 1"]
-    #   interval: 10s
-    #   timeout: 3s
-    #   retries: 3
 
   redis:
     container_name: redis
@@ -97,29 +105,10 @@ services:
         condition: service_started
     build: ./caddy
     volumes:
-      - django-data:/django
+      - ./django:/django
     networks:
       - app
     ports:
       - 80:80
       - 443:443
     restart: always
-
-networks:
-  app:
-    name: app
-    driver: bridge
-
-volumes:
-  db-data:
-    name: db-data
-    driver: local
-  django-data:
-    name: django-data
-    driver: local
-    driver_opts:
-      type: none
-      device: ${PWD}/django
-      o: bind
-  grafana-data: {}
-  prometheus-data: {}
