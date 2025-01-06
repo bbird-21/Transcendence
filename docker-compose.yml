@@ -66,30 +66,21 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    environment:
-      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     networks:
       - app
     ports:
       - 3000:3000
-    volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - grafana-data:/var/lib/grafana
-    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    # depends_on:
-    #   django:
-    #     condition: service_healthy
+    depends_on:
+      django:
+        condition: service_started
     networks:
       - app
-    # ports:
-    #   - 9090:9090
-    expose:
-      - 9090
+    ports:
+      - 9090:9090
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus-data:/prometheus
@@ -97,6 +88,7 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
     restart: unless-stopped
+
   caddy:
     image: caddy
     container_name: caddy
