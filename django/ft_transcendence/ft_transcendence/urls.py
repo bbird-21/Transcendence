@@ -28,6 +28,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 
+from . import metrics
 
 urlpatterns = [
     path("", include("core.urls")),
@@ -40,5 +41,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("prometheus/", include("django_prometheus.urls")),
     path("chat/", include("chat.urls")),
-    path("game/", include("game.urls"))
+    path("game/", include("game.urls")),
+    path('metrics/', metrics.metrics)
 ]
