@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     # Daphne must be at the top of the list in order to enable an ASGI
-    # "daphne",
+    "daphne",
     # default apps
     "django.contrib.admin",
     "django.contrib.auth",
