@@ -17,11 +17,13 @@
         Your browser does not support the video tag.
     </video>
 
-    
+
     <div class="container-selection">
         <div class="selection">
             <button class="buttons-design">
+                <a href="{% url 'game:play' %}">
                     <span> Local Game </span>
+                </a>
             </button>
             <button class="buttons-design">
                 <a href="{% url 'game:invite' %}">
