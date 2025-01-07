@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'game/css/play.css' %}">
+    <link rel="stylesheet" href="{% static 'game/css/game.css' %}">
 </head>
 <body>
     <!---------- Background Video ---------->
@@ -32,6 +33,11 @@
         </h1>
     </div>
 
+    <script>
+        const victoryImagePath = "{% static 'core/images/win-logo3.png' %}";
+        const homeUrl = "{% url 'core:home' %}";
+        const playUrl = "{% url 'game:play' %}";
+    </script>
     <script src="{% static 'game/js/play.js' %}"></script>
 
 </body>

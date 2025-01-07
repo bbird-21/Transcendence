@@ -20,9 +20,8 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
-
 document.addEventListener('keydown', (e) => {
-	if (e.key == 'Enter') {
+    if (e.key == 'Enter') {
 		gameState = gameState == 'start' ? 'play' : 'start';
 		if (gameState == 'play') {
 		message.innerHTML = 'Game Started';
@@ -37,7 +36,7 @@ document.addEventListener('keydown', (e) => {
 		}
 	}
 
-	if (gameState == 'play') {
+	else if (gameState == 'play') {
 		if (e.key == 'w') {
 		paddle_1.style.top =
 			Math.max(
@@ -129,6 +128,10 @@ function moveBall(dx, dy, dxd, dyd) {
         } else {
             score_1.innerHTML = +score_1.innerHTML + 1;
         }
+        if ( score_1.innerHTML === '1' || score_2.innerHTML === '1') {
+            showVictoryMessage();
+            return;
+        }
         gameState = 'start';
         ball_coord = initial_ball_coord;
         ball.style = initial_ball.style;
@@ -148,3 +151,56 @@ function moveBall(dx, dy, dxd, dyd) {
         moveBall(dx, dy, dxd, dyd);
     });
 }
+
+function showVictoryMessage() {
+    // Check if a message is already displayed to avoid duplicates
+    if (document.querySelector('.victory-overlay')) {
+      return;
+    }
+
+    // Create the overlay div
+    const overlayDiv = document.createElement('div');
+    overlayDiv.classList.add('victory-overlay');
+
+    // Create the victory message div
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('victory-message');
+
+    // Add the victory image
+    const victoryImage = document.createElement('img');
+    victoryImage.src = victoryImagePath; // Use the path passed from the Django template
+    victoryImage.alt = 'Victory';
+    victoryImage.classList.add('victory-image');
+    messageDiv.appendChild(victoryImage);
+
+    // Add "Home" button
+    const homeButton = document.createElement('button');
+    homeButton.innerText = 'Home';
+    homeButton.onclick = () => {
+      window.location.href = homeUrl; // Use the URL passed from the Django template
+    };
+    homeButton.classList.add('victory-button'); // Add styles
+
+    // Add "Play Again" button
+    const playButton = document.createElement('button');
+    playButton.innerText = 'Play Again';
+    playButton.onclick = () => {
+      window.location.href = playUrl; // Use the URL passed from the Django template
+    };
+    playButton.classList.add('victory-button'); // Add styles
+
+    // Append buttons to the message div
+    messageDiv.appendChild(homeButton);
+    messageDiv.appendChild(playButton);
+
+    // Append the message div to the overlay
+    overlayDiv.appendChild(messageDiv);
+
+    // Add the overlay to the body
+    document.body.appendChild(overlayDiv);
+
+    // Use a slight delay to ensure the animation is visible
+    setTimeout(() => {
+      victoryImage.classList.add('appear'); // Trigger animation
+    }, 10);
+  }

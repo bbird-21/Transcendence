@@ -1,20 +1,19 @@
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
+rule_files:
+  - "alerting_rules.yml"
+  # - "first.rules"
+  # - "second.rules"
+scrape_configs:
+  - job_name: django
+    metrics_path: '/prometheus/metrics'
+    static_configs:
+      - targets:
+          - 172.17.0.1:8000
 
 alerting:
   alertmanagers:
-
-scrape_configs:
-  - job_name: "prometheus"
-    static_configs:
-      - targets: ["prometheus:9090"]
-  - job_name: "django"
-    static_configs:
-      - targets: ["django:8000"]
-    metrics_path: /metrics
-    scheme: http
-    # relabel_configs:
-    #   - source_labels: [__address__]
-    #     regex: "([^:]+):\\d+"
-    #     target_label: instance
+    - scheme: http
+      static_configs:
+        - targets: [ '172.17.0.1:9093' ]
