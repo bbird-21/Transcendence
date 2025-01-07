@@ -1,6 +1,6 @@
 /* Responsive Version - Max Height : 780px */
 
-    @media (max-width: 1285px) {
+    @media (max-width: 1350px) {
         /* ---------- Profile Stats ---------- */
         .profile--stats-global-container{
             display: none;
