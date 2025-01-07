@@ -1,0 +1,64 @@
+/* Responsive Version - Max Width : 600px */
+
+/* ---------- Title Page ---------- */
+	.title {
+		margin-bottom: 20px;
+	}
+
+	/* Title's style */
+	.title--move {
+		font-size: 55px;
+	}
+
+	/* Moves title to the top of the page */
+	@keyframes moveToTop {
+        0% {
+            transform: translateY(350px); /* Initial position in the middle */
+        }
+        100% {
+            transform: translateY(14px); /* Moves title to the top of the page */
+        }
+        }
+
+/* ---------- Login Buttons ---------- */
+
+	.container--login-buttons{ /* Child container of parent login page */
+		top : 30%;
+	}
+
+	/* 42 Button - Top button */
+	.login-buttons--top{
+		display: flex;
+		justify-content: center;
+		margin-bottom: 30px; /* Margin to add some space between top and bottom buttons */
+		margin-top: 20px;
+	}
+
+	/* Login and Sign Up Button - Bottom Buttons */
+	.login-buttons--bottom {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		gap: 30px; /* space between the two buttons */
+		margin-bottom: 30px;
+	}
+
+	/* Three buttons design */
+	.buttons-design {
+		font-size: 4vw; /* Responsive buttons : button's size depends on the screen's size */
+		padding: 10px 42px; /* padding between text and border */
+	}
+
+/* ---------- Login Forms ---------- */
+
+	/* Username and Password field */
+	.username-password-field{
+		font-size: 18px;
+		padding: 8px 35px; /* padding between text and border */
+	}
+
+	/* Submit button design */
+	.submit-button{
+		font-size: 20px;
+		padding: 10px 38px; /* padding between text and border */
+	}
