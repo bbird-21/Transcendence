@@ -8,7 +8,7 @@ console.log(senderUsername);
 console.log(roomName)
 
 const chatSocket = new WebSocket(
-	'wss://' + window.location.host + '/wss/chat/' + roomName
+	'ws://' + window.location.host + '/ws/chat/' + roomName
 );
 
 chatSocket.onopen = function(e) {

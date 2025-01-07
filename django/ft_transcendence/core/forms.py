@@ -223,8 +223,8 @@ class UsernameForm(ModelForm):
 
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': 'username-password-field',  # CSS class
-                'placeholder': 'username'            # HTML attribute placeolder
+                'class': 'change-username-password-field',  # CSS class
+                'placeholder': 'Change Username'            # HTML attribute placeolder
             })
         }
 

@@ -11,6 +11,9 @@
 	<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
 	<link rel="stylesheet" href="{% static 'core/css/my_profile.css' %}">
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/media-queries/user_profile-media-queries-width.css' %}" media="screen and (max-width: 1100px)">
+    <link rel="stylesheet" href="{% static 'core/css/media-queries/user_profile-media-queries-height.css' %}" media="screen and (max-height: 780px)">
+
 
 	<title>Profile Page</title>
 </head>
@@ -43,10 +46,6 @@
             </div>
 
 			<div class="profile--main-info-container">
-				<form action="{% url 'mfa_activate_totp' %}" method="get">
-					<input type="submit" class="panel" value="{% if mfa_is_enabled %}Deactivate 2FA{% else %}Activate 2FA{% endif %}">
-					</button>
-				</form>
 
                 <!---------- Avatar ---------->
                 <div class="profile--avatar-username-container">
@@ -60,20 +59,34 @@
 				</div>
 				<div class="profile--buttons-container">
 					<!-- Avatar Upload Form -->
-					<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
-						{% csrf_token %}
-						{{ avatar_form.avatar }}  <!-- This renders the input field -->
-						<label for="file-upload" class="btn-submit">  <!-- Links to the input field -->
-							Custom Upload
-						</label>
-						<input type="submit" value="Update Avatar" class="btn-submit">
-					</form>
+					<div>
+						<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
+							{% csrf_token %}
+							{{ avatar_form.avatar }}  <!-- This renders the input field -->
+							<label for="file-upload" class="change-btn">  <!-- Links to the input field -->
+								Change Avatar
+							</label>
+							<input type="submit" id="file-upload" value="✓" class="change-btn">
+						</form>
+					</div>
+					<div>
+						<form action="{% url 'core:my_profile' %}" method="POST" id="username-form" class="form-box">
+							{% csrf_token %}
+							{{ username_form }}
+							<input type="submit" id="file-upload" value="✓" class="change-btn">
+							</button>
+						</form>
+					</div>
+					<div>
+						<form action="{% url 'mfa_activate_totp' %}" method="get">
+							<input type="submit" id="2fa" class="change-btn" value="{% if mfa_is_enabled %}Deactivate 2FA{% else %}Activate 2FA{% endif %}">
+							</button>
+						</form>
+					</div>
 				</div>
 
 				<!-- Avatar validation messages -->
-				{% if avatar_is_valid %}
-					<p class="valid-message">Avatar is valid.</p>
-				{% else %}
+				{% if avatar_is_not_valid %}
 					<p class="error-message">The specified file {{ avatar_name }} could not be uploaded.</p>
 					<p class="error-message">Only files with the following extensions are allowed: png, jpg, jpeg.</p>
 					<p class="error-message">The file size should not exceed 1Mo.</p>
