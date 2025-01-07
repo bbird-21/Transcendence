@@ -9,6 +9,7 @@ volumes:
     driver: local
   grafana-data: {}
   prometheus-data: {}
+  alertmanager-data: {}
 
 
 services:
@@ -74,6 +75,9 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     networks:
       - app
     ports:
@@ -96,6 +100,18 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
     restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./alertmanager:/config"
+      - alertmanager-data:/data
+    command:
+      --config.file=/config/alertmanager.yml --log.level=debug
 
   caddy:
     image: caddy
