@@ -9,11 +9,7 @@ volumes:
     driver: local
   grafana-data: {}
   prometheus-data: {}
-<<<<<<< HEAD
   alertmanager-data: {}
-=======
->>>>>>> main
-
 
 services:
   db:
