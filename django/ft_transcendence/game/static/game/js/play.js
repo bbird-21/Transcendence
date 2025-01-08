@@ -173,13 +173,9 @@ function showVictoryMessage() {
     victoryImage.classList.add('victory-image');
     messageDiv.appendChild(victoryImage);
 
-    // Add "Home" button
-    const homeButton = document.createElement('button');
-    homeButton.innerText = 'Home';
-    homeButton.onclick = () => {
-      window.location.href = homeUrl; // Use the URL passed from the Django template
-    };
-    homeButton.classList.add('victory-button'); // Add styles
+    // Add buttons container
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container');
 
     // Add "Play Again" button
     const playButton = document.createElement('button');
@@ -189,9 +185,20 @@ function showVictoryMessage() {
     };
     playButton.classList.add('victory-button'); // Add styles
 
-    // Append buttons to the message div
-    messageDiv.appendChild(homeButton);
-    messageDiv.appendChild(playButton);
+        // Add "Home" button
+        const homeButton = document.createElement('button');
+        homeButton.innerText = 'Home';
+        homeButton.onclick = () => {
+          window.location.href = homeUrl; // Use the URL passed from the Django template
+        };
+        homeButton.classList.add('victory-button'); // Add styles
+    
+
+    // Add buttons to container
+    buttonContainer.appendChild(playButton);
+    buttonContainer.appendChild(homeButton);
+
+    messageDiv.appendChild(buttonContainer);
 
     // Append the message div to the overlay
     overlayDiv.appendChild(messageDiv);
