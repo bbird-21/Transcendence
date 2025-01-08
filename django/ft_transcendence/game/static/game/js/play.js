@@ -20,58 +20,85 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
-document.addEventListener('keydown', (e) => {
-    if (e.key == 'Enter') {
-		gameState = gameState == 'start' ? 'play' : 'start';
-		if (gameState == 'play') {
-		message.innerHTML = 'Game Started';
-		message.style.left = 42 + 'vw';
-		requestAnimationFrame(() => {
-			dx = Math.floor(Math.random() * 4) + 3;
-			dy = Math.floor(Math.random() * 4) + 3;
-			dxd = Math.floor(Math.random() * 2);
-			dyd = Math.floor(Math.random() * 2);
-			moveBall(dx, dy, dxd, dyd);
-		});
-		}
-	}
+let round = 0;
+let winners = [];
 
-	else if (gameState == 'play') {
-		if (e.key == 'w') {
-		paddle_1.style.top =
-			Math.max(
-			board_coord.top,
-			paddle_1_coord.top - window.innerHeight * 0.06
-			) + 'px';
-		paddle_1_coord = paddle_1.getBoundingClientRect();
-		}
-		if (e.key == 's') {
-		paddle_1.style.top =
-			Math.min(
-			board_coord.bottom - paddle_common.height,
-			paddle_1_coord.top + window.innerHeight * 0.06
-			) + 'px';
-		paddle_1_coord = paddle_1.getBoundingClientRect();
-		}
+if ( tournament === true ) {
+    startTournament();
+    const players = getTournamentPlayers();
+    addPlayersName(players.playerOne, players.playerTwo, 0);
+}
+else {
+    playRound();
+}
 
-		if (e.key == 'ArrowUp') {
-		paddle_2.style.top =
-			Math.max(
-			board_coord.top,
-			paddle_2_coord.top - window.innerHeight * 0.1
-			) + 'px';
-		paddle_2_coord = paddle_2.getBoundingClientRect();
-		}
-		if (e.key == 'ArrowDown') {
-		paddle_2.style.top =
-			Math.min(
-			board_coord.bottom - paddle_common.height,
-			paddle_2_coord.top + window.innerHeight * 0.1
-			) + 'px';
-		paddle_2_coord = paddle_2.getBoundingClientRect();
-		}
-	}
-});
+function createHandleKeydown(resolve) {
+    return function handleKeydown(e) {
+        if (e.key === "Enter") {
+            gameState = gameState === "start" ? "play" : "start";
+            if (gameState === "play") {
+                console.log(`round ${round}`)
+                message.innerHTML = "Game Started";
+                message.style.left = 42 + "vw";
+                requestAnimationFrame(() => {
+                    dx = Math.floor(Math.random() * 4) + 3;
+                    dy = Math.floor(Math.random() * 4) + 3;
+                    dxd = Math.floor(Math.random() * 2);
+                    dyd = Math.floor(Math.random() * 2);
+                    moveBall(dx, dy, dxd, dyd, handleKeydown);
+
+                });
+            }
+            resolve(); // Resolve the promise for Enter key
+        } else if (gameState === "play") {
+            if (e.key === "w") {
+                paddle_1.style.top = Math.max(
+                    board_coord.top,
+                    paddle_1_coord.top - window.innerHeight * 0.06
+                ) + "px";
+                paddle_1_coord = paddle_1.getBoundingClientRect();
+            }
+            if (e.key === "s") {
+                paddle_1.style.top = Math.min(
+                    board_coord.bottom - paddle_common.height,
+                    paddle_1_coord.top + window.innerHeight * 0.06
+                ) + "px";
+                paddle_1_coord = paddle_1.getBoundingClientRect();
+            }
+
+            if (e.key === "ArrowUp") {
+                paddle_2.style.top = Math.max(
+                    board_coord.top,
+                    paddle_2_coord.top - window.innerHeight * 0.1
+                ) + "px";
+                paddle_2_coord = paddle_2.getBoundingClientRect();
+            }
+            if (e.key === "ArrowDown") {
+                paddle_2.style.top = Math.min(
+                    board_coord.bottom - paddle_common.height,
+                    paddle_2_coord.top + window.innerHeight * 0.1
+                ) + "px";
+                paddle_2_coord = paddle_2.getBoundingClientRect();
+            }
+        }
+    };
+}
+
+async function playRound() {
+
+    // Function to wait for a key press
+    const waitForKeyPress = () => {
+        return new Promise((resolve) => {
+            const keydownHandler = createHandleKeydown(resolve); // Create a specific handler
+            document.addEventListener("keydown", keydownHandler);
+        });
+    };
+
+    // Wait for the Enter key press to start the game
+    await waitForKeyPress();
+    console.log("Round started");
+    return 0;
+}
 
 let lastTime = null; // To track the last frame's timestamp
 let speedMultiplier = 0.7;
@@ -149,13 +176,52 @@ function moveBall(dx, dy, dxd, dyd) {
     // Continue animating
     requestAnimationFrame(() => {
         moveBall(dx, dy, dxd, dyd);
+        if ( score_1.innerHTML == '1' || score_2.innerHTML == '1')
+            tournamentStrategy();
     });
 }
 
-function showVictoryMessage() {
-    // Check if a message is already displayed to avoid duplicates
+function tournamentStrategy() {
+    if ( round == 0 ) {
+        if ( score_1.innerHTML == '1' )
+            winners.push(players.playerOne)
+        else if ( score_2.innerHTML == '1')
+            winners.push(players.playerTwo)
+        addPlayersName(players.playerThree, players.playerFour, round)
+    }
+    else if ( round == 1 ) {
+        if ( score_1.innerHTML == '1' )
+            winners.push(players.playerThree);
+        else if ( score_2.innerHTML == '1' )
+            winners.push(players.playerFour);
+        addPlayersName(winners[0], winners[1], round)
+
+    }
+    else if ( round == 2 ) {
+        if ( score_1.innerHTML == '1' ) {
+            showVictoryMessage(winners[0]);
+        }
+        else if ( score_2.innerHTML == '1' ) {
+            showVictoryMessage(winners[1]);
+        }
+        addVictoryButtons();
+    }
+    score_1.innerHTML = '0'
+    score_2.innerHTML = '0'
+    round++;
+}
+
+function victoryStrategy() {
+    if ( round == 0 ) {
+        winners.push(players.playerOne)
+    }
+    round++;
+    score_1.innerHTML = '0'
+    score_2.innerHTML = '0'
+}
+function showVictoryMessage(winner) {
     if (document.querySelector('.victory-overlay')) {
-      return;
+        return;
     }
 
     // Create the overlay div
@@ -166,6 +232,12 @@ function showVictoryMessage() {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('victory-message');
 
+    // Add the victory text
+    const victoryText = document.createElement('h1');
+    victoryText.textContent = `${winner} Wins!`;
+    victoryText.classList.add('victory-text');
+    messageDiv.appendChild(victoryText);
+
     // Add the victory image
     const victoryImage = document.createElement('img');
     victoryImage.src = victoryImagePath; // Use the path passed from the Django template
@@ -173,9 +245,32 @@ function showVictoryMessage() {
     victoryImage.classList.add('victory-image');
     messageDiv.appendChild(victoryImage);
 
-    // Add buttons container
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('button-container');
+    // Append the message div to the overlay
+    overlayDiv.appendChild(messageDiv);
+
+    // Add the overlay to the body
+    document.body.appendChild(overlayDiv);
+
+    if (tournament === true) {
+        addVictoryButtons(messageDiv);
+    }
+
+    // Use a slight delay to ensure the animation is visible
+    setTimeout(() => {
+        victoryImage.classList.add('appear'); // Trigger animation
+    }, 10);
+}
+
+function addVictoryButtons(messageDiv) {
+
+	console.log('add victory buttons')
+    // Add "Home" button
+    const homeButton = document.createElement('button');
+    homeButton.innerText = 'Home';
+    homeButton.onclick = () => {
+      window.location.href = homeUrl; // Use the URL passed from the Django template
+    };
+    homeButton.classList.add('victory-button'); // Add styles
 
     // Add "Play Again" button
     const playButton = document.createElement('button');
@@ -185,29 +280,8 @@ function showVictoryMessage() {
     };
     playButton.classList.add('victory-button'); // Add styles
 
-        // Add "Home" button
-        const homeButton = document.createElement('button');
-        homeButton.innerText = 'Home';
-        homeButton.onclick = () => {
-          window.location.href = homeUrl; // Use the URL passed from the Django template
-        };
-        homeButton.classList.add('victory-button'); // Add styles
-    
+    // Append buttons to the message div
+    messageDiv.appendChild(homeButton);
+    messageDiv.appendChild(playButton);
 
-    // Add buttons to container
-    buttonContainer.appendChild(playButton);
-    buttonContainer.appendChild(homeButton);
-
-    messageDiv.appendChild(buttonContainer);
-
-    // Append the message div to the overlay
-    overlayDiv.appendChild(messageDiv);
-
-    // Add the overlay to the body
-    document.body.appendChild(overlayDiv);
-
-    // Use a slight delay to ensure the animation is visible
-    setTimeout(() => {
-      victoryImage.classList.add('appear'); // Trigger animation
-    }, 10);
-  }
+}

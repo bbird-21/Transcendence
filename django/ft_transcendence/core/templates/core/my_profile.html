@@ -60,7 +60,7 @@
 				<div class="profile--buttons-container">
 					<!-- Avatar Upload Form -->
 					<div>
-						<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data" class="form-box">
+						<form action="/my_profile/" method="post" id="avatar-form" enctype="multipart/form-data">
 							{% csrf_token %}
 							{{ avatar_form.avatar }}  <!-- This renders the input field -->
 							<label for="file-upload" class="change-btn">  <!-- Links to the input field -->
@@ -70,7 +70,7 @@
 						</form>
 					</div>
 					<div>
-						<form action="{% url 'core:my_profile' %}" method="POST" id="username-form" class="form-box">
+						<form action="{% url 'core:my_profile' %}" method="POST" id="username-form">
 							{% csrf_token %}
 							{{ username_form }}
 							<input type="submit" id="file-upload" value="✓" class="change-btn">

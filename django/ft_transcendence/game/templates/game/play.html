@@ -22,7 +22,7 @@
         <div class='ball'>
             <div class="ball_effect"></div>
         </div>
-        <div class="paddle_1 paddle"></div>
+            <div class="paddle_1 paddle"></div>
         <div class="paddle_2  paddle"></div>
         <div class="player_1_username"> {{ player_one }}</div>
         <div class="player_2_username"> {{ player_two }}</div>
@@ -37,6 +37,7 @@
         const victoryImagePath = "{% static 'core/images/win-logo3.png' %}";
         const homeUrl = "{% url 'core:home' %}";
         const playUrl = "{% url 'game:play' %}";
+        const tournament = false;
     </script>
     <script src="{% static 'game/js/play.js' %}"></script>
 
