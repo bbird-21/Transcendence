@@ -9,6 +9,10 @@ volumes:
     driver: local
   grafana-data: {}
   prometheus-data: {}
+<<<<<<< HEAD
+  alertmanager-data: {}
+=======
+>>>>>>> main
 
 
 services:
@@ -96,6 +100,18 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
     restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./alertmanager:/config"
+      - alertmanager-data:/data
+    command:
+      --config.file=/config/alertmanager.yml --log.level=debug
 
   caddy:
     image: caddy

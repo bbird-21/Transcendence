@@ -1,0 +1,11 @@
+groups:
+  - name: HighCPUUSsage
+    rules:
+      - alert: HighCPUUsage
+        expr: process_cpu_seconds_total > 0.5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU Usage detected"
+          description: "CPU usage is above 50% for more than 1 minute."

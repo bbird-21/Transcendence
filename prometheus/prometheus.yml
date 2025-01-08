@@ -2,6 +2,7 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
 rule_files:
+  - "alerting_rules.yml"
   # - "first.rules"
   # - "second.rules"
 scrape_configs:
@@ -10,3 +11,9 @@ scrape_configs:
     static_configs:
       - targets:
           - 172.17.0.1:8000
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ '172.17.0.1:9093' ]
