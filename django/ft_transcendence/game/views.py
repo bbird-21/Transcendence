@@ -23,6 +23,10 @@ def	play(request):
 	return render(request, "game/play.html")
 
 @login_required
+def	tournament(request):
+	return render(request, "game/tournament.html")
+
+@login_required
 def	waiting_game(request, game_invitationID):
 	try :
 		game_invitation = Invitation.objects.get(id=game_invitationID)
