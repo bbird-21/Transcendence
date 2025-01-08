@@ -1,3 +1,7 @@
+.hidden {
+	display: none;
+}
+
 body {
 	display: flex;
 	justify-content: center;
@@ -39,7 +43,7 @@ body {
 	transition: background-color 0.3s ease; /* Animation au survol */
 }
 
-.save-button {
+.play-button {
 	position: relative;
 	right: 50%;
 	margin-top: 80px;
