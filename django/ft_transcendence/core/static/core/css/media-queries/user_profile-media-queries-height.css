@@ -66,7 +66,19 @@
         white-space: nowrap; /* Prevent text from breaking */
 	}
 
-
 	.profile--block-button-container{
 		margin-top: 6%;
+	}
+
+	.change-username-password-field{
+		font-size: 14px;
+		padding: 8px 30px; /* padding between text and border */
+	}
+
+	.change-btn {
+		font-size: 14px;
+	}
+
+	input[id="file-upload"].change-btn {
+		font-size: 14px;
 	}
