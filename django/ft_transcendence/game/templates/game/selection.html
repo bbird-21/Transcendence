@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'game/css/selection.css' %}">
+    <link rel="stylesheet" href="{% static 'game/css/tournament.css' %}">
+
 </head>
 <body>
     <!---------- Background Video ---------->
@@ -19,17 +21,19 @@
 
 
     <div class="container-selection">
-        <div class="selection">
-            <button class="buttons-design">
-                <a href="{% url 'game:play' %}">
-                    <span> Local Game </span>
-                </a>
-            </button>
-            <button class="buttons-design">
-                <a href="{% url 'game:tournament' %}">
-                    <span> Tournament </span>
-                </a>
-            </button>
+        <div class="selection--options container-players">
+            <div class="selection">
+                <button class="selection--buttons buttons-design">
+                    <a href="{% url 'game:play' %}">
+                        <span> Local Game </span>
+                    </a>
+                </button>
+                <button class="selection--buttons buttons-design">
+                    <a href="{% url 'game:tournament' %}">
+                        <span> Tournament </span>
+                    </a>
+                </button>
+            </div>
         </div>
 </body>
 </html>
