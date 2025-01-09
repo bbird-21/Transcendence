@@ -1,0 +1,42 @@
+.ready-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+	align-self: center;
+    height: 100vh;
+}
+
+.player {
+    text-align: center;
+	display: flex;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center; /* Optional: Centers buttons horizontally */
+}
+
+.buttons-design.ready {
+    background: #28a745; /* Green */
+    color: white;
+}
+
+
+.countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+	margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+	background-color: #1A003E;
+	color:#ccc;
+}
