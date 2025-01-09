@@ -15,7 +15,11 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 50px;
+}
+
+.selection--options.container-players{
+    padding: 212px; /* Space around inputs inside the box */
 }
 
 .actions {
@@ -38,7 +42,7 @@ a {
     background-color: #0056b3;
 }
 
-.button {
-    display: flex;
-
+.selection--buttons.buttons-design{
+    font-size: 26px;
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
 }

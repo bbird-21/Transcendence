@@ -42,7 +42,7 @@ function createHandleKeydown(e) {
         gameState = gameState === "start" ? "play" : "start";
         if (gameState === "play") {
             console.log(`round ${round}`);
-            message.innerHTML = "Game Started";
+            message.innerHTML = "";
             message.style.left = "42vw";
 
             requestAnimationFrame(() => {
@@ -170,8 +170,8 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
     requestAnimationFrame(() => {
         moveBall(dx, dy, dxd, dyd);
         if ( score_1.innerHTML == maxPoints || score_2.innerHTML == maxPoints ) {
+            gameState = 'break';
             if ( tournament == true ) {
-                gameState = 'break';
                 tournamentStrategy();
             }
             else {
@@ -234,7 +234,10 @@ function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
 
     // Add the victory text
     const victoryText = document.createElement('h1');
-    victoryText.textContent = `${winner} Wins!`;
+    if (round == 2)
+        victoryText.textContent = `${winner} Wins the Tournament`;
+    else
+        victoryText.textContent = `${winner} Wins`;
     victoryText.classList.add('victory-text');
     messageDiv.appendChild(victoryText);
 
@@ -282,12 +285,10 @@ function addVictoryButtons(overlayDiv, messageDiv) {
 
 	console.log('add victory buttons')
 
-    const homeButton = document.createElement('button');
-    homeButton.innerText = 'Home';
-    homeButton.onclick = () => {
-      window.location.href = homeUrl; // Use the URL passed from the Django template
-    };
-    homeButton.classList.add('victory-button');
+    // Créez un conteneur pour les boutons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container'); // Ajoutez une classe pour le CSS
+
 
     // Add "Play Again" button
     const playButton = document.createElement('button');
@@ -298,9 +299,22 @@ function addVictoryButtons(overlayDiv, messageDiv) {
     };
     playButton.classList.add('victory-button');
 
-    // Append buttons to the message div
-    messageDiv.appendChild(homeButton);
-    messageDiv.appendChild(playButton);
+    // Add "Home" button
+    const homeButton = document.createElement('button');
+    homeButton.innerText = 'Home';
+    homeButton.onclick = () => {
+      window.location.href = homeURL; // Use the URL passed from the Django template
+    };
+    homeButton.classList.add('victory-button');
+
+    // Ajoutez les boutons au conteneur
+    buttonContainer.appendChild(playButton);
+    buttonContainer.appendChild(homeButton);
+
+    // Ajoutez le conteneur de boutons au message
+    messageDiv.appendChild(buttonContainer);
+    overlayDiv.appendChild(messageDiv);
+    document.body.appendChild(overlayDiv);
 }
 
 function resetGame(overlayDiv) {
