@@ -123,11 +123,12 @@ body {
 }
 
 .message {
-    position: fixed;
-    /* color: #48426d; */
-    height: 10vh;
-    width: 30vw;
-    color: #c9cbff;
-    left: 38vw;
-    margin: 30px auto auto auto;
+    position: absolute; /* Permet de positionner l'élément par rapport à son parent */
+    top: 30%; /* Position verticale au centre */
+    left: 50%; /* Position horizontale au centre */
+    transform: translate(-50%, -50%); /* Centrer parfaitement l'élément */
+    color: #c9cbff; /* Couleur du texte */
+    font-size: 2.5vw; /* Ajuste la taille du texte */
+    text-align: center; /* Centre le texte horizontalement */
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
 }

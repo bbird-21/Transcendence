@@ -15,43 +15,45 @@
 	</head>
 
 	<body class="no-scroll">
-		<div class="tournament-title">
-			<h1 class="social--title-style">Tournament</h1>
-		</div>
-		<video autoplay muted loop class="video-background">
-			<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
-			Your browser does not support the video tag.
-		</video>
+		<!---------- Global container for layout management ---------->
+		<div class="container">
+			<video autoplay muted loop class="video-background">
+				<source src="{% static 'core/images/planet-background.mp4' %}" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
 
-		<hr class="social-bar--line">
+			<div class="tournament-title">
+				<h1 class="social--title-style">Tournament</h1>
+			</div>
 
-		<div class="container-players">
+			<hr class="social-bar--line tournament--line">
 
-			<div class="players-column">
+			<div class="container-players">
+
+				<div class="players-column">
 					<label for="player-one"></label>
 					<input type="text" id="player-one" placeholder="Player One" class="change-btn" required />
-
 					<label for="player-two"></label>
 					<input type="text" id="player-two" placeholder="Player Two" class="change-btn" required>
+				</div>
+				<div class="players-column">
+					<label for="player-three"></label>
+					<input type="text" id="player-three" placeholder="Player Three" class="change-btn" required>
 
+					<label for="player-four"></label>
+					<input type="text" id="player-four" placeholder="Player Four" class="change-btn" required>
+
+					<button id="playButton" class="play-button buttons-design">Play</button>
+				</div>
 			</div>
-			<div class="players-column">
-				<label for="player-three"></label>
-				<input type="text" id="player-three" placeholder="Player Three" class="change-btn" required>
 
-				<label for="player-four"></label>
-				<input type="text" id="player-four" placeholder="Player Four" class="change-btn" required>
-
-				<button id="playButton" class="submit-button play-button">Play</button>
+			<div class="game-container hidden">
+				<div id="game-area">
+					<div class="player_1_username"></div>
+					<div class="player_2_username"></div>
+				</div>
 			</div>
 		</div>
-
-		<div class="game-container hidden">
-			<h2>Game is Starting...</h2>
-			<div id="game-area">
-				<div class="player_1_username"></div>
-				<div class="player_2_username"></div>
-			</div>
 
 	</body>
 	<script>
