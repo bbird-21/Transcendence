@@ -155,10 +155,6 @@ function moveBall(dx, dy, dxd, dyd) {
         } else {
             score_1.innerHTML = +score_1.innerHTML + 1;
         }
-        if ( score_1.innerHTML === '1' || score_2.innerHTML === '1') {
-            showVictoryMessage();
-            return;
-        }
         gameState = 'start';
         ball_coord = initial_ball_coord;
         ball.style = initial_ball.style;
