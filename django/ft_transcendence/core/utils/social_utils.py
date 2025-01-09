@@ -22,7 +22,8 @@ def	user_profile(request, search_user_form):
 	return redirect(f'/profile/{searched_user.username}')
 
 def get_social_data(request):
-    blocked_users = request.user.userprofile.blocked_user.all()
+    blocked_by_mes = request.user.userprofile.blocked_by_me.all()
+    blocked_by_thems = request.user.userprofile.blocked_by_them.all()
     all_users = User.objects.all()
     sent_friend_requests = request.user.sender.values_list('receiver', flat=True)
     received_friend_requests = request.user.receiver.values_list('sender', flat=True)
@@ -36,11 +37,13 @@ def get_social_data(request):
         .exclude(id=request.user.id)
         .exclude(is_superuser=True)
         .exclude(id__in=all_friends)
-        .exclude(id__in=blocked_users)
+        .exclude(id__in=blocked_by_mes)
+        .exclude(id__in=blocked_by_thems)
     )
 
     return {
-        'blocked_users': blocked_users,
+        'blocked_by_mes': blocked_by_mes,
+        'blocked_by_thems': blocked_by_thems,
         'sent_friend_requests': sent_friend_requests,
         'received_friend_requests': received_friend_requests,
         'all_friends': all_friends,
@@ -142,18 +145,29 @@ def user_is_friend(request, userID):
 @never_cache
 def block_user(request, userID):
     # Check if the user is a friend or not : None, RemoveFriend
+    print("Block User")
+    try:
+        user_two = User.objects.get(id=userID)
+    except Exception as e:
+        request.session['message_to_user'] = "User Does Not Exist"
+        return redirect(reverse('core:social'))
+
     if user_is_friend(request, userID):
         remove_friend(request, userID)
 
     # Check if a friend request exist for this userID : None, Delete FriendRequest
-    delete_pending_friend_request(request, userID)
+    print(f'user_one {request.user}')
+    print(f'user_two {user_two}')
+    friend_requestID = getFriendRequest(request.user, user_two)
+    print(f'friend_requestID {friend_requestID}')
+    decline_friend_request(request, friend_requestID)
 
     # Retrieve the blocked user
     user_to_block = User.objects.get(id=userID)
 
     # Set this user in blocked_user for the both
-    request.user.userprofile.blocked_user.add(userID)
-    user_to_block.userprofile.blocked_user.add(request.user.id)
+    request.user.userprofile.blocked_by_me.add(userID)
+    user_to_block.userprofile.blocked_by_them.add(request.user.id)
 
     return redirect('/social/')
 
@@ -164,8 +178,8 @@ def unblock_user(request, userID):
     user_to_block = User.objects.get(id=userID)
 
     # Remove block from user
-    request.user.userprofile.blocked_user.remove(userID)
-    user_to_block.userprofile.blocked_user.remove(request.user.id)
+    request.user.userprofile.blocked_by_me.remove(userID)
+    user_to_block.userprofile.blocked_by_them.remove(request.user.id)
 
     return redirect('/social/')
 
@@ -191,4 +205,13 @@ def _is_friend_(request, user_profile):
 		if friend.id == user_profile.id:
 			return True
 	return False
+
+def getFriendRequest(user_one, user_two):
+    friend_requestID =  FriendRequest.objects.filter(receiver_id=user_one, sender_id=user_two).first()
+    if ( friend_requestID ):
+        return friend_requestID.id
+    friend_requestID =  FriendRequest.objects.filter(receiver_id=user_two, sender_id=user_one).first()
+    if ( friend_requestID ):
+        return friend_requestID.id
+    return -1
 

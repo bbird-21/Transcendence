@@ -288,7 +288,7 @@ function addVictoryButtons(overlayDiv, messageDiv) {
     // Créez un conteneur pour les boutons
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container'); // Ajoutez une classe pour le CSS
-    
+
 
     // Add "Play Again" button
     const playButton = document.createElement('button');
