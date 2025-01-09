@@ -1,0 +1,90 @@
+
+.my-profile--change-avatar-form{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Messages */
+.valid-message {
+	color: #4CAF50;
+	font-weight: bold;
+}
+
+.error-message {
+	color: #f44336;
+	font-weight: bold;
+}
+
+.template-form {
+	display: flex;
+	gap:10%;
+}
+
+input[type="file"] {
+	display: none;
+}
+
+.file-upload-wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.avataar {
+	background-color: green;
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	text-align: center;
+	/* Ensure consistent size */
+}
+
+	/* Username and Password field */
+	.change-username-password-field{
+		text-align: center;
+		font-size: 18px;
+		color: white; /* text color */
+		background: #1A003E; /* background color */
+		border: 1px solid white;
+		padding: 8px 42px; /* padding between text and border */
+		border-radius: 12px;
+	}
+
+	/* Style pour le label */
+	.change-btn {
+		display: inline-block;
+		background-color: #1A003E; /* Couleur de fond */
+		color: white; /* Couleur du texte */
+		padding: 10px 20px; /* Espacement interne */
+		margin: 4px;
+		font-size: 18px; /* Taille du texte */
+		border-radius: 12px; /* Coins arrondis */
+		border: 1px solid white;
+		cursor: pointer; /* Curseur en forme de main */
+		text-align: center;
+		transition: background-color 0.3s ease; /* Animation au survol */
+	}
+
+	.change-btn:hover{
+		background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
+	}
+
+	input[id="file-upload"].change-btn {
+		background-color: #1A003E; /* Couleur de fond */
+		color: white; /* Couleur du texte */
+		border: none; /* Supprime les bordures */
+		padding: 10px 20px; /* Espacement interne */
+		font-size: 18px; /* Taille du texte */
+		border-radius: 50px; /* Coins arrondis */
+		cursor: pointer; /* Curseur en forme de main */
+		transition: background-color 0.3s ease; /* Animation au survol */
+	}
+	
+	input[id="file-upload"].change-btn:hover {
+		background: #4CAF50;
+	}
+
+
+	
+

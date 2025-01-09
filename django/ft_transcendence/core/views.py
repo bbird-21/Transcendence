@@ -204,13 +204,27 @@ def profile(request, username):
     chat = get_or_create_chat(request, user_profile)
     room_name = chat.id
     all_users = User.objects.all()
+    blocked_by_thems = request.user.userprofile.blocked_by_them.all()
+    blocked_by_mes = request.user.userprofile.blocked_by_me.all()
+    is_blocked_by_them = False
+    is_blocked_by_me = False
+    for blocked_by_them in blocked_by_thems:
+        if ( blocked_by_them == user_profile ):
+            is_blocked_by_them = True
+    for blocked_by_me in blocked_by_mes:
+        if ( blocked_by_me == user_profile ):
+            is_blocked_by_me = True
 
+    # print(f'blocked_me : ${is_blocked_by_me}')
+    # print(f'blocked_them : ${blocked_by_me}')
     context = {
         "all_users": all_users,
         "user_profile": user_profile,
         "received_friend_request": received_friend_request,
         "sent_friend_request": sent_friend_request,
         "is_friend": is_friend,
+        "is_blocked_by_me": is_blocked_by_me,
+        "is_blocked_by_them": is_blocked_by_them,
         "room_name": room_name
     }
 
