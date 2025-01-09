@@ -30,14 +30,6 @@
 	transform: scale(0.5); /* Grow to full size */
 }
 
-<<<<<<< Updated upstream
-.victory-buttons {
-	position: absolute;
-	bottom: 20%;
-	/* width: 1000px; */
-	/* background-color: red; */
-}
-=======
 .button-container {
 	position: relative; /* Permet de déplacer le conteneur */
     top: -100; /* Remonte les boutons sans affecter l'image */
@@ -66,4 +58,8 @@
 	background: linear-gradient(to right, #DC91C2, #EEC881); /* background color */
 }
 
->>>>>>> Stashed changes
+.victory-text{
+    color: white;
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    font-size: 2.5vw; /* Ajuste la taille du texte */
+}

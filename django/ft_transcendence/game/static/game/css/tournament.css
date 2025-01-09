@@ -2,13 +2,9 @@
 	display: none;
 }
 
-.social-bar--line.tournament--line{
-	top: 15%;
-}
-
 .tournament-title {
 	position: absolute;
-	top: 6%;
+	top: 10%;
 }
 
 .container-players {

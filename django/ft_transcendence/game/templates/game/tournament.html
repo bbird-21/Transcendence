@@ -26,22 +26,21 @@
 				<h1 class="social--title-style">Tournament</h1>
 			</div>
 
-			<hr class="social-bar--line tournament--line">
+			<hr class="social-bar--line">
 
 			<div class="container-players">
-
 				<div class="players-column">
 					<label for="player-one"></label>
-					<input type="text" id="player-one" placeholder="Player One" class="change-btn" required />
+					<input type="text" id="player-one" placeholder="Player One" class="change-btn" required maxlength="8" />
 					<label for="player-two"></label>
-					<input type="text" id="player-two" placeholder="Player Two" class="change-btn" required>
+					<input type="text" id="player-two" placeholder="Player Two" class="change-btn" required maxlength="8">
 				</div>
 				<div class="players-column">
 					<label for="player-three"></label>
-					<input type="text" id="player-three" placeholder="Player Three" class="change-btn" required>
+					<input type="text" id="player-three" placeholder="Player Three" class="change-btn" required maxlength="8">
 
 					<label for="player-four"></label>
-					<input type="text" id="player-four" placeholder="Player Four" class="change-btn" required>
+					<input type="text" id="player-four" placeholder="Player Four" class="change-btn" required maxlength="8">
 
 					<button id="playButton" class="play-button buttons-design">Play</button>
 				</div>
@@ -62,6 +61,7 @@
         const victoryImagePath = "{% static 'core/images/win-logo3.png' %}";
 		const tournament = true
         const playURL = "{% url 'game:tournament' %}";
+		const homeURL = "{% url 'core:home' %}";
 	</script>
 
 	<script src="{% static 'game/js/tournament.js' %}"></script>

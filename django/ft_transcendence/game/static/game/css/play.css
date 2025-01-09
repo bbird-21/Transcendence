@@ -15,11 +15,15 @@ body {
 }
 
 .board {
+    position: relative;
     height: 85vh;
     width: 80vw;
-    background-image: linear-gradient(
-            to right, #5c6e91, #839b97);
-    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.42); /* semi-transparent background */
+    border: 1px solid white;
+    border-radius: 42px;
+    overflow: hidden; /* Prevents shine effects from overflowing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Smooth shadow for depth */
+    animation: smoothAppearence 1.3s ease forwards, borderGlow 5s ease-in-out infinite;
 }
 
 .ball {
@@ -35,14 +39,14 @@ body {
     height: 100%;
     width: 100%;
     border-radius: 100px;
-    animation: spinBall 0.1s linear infinite;
+    animation: spinBall 1s linear infinite;
     box-shadow: inset 0 0 18px #fff,
-        inset 6px 0 18px violet,
-        inset -6px 0 18px #0ff,
-        inset 6px 0 30px violet,
-        inset -6px 0 30px #0ff,
+        inset 6px 0 18px #DC91C2,
+        inset -6px 0 18px #EEC881,
+        inset 6px 0 30px #DC91C2,
+        inset -6px 0 30px #EEC881,
         0 0 18px #fff, -4px 0 18px
-        violet, 4px 0 18px #0ff;
+        #DC91C2, 4px 0 18px #EEC881;
 }
 
 @keyframes spinBall {
@@ -55,7 +59,7 @@ body {
 .paddle {
     height: 150px;
     width: 18px;
-    border-radius: 50%;
+    border-radius: 20px;
     position: fixed;
 }
 
@@ -63,33 +67,32 @@ body {
     top: calc(7.5vh + 55px);
     left: calc(10vw + 50px);
     box-shadow: inset 0 0 18px #fff,
-        inset -6px 0 18px #f3bad6,
-        inset 6px 0 18px #0ff,
-        inset -6px 0 30px #f3bad6,
-        inset 6px 0 30px #0ff,
+        inset -6px 0 18px #EEC881,
+        inset 6px 0 18px #DC91C2,
+        inset -6px 0 30px #EEC881,
+        inset 6px 0 30px #DC91C2,
         0 0 18px #fff, 4px 0 18px
-        #f3bad6, -4px 0 18px #0ff;
+        #EEC881, -4px 0 18px #DC91C2;
 }
 
 .paddle_2 {
     top: calc(85vh + 7.5vh - 100px - 55px);
     right: calc(10vw + 50px);
     box-shadow: inset 0 0 18px #fff,
-        inset 6px 0 18px #f3bad6,
-        inset -6px 0 18px #0ff,
-        inset 6px 0 30px #f3bad6,
-        inset -6px 0 30px #0ff,
+        inset 6px 0 18px #DC91C2,
+        inset -6px 0 18px #EEC881,
+        inset 6px 0 30px #DC91C2,
+        inset -6px 0 30px #EEC881,
         0 0 18px #fff, -4px 0 18px
-        #f3bad6, 4px 0 18px #0ff;
+        #DC91C2, 4px 0 18px #EEC881;
 }
 
 .player_1_username {
 	position: fixed;
 	font-family: 'Stacker', sans-serif; /* Google Font */
     color: white;
-    font-size: 5vh;
-    font-size: 3vw;
-    left: 15%;
+    font-size: 2vw;
+    left: 18%;
     margin-top: 30px;
 }
 
@@ -97,9 +100,8 @@ body {
     position: fixed;
 	font-family: 'Stacker', sans-serif; /* Google Font */
     color: white;
-    font-size: 5vh;
-    font-size: 3vw;
-    right: 15%;
+    font-size: 2vw;
+    right: 18%;
     margin-top: 30px;
 }
 
@@ -107,26 +109,32 @@ body {
 .player_1_score {
     height: 50px;
     width: 50px;
-    color: chartreuse;
+    color: #DC91C2;
     position: fixed;
-    left: 30vw;
-    margin-top: 30px;
+    left: 35vw;
+    margin-top: 42px;
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    font-size: 3vw;
 }
 
 .player_2_score {
     height: 50px;
     width: 50px;
-    color: chartreuse;
+    color: #EEC881;
     position: fixed;
-    left: 70vw;
-    margin-top: 30px;
+    left: 62vw;
+    margin-top: 42px;
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    font-size: 3vw;
 }
 
 .message {
     position: absolute; /* Permet de positionner l'élément par rapport à son parent */
-    top: 30%; /* Position verticale au centre */
+    top: 40%; /* Position verticale au centre */
     left: 50%; /* Position horizontale au centre */
     transform: translate(-50%, -50%); /* Centrer parfaitement l'élément */
+    white-space: nowrap; /* Empêche le texte de se briser sur plusieurs lignes */
+    width: max-content; /* Ajuste automatiquement la largeur à la longueur du texte */
     color: #c9cbff; /* Couleur du texte */
     font-size: 2.5vw; /* Ajuste la taille du texte */
     text-align: center; /* Centre le texte horizontalement */
