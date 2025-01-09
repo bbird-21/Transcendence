@@ -1,0 +1,49 @@
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.invite-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	text-align: center;
+    height: 100vh;
+	padding: 20px;
+}
+
+.friend-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+	margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+	background-color: #1A003E;
+	color:#ccc;
+}
+
+.friend-name {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.no-friends {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
