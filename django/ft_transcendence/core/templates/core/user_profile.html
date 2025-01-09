@@ -59,7 +59,17 @@
                     {% if request.user.id != user_profile.id %}
                         <!---------- Random user ---------->
                         <div class="profile--friend-request-button-container">
-                            {% if not is_friend and not sent_friend_request and not received_friend_request %}
+                            {% if is_blocked_by_me %}
+                            <div class="social--user-profile-buttons">
+                                <form action="{% url 'core:unblock_user' user_profile.id%}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="profile--buttons buttons-design">
+                                        <img src="{% static 'core/images/blocked-logo-white.png'%}" class="icons-logos">
+                                        <span>Unblock</span>
+                                    </button>
+                                </form>
+                            </div>
+                            {% elif not is_friend and not sent_friend_request and not received_friend_request and not is_blocked_by_them  %}
                             <form action="/send_friend_request/{{ user_profile.id }}/" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="profile--buttons buttons-design">
@@ -90,8 +100,11 @@
                                     <img src="{% static 'core/images/decline-logo.png'%}" class="icons-logos">
                                     <span>Decline Friend Request</span>
                                 </button>
+                            </form>
+                            </div>
                             {% endif %}
-                        </div>
+                        {% endif %}
+
 
                         <!---------- Friend ---------->
                         {% if is_friend %}
@@ -114,15 +127,17 @@
                             </form>
                         </div>
                         {% endif %}
-                    {% endif %}
 
                     <!---------- Block Button ---------->
+                    {% if user_profile != user and not is_blocked_by_me and not is_blocked_by_them %}
                     <div class="profile--block-button-container">
-                        {% if user_profile != user %}
-                        <button type="submit" class="profile--buttons buttons-design" onclick="window.location.href='/block_user/{{ user_profile.id }}'">
-                            <img src="{% static 'core/images/blocked-logo-white.png' %}" class="icons-logos">
-                            <span>Block</span>
-                        </button>
+                            <form action="{% url 'core:block_user' user_profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="profile--buttons buttons-design">
+                                    <img src="{% static 'core/images/blocked-logo-white.png'%}" class="icons-logos">
+                                    <span> Block </span>
+                                </button>
+                            </form>
                         {% endif %}
                     </div>
                 </div>

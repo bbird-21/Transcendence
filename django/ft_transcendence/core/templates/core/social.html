@@ -165,17 +165,17 @@
                 <hr class="social-bar--line">
                 <div class='social--display-list'>
                     <ul class='social--all-users-profile'>
-                        {% for block_user in blocked_users %}
+                        {% for blocked_by_me in blocked_by_mes %}
                             <li class="social--each-user-profile-container">
                                 <div class='container--user-avatar'>
-                                    <img src="{{ block_user.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar-img"/>
+                                    <img src="{{ blocked_by_me.userprofile.avatar.url }}" alt="User Avatar" class="user-avatar-img"/>
                                 </div>
                                 <div class="social--user-profile-username">
-                                    <a>{{ block_user.username }}</a>
+                                    <a>{{ blocked_by_me.username }}</a>
                                 </div>
                                 <div class="social--user-profile-buttons">
                                     <button type="submit" class="social--user-profile-unblock-button-design buttons-design">
-                                        <a href="/unblock_user/{{ block_user.id }}" class="social--buttons-section-text">
+                                        <a href="/unblock_user/{{ blocked_by_me.id }}" class="social--buttons-section-text">
                                             Unblock
                                         </a>
                                     </button>

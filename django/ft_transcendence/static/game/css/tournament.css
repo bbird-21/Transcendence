@@ -1,0 +1,50 @@
+.hidden {
+	display: none;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.container-players {
+	display: flex;
+	gap: 20px;
+	border: 1px solid #fff; /* Add a border to create the box */
+	border-radius: 8px; /* Rounded corners */
+	padding: 100px; /* Space around inputs inside the box */
+	box-sizing: border-box;
+}
+
+.players-column {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.tournament-title {
+	position: absolute;
+	top: 10%;
+}
+
+.change-btn {
+	display: inline-block;
+	background-color: #1A003E; /* Couleur de fond */
+	color: white; /* Couleur du texte */
+	padding: 10px 20px; /* Espacement interne */
+	margin: 4px;
+	font-size: 18px; /* Taille du texte */
+	border-radius: 12px; /* Coins arrondis */
+	border: 1px solid white;
+	cursor: pointer; /* Curseur en forme de main */
+	text-align: center;
+	transition: background-color 0.3s ease; /* Animation au survol */
+}
+
+.play-button {
+	position: relative;
+	right: 50%;
+	margin-top: 80px;
+}

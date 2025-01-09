@@ -12,13 +12,14 @@ from game.models import Game, Invitation
 #  -Django can't have two reverse query names that are the same \
 #   To prevent this behavior we use <related_name> to have unique "reverse query name" \
 class UserProfile(models.Model):
-    user         = models.OneToOneField(User, on_delete=models.CASCADE) # Here
-    avatar       = models.ImageField(upload_to="avatars/", default="avatar.png")
-    victory      = models.IntegerField(default=0)
-    defeat       = models.IntegerField(default=0)
-    friends      = models.ManyToManyField(User, blank=True, related_name="userprofile_friends") # And here
-    blocked_user = models.ManyToManyField(User, blank=True, related_name="blocked_user")
-    list_display = ['user', 'avatar']  # Customize fields to display
+    user                = models.OneToOneField(User, on_delete=models.CASCADE) # Here
+    avatar              = models.ImageField(upload_to="avatars/", default="avatar.png")
+    victory             = models.IntegerField(default=0)
+    defeat              = models.IntegerField(default=0)
+    friends             = models.ManyToManyField(User, blank=True, related_name="userprofile_friends") # And here
+    blocked_by_them     = models.ManyToManyField(User, blank=True, related_name="blocked_by_them")
+    blocked_by_me       = models.ManyToManyField(User, blank=True, related_name="blocked_by_me")
+    list_display        = ['user', 'avatar']  # Customize fields to display
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

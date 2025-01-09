@@ -1,0 +1,92 @@
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    /* ---------- Notifications ---------- */
+    .home--notifs-container {
+		position: absolute;
+        max-width: 80px;
+		top : 3%;
+		right: 5%;
+	}
+    
+    .home--notifs-text {
+		visibility: hidden;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		width: 200px;
+		/* Position the notifs */
+		position: absolute;
+		right : 100%;
+		z-index: 1;
+	}
+
+    .home--alert-notifs {
+        position: absolute;
+        top: -15%;
+        left: -8%;
+        width: 20px;
+        height: 20px;
+        background-color: orange;
+        border-radius: 50%;
+    }
+
+    .home--notifs-container:hover .home--notifs-text {
+        visibility: visible;
+    }
+
+    .notifs-button.buttons-design{
+        font-size: 22px;
+        gap: 12px;
+    }
+    
+    /* ---------- Play button ---------- */
+
+    /* Centered container for play now button */
+    .border-container.home--play-button-container {
+        animation: smoothAppearence 1.3s ease forwards, TurnOn 1.5s ease forwards;
+        transform: scale(0); /* Start scale from 0 */
+        opacity: 0; /* Start fully transparent */
+    }
+
+    /* Animation keyframes for TV-like turn on effect */
+    @keyframes TurnOn {
+        0% {
+            transform: scale(0); /* Start small */
+            opacity: 0; /* Fully transparent */
+        }
+        50% {
+            opacity: 1; /* Become fully visible */
+        }
+        100% {
+            transform: scale(1); /* Final size */
+        }
+    }	
+    
+    .home--play-button.buttons-design{
+        font-family: 'Stacker', sans-serif; /* Google Font */
+        font-size: 3em;
+        opacity: 0; /* Fully hidden initially */
+        transform: translateY(20px); /* Slightly off position */
+        animation: buttonSmoothAppearence 0.8s ease forwards, borderGlow 5s ease-in-out infinite;
+        animation-delay: 1.4s; /* Matches the container animation duration */
+    }
+
+    /* Keyframes for button appearance */
+    @keyframes buttonSmoothAppearence {
+        0% {
+            opacity: 0; /* Fully transparent */
+            transform: translateY(20px); /* Below its position */
+        }
+        100% {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Back to original position */
+        }
+    }
+
+    .home--play-button.buttons-design:hover{
+        color: #1A003E;
+    }
