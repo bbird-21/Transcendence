@@ -83,6 +83,6 @@ function addPlayersName(playerOne, playerTwo, round) {
 
 }
 
-async function startTournament() {
-		await playRound();
+function startTournament() {
+		playRound();
 }
