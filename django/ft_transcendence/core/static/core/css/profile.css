@@ -49,7 +49,6 @@
 
 	.profile--main-info-container {
 		position: absolute;
-		top: 10%;
 		display: flex;
 		flex-direction: column; /* Vertical layout (avatar above buttons) */
 		justify-content: center;
