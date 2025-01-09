@@ -76,7 +76,7 @@
   /* Avatar Image */
   .user-avatar-img{
     width: 5em; /* Width relative to the size of the police */
-    height: auto;
+    height: 5em;
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }

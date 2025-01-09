@@ -1,3 +1,5 @@
+// showVictoryMessage("Momo")
+
 let gameState = 'start';
 let paddle_1 = document.querySelector('.paddle_1');
 let paddle_2 = document.querySelector('.paddle_2');
@@ -20,6 +22,7 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
+let maxPoints = 1;
 let round = 0;
 let winners = [];
 
@@ -32,77 +35,71 @@ else {
     playRound();
 }
 
-function createHandleKeydown(resolve) {
-    return function handleKeydown(e) {
-        if (e.key === "Enter") {
-            gameState = gameState === "start" ? "play" : "start";
-            if (gameState === "play") {
-                console.log(`round ${round}`)
-                message.innerHTML = "Game Started";
-                message.style.left = 42 + "vw";
-                requestAnimationFrame(() => {
-                    dx = Math.floor(Math.random() * 4) + 3;
-                    dy = Math.floor(Math.random() * 4) + 3;
-                    dxd = Math.floor(Math.random() * 2);
-                    dyd = Math.floor(Math.random() * 2);
-                    moveBall(dx, dy, dxd, dyd, handleKeydown);
+function createHandleKeydown(e) {
+    if (e.key === "Enter") {
+        if ( gameState === 'break' )
+            return;
+        gameState = gameState === "start" ? "play" : "start";
+        if (gameState === "play") {
+            console.log(`round ${round}`);
+            message.innerHTML = "";
+            message.style.left = "42vw";
 
-                });
-            }
-            resolve(); // Resolve the promise for Enter key
-        } else if (gameState === "play") {
-            if (e.key === "w") {
-                paddle_1.style.top = Math.max(
-                    board_coord.top,
-                    paddle_1_coord.top - window.innerHeight * 0.06
-                ) + "px";
-                paddle_1_coord = paddle_1.getBoundingClientRect();
-            }
-            if (e.key === "s") {
-                paddle_1.style.top = Math.min(
-                    board_coord.bottom - paddle_common.height,
-                    paddle_1_coord.top + window.innerHeight * 0.06
-                ) + "px";
-                paddle_1_coord = paddle_1.getBoundingClientRect();
-            }
-
-            if (e.key === "ArrowUp") {
-                paddle_2.style.top = Math.max(
-                    board_coord.top,
-                    paddle_2_coord.top - window.innerHeight * 0.1
-                ) + "px";
-                paddle_2_coord = paddle_2.getBoundingClientRect();
-            }
-            if (e.key === "ArrowDown") {
-                paddle_2.style.top = Math.min(
-                    board_coord.bottom - paddle_common.height,
-                    paddle_2_coord.top + window.innerHeight * 0.1
-                ) + "px";
-                paddle_2_coord = paddle_2.getBoundingClientRect();
-            }
+            requestAnimationFrame(() => {
+                const dx = Math.floor(Math.random() * 4) + 3;
+                const dy = Math.floor(Math.random() * 4) + 3;
+                const dxd = Math.floor(Math.random() * 2);
+                const dyd = Math.floor(Math.random() * 2);
+                moveBall(dx, dy, dxd, dyd, createHandleKeydown);
+            });
         }
-    };
+    } else if (gameState === "play") {
+        handlePaddleMovement(e);
+    }
 }
 
-async function playRound() {
+function handlePaddleMovement(e) {
+    if (e.key === "w") {
+        paddle_1.style.top = Math.max(
+            board_coord.top,
+            paddle_1_coord.top - window.innerHeight * 0.06
+        ) + "px";
+        paddle_1_coord = paddle_1.getBoundingClientRect();
+    }
 
-    // Function to wait for a key press
-    const waitForKeyPress = () => {
-        return new Promise((resolve) => {
-            const keydownHandler = createHandleKeydown(resolve); // Create a specific handler
-            document.addEventListener("keydown", keydownHandler);
-        });
-    };
+    if (e.key === "s") {
+        paddle_1.style.top = Math.min(
+            board_coord.bottom - paddle_common.height,
+            paddle_1_coord.top + window.innerHeight * 0.06
+        ) + "px";
+        paddle_1_coord = paddle_1.getBoundingClientRect();
+    }
 
-    // Wait for the Enter key press to start the game
-    await waitForKeyPress();
+    if (e.key === "ArrowUp") {
+        paddle_2.style.top = Math.max(
+            board_coord.top,
+            paddle_2_coord.top - window.innerHeight * 0.1
+        ) + "px";
+        paddle_2_coord = paddle_2.getBoundingClientRect();
+    }
+
+    if (e.key === "ArrowDown") {
+        paddle_2.style.top = Math.min(
+            board_coord.bottom - paddle_common.height,
+            paddle_2_coord.top + window.innerHeight * 0.1
+        ) + "px";
+        paddle_2_coord = paddle_2.getBoundingClientRect();
+    }
+}
+
+function playRound() {
+    document.addEventListener("keydown", createHandleKeydown);
     console.log("Round started");
-    return 0;
 }
 
 let lastTime = null; // To track the last frame's timestamp
 let speedMultiplier = 0.7;
-function moveBall(dx, dy, dxd, dyd) {
+function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
     const currentTime = performance.now(); // High-resolution time for accuracy
 
     if (!lastTime) {
@@ -172,50 +169,57 @@ function moveBall(dx, dy, dxd, dyd) {
     // Continue animating
     requestAnimationFrame(() => {
         moveBall(dx, dy, dxd, dyd);
-        if ( score_1.innerHTML == '1' || score_2.innerHTML == '1')
-            tournamentStrategy();
+        if ( score_1.innerHTML == maxPoints || score_2.innerHTML == maxPoints ) {
+            gameState = 'break';
+            if ( tournament == true ) {
+                tournamentStrategy();
+            }
+            else {
+                if ( score_1.innerHTML == maxPoints )
+                    showVictoryMessage("Player One")
+                else
+                    showVictoryMessage("Player Two")
+                // addVictoryButtons()
+            }
+        }
     });
 }
 
 function tournamentStrategy() {
     if ( round == 0 ) {
-        if ( score_1.innerHTML == '1' )
+        if ( score_1.innerHTML == maxPoints )
             winners.push(players.playerOne)
-        else if ( score_2.innerHTML == '1')
+        else if ( score_2.innerHTML == maxPoints)
             winners.push(players.playerTwo)
-        addPlayersName(players.playerThree, players.playerFour, round)
+        showVictoryMessage(winners[0], players.playerThree, players.playerFour);
+        displayNextGame(players.playerThree, players.playerFour);
+        addPlayersName(players.playerThree, players.playerFour, round);
     }
     else if ( round == 1 ) {
-        if ( score_1.innerHTML == '1' )
+        if ( score_1.innerHTML == maxPoints )
             winners.push(players.playerThree);
-        else if ( score_2.innerHTML == '1' )
+        else if ( score_2.innerHTML == maxPoints )
             winners.push(players.playerFour);
+        showVictoryMessage(winners[1], winners[0], winners[1]);
+        // displayNextGame(winners[0], winners[1]);
         addPlayersName(winners[0], winners[1], round)
 
     }
     else if ( round == 2 ) {
-        if ( score_1.innerHTML == '1' ) {
+        if ( score_1.innerHTML == maxPoints ) {
             showVictoryMessage(winners[0]);
         }
-        else if ( score_2.innerHTML == '1' ) {
+        else if ( score_2.innerHTML == maxPoints ) {
             showVictoryMessage(winners[1]);
         }
-        addVictoryButtons();
+        // addVictoryButtons();
     }
     score_1.innerHTML = '0'
     score_2.innerHTML = '0'
     round++;
 }
 
-function victoryStrategy() {
-    if ( round == 0 ) {
-        winners.push(players.playerOne)
-    }
-    round++;
-    score_1.innerHTML = '0'
-    score_2.innerHTML = '0'
-}
-function showVictoryMessage(winner) {
+function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
     if (document.querySelector('.victory-overlay')) {
         return;
     }
@@ -230,7 +234,10 @@ function showVictoryMessage(winner) {
 
     // Add the victory text
     const victoryText = document.createElement('h1');
-    victoryText.textContent = `${winner} Wins!`;
+    if (round == 2)
+        victoryText.textContent = `${winner} Wins the Tournament`;
+    else
+        victoryText.textContent = `${winner} Wins`;
     victoryText.classList.add('victory-text');
     messageDiv.appendChild(victoryText);
 
@@ -240,44 +247,84 @@ function showVictoryMessage(winner) {
     victoryImage.alt = 'Victory';
     victoryImage.classList.add('victory-image');
     messageDiv.appendChild(victoryImage);
-
-    // Append the message div to the overlay
     overlayDiv.appendChild(messageDiv);
-
-    // Add the overlay to the body
     document.body.appendChild(overlayDiv);
 
-    if (tournament === true) {
-        addVictoryButtons(messageDiv);
+    if ( tournament == true) {
+        if ( nextPlayerOne !== undefined && nextPlayerTwo !== undefined ) {
+            console.log('next player');
+            setTimeout(() => {
+                victoryImage.remove();
+                victoryText.textContent = `${nextPlayerOne} VS ${nextPlayerTwo}`; // Trigger animation
+            }, 3000);
+            setTimeout(() => {
+                overlayDiv.remove();
+                messageDiv.remove();
+                victoryText.remove();
+                gameState='start'
+            }, 6000);
+        }
+        if ( round === 2 )
+            addVictoryButtons(overlayDiv, messageDiv);
     }
+    else if ( tournament == false )
+        addVictoryButtons(overlayDiv, messageDiv);
 
-    // Use a slight delay to ensure the animation is visible
     setTimeout(() => {
         victoryImage.classList.add('appear'); // Trigger animation
     }, 10);
+    // setTimeout(() => {
+    //     overlayDiv.remove();
+    //     messageDiv.remove();
+    //     victoryImage.remove();
+    // }, 3000);
+
 }
 
-function addVictoryButtons(messageDiv) {
+function addVictoryButtons(overlayDiv, messageDiv) {
 
 	console.log('add victory buttons')
-    // Add "Home" button
-    const homeButton = document.createElement('button');
-    homeButton.innerText = 'Home';
-    homeButton.onclick = () => {
-      window.location.href = homeUrl; // Use the URL passed from the Django template
-    };
-    homeButton.classList.add('victory-button'); // Add styles
+
+    // Créez un conteneur pour les boutons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container'); // Ajoutez une classe pour le CSS
+    
 
     // Add "Play Again" button
     const playButton = document.createElement('button');
     playButton.innerText = 'Play Again';
     playButton.onclick = () => {
-      window.location.href = playUrl; // Use the URL passed from the Django template
+        window.location.href = playURL;
+        // resetGame(overlayDiv);
     };
-    playButton.classList.add('victory-button'); // Add styles
+    playButton.classList.add('victory-button');
 
-    // Append buttons to the message div
-    messageDiv.appendChild(homeButton);
-    messageDiv.appendChild(playButton);
+    // Add "Home" button
+    const homeButton = document.createElement('button');
+    homeButton.innerText = 'Home';
+    homeButton.onclick = () => {
+      window.location.href = homeURL; // Use the URL passed from the Django template
+    };
+    homeButton.classList.add('victory-button');
 
+    // Ajoutez les boutons au conteneur
+    buttonContainer.appendChild(playButton);
+    buttonContainer.appendChild(homeButton);
+
+    // Ajoutez le conteneur de boutons au message
+    messageDiv.appendChild(buttonContainer);
+    overlayDiv.appendChild(messageDiv);
+    document.body.appendChild(overlayDiv);
+}
+
+function resetGame(overlayDiv) {
+    overlayDiv.remove();
+    score_1.innerHTML = '0'
+    score_2.innerHTML = '0'
+}
+
+function displayNextGame() {
+    // Create the overlay div
+    const overlayDiv = document.createElement('div');
+    overlayDiv.classList.add('victory-overlay');
 }

@@ -75,7 +75,7 @@
 
 	.profile--user-avatar.user-avatar-img {
 		width: 8em;
-		height: auto;
+		height: 8em;
 		object-fit: cover; /* avoid image distortion */
 		margin-bottom: 15px; /* Space under avatar*/
 	}
