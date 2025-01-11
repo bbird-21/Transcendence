@@ -57,7 +57,7 @@ body {
 }
 
 .paddle {
-    height: 150px;
+    height: 200px;
     width: 18px;
     border-radius: 20px;
     position: fixed;
@@ -76,7 +76,7 @@ body {
 }
 
 .paddle_2 {
-    top: calc(85vh + 7.5vh - 100px - 55px);
+    top: calc(85vh + 7.5vh - 230px);
     right: calc(10vw + 50px);
     box-shadow: inset 0 0 18px #fff,
         inset 6px 0 18px #DC91C2,
@@ -112,8 +112,8 @@ body {
     color: #DC91C2;
     position: fixed;
     left: 35vw;
-    margin-top: 42px;
-    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    margin-top: 28px;
+    font-family: 'Neon'; /* Police pour cohérence */
     font-size: 3vw;
 }
 
@@ -123,8 +123,8 @@ body {
     color: #EEC881;
     position: fixed;
     left: 62vw;
-    margin-top: 42px;
-    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    margin-top: 28px;
+    font-family: 'Neon'; /* Police pour cohérence */
     font-size: 3vw;
 }
 
@@ -135,8 +135,19 @@ body {
     transform: translate(-50%, -50%); /* Centrer parfaitement l'élément */
     white-space: nowrap; /* Empêche le texte de se briser sur plusieurs lignes */
     width: max-content; /* Ajuste automatiquement la largeur à la longueur du texte */
+}
+
+.message-info-style {
     color: #c9cbff; /* Couleur du texte */
     font-size: 2.5vw; /* Ajuste la taille du texte */
     text-align: center; /* Centre le texte horizontalement */
     font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+}
+
+.message-ball-speed-style {
+    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    color: red; /* Couleur du texte */
+    font-size: 2.5vw; /* Ajuste la taille du texte */
+    text-align: center; /* Centre le texte horizontalement */
+    font-family: 'Arial', sans-serif; /* Police pour cohérence */
 }
