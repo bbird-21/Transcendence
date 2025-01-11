@@ -7,7 +7,7 @@ console.log(receiverUsername);
 console.log(senderUsername);
 console.log(roomName)
 
-const chatSocket = new ReconnectingWebSocket(
+const chatSocket = new WebSocket(
 	'wss://' + window.location.host + '/wss/chat/' + roomName
 );
 

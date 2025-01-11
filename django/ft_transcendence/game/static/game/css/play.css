@@ -112,8 +112,8 @@ body {
     color: #DC91C2;
     position: fixed;
     left: 35vw;
-    margin-top: 42px;
-    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    margin-top: 28px;
+    font-family: 'Neon'; /* Police pour cohérence */
     font-size: 3vw;
 }
 
@@ -123,8 +123,8 @@ body {
     color: #EEC881;
     position: fixed;
     left: 62vw;
-    margin-top: 42px;
-    font-family: 'Stacker', sans-serif; /* Police pour cohérence */
+    margin-top: 28px;
+    font-family: 'Neon'; /* Police pour cohérence */
     font-size: 3vw;
 }
 

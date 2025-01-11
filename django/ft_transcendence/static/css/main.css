@@ -3,6 +3,12 @@
   src: url("/static/fonts/Stacker-jE03l.ttf") format('truetype');
   }
 
+@font-face {
+	font-family: 'Neon'; /* Name your font family */
+  src: url("/static/fonts/Neon-Goodshine.otf") format('truetype');
+  }
+
+
 /* no-scroll */
 .no-scroll {
   overflow-x: hidden; /* Avoid horizontal scrolling */
