@@ -1,3 +1,8 @@
+{
+	https_port 2121
+	http_port 8080
+}
+
 localhost {
 	handle /static/* {
 		root * /django/ft_transcendence

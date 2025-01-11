@@ -68,7 +68,7 @@ services:
     networks:
       - app
     ports:
-      - 6379:6379
+      - 6375:6375
     command: redis-server --save 20 1 --loglevel warning
 
   grafana:
@@ -121,6 +121,6 @@ services:
     networks:
       - app
     ports:
-      - 80:80
-      - 443:443
+      - 8080:8080
+      - 2121:2121
     restart: always
