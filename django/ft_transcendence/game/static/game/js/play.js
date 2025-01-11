@@ -26,6 +26,20 @@ let maxPoints = 3;
 let round = 0;
 let winners = [];
 
+let paddleSpeed = window.innerHeight * 0.015; // Adjust for desired paddle speed
+let paddle1Direction = 0; // -1 for up, 1 for down, 0 for stationary
+let paddle2Direction = 0;
+let animationRunning = false; // To control the paddle animation loop
+
+let lastTime = null; // To track the last frame's timestamp
+let baseBallSpeed = 0.7
+let speedMultiplier = baseBallSpeed;
+let speedIncreaseInterval; // To store the interval ID
+let increaseMessage;
+
+
+message.classList.add('message-info-style');
+
 if ( tournament === true ) {
     startTournament();
     const players = getTournamentPlayers();
@@ -35,15 +49,85 @@ else {
     playRound();
 }
 
+
+function handleKeyDown(e) {
+    if (e.key === "w") {
+        paddle1Direction = -1;
+    }
+    if (e.key === "s") {
+        paddle1Direction = 1;
+    }
+    if (e.key === "ArrowUp") {
+        paddle2Direction = -1;
+    }
+    if (e.key === "ArrowDown") {
+        paddle2Direction = 1;
+    }
+}
+
+function handleKeyUp(e) {
+    if (e.key === "w" || e.key === "s") {
+        paddle1Direction = 0;
+    }
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        paddle2Direction = 0;
+    }
+}
+
+function updatePaddles() {
+    if (paddle1Direction !== 0) {
+        let newTop = paddle_1_coord.top + paddle1Direction * paddleSpeed;
+        paddle_1.style.top = Math.min(
+            board_coord.bottom - paddle_common.height,
+            Math.max(board_coord.top, newTop)
+        ) + "px";
+        paddle_1_coord = paddle_1.getBoundingClientRect();
+    }
+
+    if (paddle2Direction !== 0) {
+        let newTop = paddle_2_coord.top + paddle2Direction * paddleSpeed;
+        paddle_2.style.top = Math.min(
+            board_coord.bottom - paddle_common.height,
+            Math.max(board_coord.top, newTop)
+        ) + "px";
+        paddle_2_coord = paddle_2.getBoundingClientRect();
+    }
+
+    // Continue animating if game is in play state
+    if (gameState === "play") {
+        requestAnimationFrame(updatePaddles);
+    } else {
+        animationRunning = false; // Stop animation when not in play state
+    }
+}
+
+function playRound() {
+    // Initialize the game
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("keydown", createHandleKeydown);
+
+    console.log("Round started");
+
+    // Start the paddle animation if not already running
+    if (!animationRunning) {
+        animationRunning = true;
+        updatePaddles();
+    }
+}
+
 function createHandleKeydown(e) {
     if (e.key === "Enter") {
-        if ( gameState === 'break' )
-            return;
+        if (gameState === "break") return;
+
         gameState = gameState === "start" ? "play" : "start";
+
         if (gameState === "play") {
             console.log(`round ${round}`);
             message.innerHTML = "";
             message.style.left = "42vw";
+
+            increaseBallSpeed();
 
             requestAnimationFrame(() => {
                 const dx = Math.floor(Math.random() * 4) + 3;
@@ -52,53 +136,19 @@ function createHandleKeydown(e) {
                 const dyd = Math.floor(Math.random() * 2);
                 moveBall(dx, dy, dxd, dyd, createHandleKeydown);
             });
+
+            // Ensure smooth paddle movement
+            if (!animationRunning) {
+                animationRunning = true;
+                updatePaddles();
+            }
         }
-    } else if (gameState === "play") {
-        handlePaddleMovement(e);
+        else if ( gameState === 'start') {
+            console.log('reset');
+        }
     }
 }
 
-function handlePaddleMovement(e) {
-    if (e.key === "w") {
-        paddle_1.style.top = Math.max(
-            board_coord.top,
-            paddle_1_coord.top - window.innerHeight * 0.06
-        ) + "px";
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-    }
-
-    if (e.key === "s") {
-        paddle_1.style.top = Math.min(
-            board_coord.bottom - paddle_common.height,
-            paddle_1_coord.top + window.innerHeight * 0.06
-        ) + "px";
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-    }
-
-    if (e.key === "ArrowUp") {
-        paddle_2.style.top = Math.max(
-            board_coord.top,
-            paddle_2_coord.top - window.innerHeight * 0.1
-        ) + "px";
-        paddle_2_coord = paddle_2.getBoundingClientRect();
-    }
-
-    if (e.key === "ArrowDown") {
-        paddle_2.style.top = Math.min(
-            board_coord.bottom - paddle_common.height,
-            paddle_2_coord.top + window.innerHeight * 0.1
-        ) + "px";
-        paddle_2_coord = paddle_2.getBoundingClientRect();
-    }
-}
-
-function playRound() {
-    document.addEventListener("keydown", createHandleKeydown);
-    console.log("Round started");
-}
-
-let lastTime = null; // To track the last frame's timestamp
-let speedMultiplier = 0.7;
 function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
     const currentTime = performance.now(); // High-resolution time for accuracy
 
@@ -152,6 +202,7 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
         } else {
             score_1.innerHTML = +score_1.innerHTML + 1;
         }
+        resetDefaultValues();
         gameState = 'start';
         ball_coord = initial_ball_coord;
         ball.style = initial_ball.style;
@@ -179,7 +230,6 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
                     showVictoryMessage("Player One")
                 else
                     showVictoryMessage("Player Two")
-                // addVictoryButtons()
             }
         }
     });
@@ -252,7 +302,6 @@ function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
 
     if ( tournament == true) {
         if ( nextPlayerOne !== undefined && nextPlayerTwo !== undefined ) {
-            console.log('next player');
             setTimeout(() => {
                 victoryImage.remove();
                 victoryText.textContent = `${nextPlayerOne} VS ${nextPlayerTwo}`; // Trigger animation
@@ -273,12 +322,6 @@ function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
     setTimeout(() => {
         victoryImage.classList.add('appear'); // Trigger animation
     }, 10);
-    // setTimeout(() => {
-    //     overlayDiv.remove();
-    //     messageDiv.remove();
-    //     victoryImage.remove();
-    // }, 3000);
-
 }
 
 function addVictoryButtons(overlayDiv, messageDiv) {
@@ -295,7 +338,6 @@ function addVictoryButtons(overlayDiv, messageDiv) {
     playButton.innerText = 'Play Again';
     playButton.onclick = () => {
         window.location.href = playURL;
-        // resetGame(overlayDiv);
     };
     playButton.classList.add('victory-button');
 
@@ -317,14 +359,37 @@ function addVictoryButtons(overlayDiv, messageDiv) {
     document.body.appendChild(overlayDiv);
 }
 
-function resetGame(overlayDiv) {
-    overlayDiv.remove();
-    score_1.innerHTML = '0'
-    score_2.innerHTML = '0'
+function resetDefaultValues() {
+    console.log('reset ball speed')
+    message.classList.remove('message-ball-speed-style');
+    message.classList.add('message-info-style');
+    speedMultiplier = 0.7;
+    clearInterval(speedIncreaseInterval);
 }
 
 function displayNextGame() {
     // Create the overlay div
     const overlayDiv = document.createElement('div');
     overlayDiv.classList.add('victory-overlay');
+}
+function increaseBallSpeed() {
+    clearInterval(speedIncreaseInterval);
+    speedIncreaseInterval = setInterval(() => {
+        speedMultiplier += 0.1;
+        displayIncreaseMessage(speedMultiplier);
+    }, 6000);
+}
+
+function displayIncreaseMessage(ballSpeed) {
+    // Display the message
+    let ratio = ballSpeed / baseBallSpeed;
+    message.classList.remove('message-info-style');
+    message.innerHTML = `x ${ratio.toFixed(2)}`;
+    message.classList.add('message-ball-speed-style');
+
+    // Use setTimeout to clear the message after 2 seconds
+    setTimeout(() => {
+        if ( gameState == 'play' )
+            message.innerHTML = "";
+    }, 2000);
 }
