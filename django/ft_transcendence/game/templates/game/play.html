@@ -33,6 +33,8 @@
         </h1>
     </div>
 
+    {{ game_uuid|json_script:"game_uuid" }}
+
     <script>
         const victoryImagePath = "{% static 'core/images/win-logo3.png' %}";
         const homeURL = "{% url 'core:home' %}";
