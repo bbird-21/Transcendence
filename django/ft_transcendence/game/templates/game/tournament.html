@@ -30,7 +30,7 @@
 			<div class="container-players">
 				<div class="players-column">
 					<label for="player-one"></label>
-					<input type="text" id="player-one" placeholder="Player One" class="change-btn" required maxlength="8" />
+					<input type="text" id="player-one" value="{{ user.username }}" class="change-btn" disabled />
 					<label for="player-two"></label>
 					<input type="text" id="player-two" placeholder="Player Two" class="change-btn" required maxlength="8">
 				</div>
@@ -54,6 +54,7 @@
 		</div>
 
 	</body>
+
 	<script>
 		const gameURL = "{% url 'game:play' %}"
 		const gameJS = "{% static 'game/js/play.js' %}"

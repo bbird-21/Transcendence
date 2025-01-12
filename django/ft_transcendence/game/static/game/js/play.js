@@ -1,5 +1,4 @@
-// showVictoryMessage("Momo")
-
+const gameUUID = JSON.parse(document.getElementById('game_uuid').textContent);
 let gameState = 'start';
 let paddle_1 = document.querySelector('.paddle_1');
 let paddle_2 = document.querySelector('.paddle_2');
@@ -22,7 +21,7 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
-let maxPoints = 3;
+let maxPoints = 1;
 let round = 0;
 let winners = [];
 
@@ -107,8 +106,6 @@ function playRound() {
     document.addEventListener("keyup", handleKeyUp);
     document.addEventListener("keydown", createHandleKeydown);
 
-    console.log("Round started");
-
     // Start the paddle animation if not already running
     if (!animationRunning) {
         animationRunning = true;
@@ -123,7 +120,6 @@ function createHandleKeydown(e) {
         gameState = gameState === "start" ? "play" : "start";
 
         if (gameState === "play") {
-            console.log(`round ${round}`);
             message.innerHTML = "";
             message.style.left = "42vw";
 
@@ -142,9 +138,6 @@ function createHandleKeydown(e) {
                 animationRunning = true;
                 updatePaddles();
             }
-        }
-        else if ( gameState === 'start') {
-            console.log('reset');
         }
     }
 }
@@ -226,10 +219,16 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
                 tournamentStrategy();
             }
             else {
-                if ( score_1.innerHTML == maxPoints )
+                if ( score_1.innerHTML == maxPoints ) {
+                    updateDB('add_victory');
+                    updateDB('delete_game');
                     showVictoryMessage("Player One")
-                else
+                }
+                else {
+                    updateDB('add_defeat');
+                    updateDB('delete_game');
                     showVictoryMessage("Player Two")
+                }
             }
         }
     });
@@ -284,8 +283,14 @@ function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
 
     // Add the victory text
     const victoryText = document.createElement('h1');
-    if (round == 2)
+    if (round == 2) {
+        if ( winner == players.playerOne )
+            updateDB('add_victory');
+        else
+            updateDB('add_defeat');
         victoryText.textContent = `${winner} Wins the Tournament`;
+        updateDB('delete_game');
+    }
     else
         victoryText.textContent = `${winner} Wins`;
     victoryText.classList.add('victory-text');
@@ -325,9 +330,6 @@ function showVictoryMessage(winner, nextPlayerOne, nextPlayerTwo) {
 }
 
 function addVictoryButtons(overlayDiv, messageDiv) {
-
-	console.log('add victory buttons')
-
     // Créez un conteneur pour les boutons
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container'); // Ajoutez une classe pour le CSS
@@ -360,7 +362,6 @@ function addVictoryButtons(overlayDiv, messageDiv) {
 }
 
 function resetDefaultValues() {
-    console.log('reset ball speed')
     message.classList.remove('message-ball-speed-style');
     message.classList.add('message-info-style');
     speedMultiplier = 0.7;
@@ -392,4 +393,13 @@ function displayIncreaseMessage(ballSpeed) {
         if ( gameState == 'play' )
             message.innerHTML = "";
     }, 2000);
+}
+
+function updateDB(result) {
+    fetch(`/game/${result}/${gameUUID}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
 }

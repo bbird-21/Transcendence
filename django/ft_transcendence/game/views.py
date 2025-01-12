@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from game.models import Game, Invitation
@@ -7,20 +8,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.decorators.cache import never_cache
-
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def	play(request):
-	# try:
-	# 	waiting_game = Invitation.objects.get(id=waitingGameID)
-	# except:
-	# 	return redirect(reverse('core:home'))
-	# context = {
-	# 	"player_one": waiting_game.invitation_sender,
-	# 	"player_two": waiting_game.invitation_receiver
-	# }
+	try:
+		game = Game.objects.create(player_one=request.user)
+	except:
+		return redirect(reverse('core:home'))
+	context = {
+		"game_uuid": game.uuid
+	}
 
-	return render(request, "game/play.html")
+	return render(request, "game/play.html", context)
 
 @login_required
 def	tournament(request):
@@ -104,3 +105,39 @@ def invite(request):
 		'friend_list': friend_list,
 	}
 	return render(request, 'game/invite.html', context)
+
+@login_required
+@csrf_exempt
+def	add_victory(request, game_uuid):
+	try:
+		game = Game.objects.get(uuid=game_uuid)
+		request.user.userprofile.victory+=1
+		request.user.userprofile.save()
+	except:
+		request.session['message_to_user'] = "Game Does not Exist. Impossible to add a victory point"
+		return redirect(reverse('core:home'))
+	return HttpResponse("Victory Point Added", status=200)
+
+@login_required
+@csrf_exempt
+def	add_defeat(request, game_uuid):
+	try:
+		game = Game.objects.get(uuid=game_uuid)
+		request.user.userprofile.defeat+=1
+		request.user.userprofile.save()
+	except:
+		request.session['message_to_user'] = "Game Does not Exist. Impossible to add a defeat point"
+		return redirect(reverse('core:home'))
+	return HttpResponse("Defeat Point Added", status=200)
+
+@login_required
+@csrf_exempt
+def	delete_game(request, game_uuid):
+	try:
+		game = Game.objects.get(uuid=game_uuid)
+		game.delete()
+		game.save()
+	except:
+		request.session['message_to_user'] = "Game Does not Exist. Impossible to delete Game Session."
+		return redirect(reverse('core:home'))
+	return HttpResponse("Game Deleted", status=200)
