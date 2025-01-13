@@ -39,12 +39,29 @@ let increaseMessage;
 
 message.classList.add('message-info-style');
 
+
 if ( tournament === true ) {
+    // Appliquer l'animation smoothAppearence uniquement au début
+    board.classList.add('smooth-appearance');
+
+    // Retirer la classe après l'animation pour éviter qu'elle ne soit rejouée
+    setTimeout(() => {
+        board.classList.remove('smooth-appearance');
+    }, 1300); // Durée de l'animation smoothAppearence (1.3s)
+    
     startTournament();
     const players = getTournamentPlayers();
     addPlayersName(players.playerOne, players.playerTwo, 0);
 }
 else {
+    // Appliquer l'animation smoothAppearence uniquement au début
+    board.classList.add('smooth-appearance');
+
+    // Retirer la classe après l'animation pour éviter qu'elle ne soit rejouée
+    setTimeout(() => {
+        board.classList.remove('smooth-appearance');
+    }, 1300); // Durée de l'animation smoothAppearence (1.3s)
+    
     playRound();
 }
 
@@ -387,6 +404,14 @@ function displayIncreaseMessage(ballSpeed) {
     message.classList.remove('message-info-style');
     message.innerHTML = `x ${ratio.toFixed(2)}`;
     message.classList.add('message-ball-speed-style');
+
+    // Ajouter l'effet de glow immédiatement
+    board.classList.add('board-glow-effect');
+    
+    // Retirer l'effet après 1000 ms (ajustez selon l'effet souhaité)
+    setTimeout(() => {
+        board.classList.remove('board-glow-effect');
+    }, 1000);
 
     // Use setTimeout to clear the message after 2 seconds
     setTimeout(() => {
