@@ -43,6 +43,7 @@
 
 	.profile--user-avatar.user-avatar-img {
 		width: 6em;
+		height: 6em;
 		margin-bottom: 10px; /* Space under avatar*/
 	}
 

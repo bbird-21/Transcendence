@@ -3,11 +3,10 @@
   src: url("/static/fonts/Stacker-jE03l.ttf") format('truetype');
   }
 
-@font-face {
+  @font-face {
 	font-family: 'Neon'; /* Name your font family */
-  src: url("/static/fonts/Neon-Goodshine.otf") format('truetype');
+  src: url("/static/fonts/NeonGoodshine.otf") format('truetype');
   }
-
 
 /* no-scroll */
 .no-scroll {
@@ -165,6 +164,11 @@
 	.buttons-design.social--search-username-field:hover{
 		color: white;
 		background: #1A003E;
+	}
+
+	.error-message {
+		color: #f44336;
+		font-weight: bold;
 	}
 
 .exception {
