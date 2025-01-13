@@ -149,11 +149,18 @@ body {
     font-family: 'Stacker', sans-serif; /* Police pour cohérence */
 }
 
-.message-ball-speed-style {
+.speed-message-container {
     position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Assurez-vous que le message est au-dessus */
+    text-align: right;
+}
+
+.message-ball-speed-style {
     font-family: 'Neon'; /* Police pour cohérence */
     color: white; /* Couleur du texte */
-    font-size: 1.5vw; /* Ajuste la taille du texte */
+    font-size: 2vw; /* Ajuste la taille du texte */
     text-align: center; /* Centre le texte horizontalement */
 }
 

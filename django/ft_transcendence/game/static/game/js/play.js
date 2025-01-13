@@ -36,6 +36,17 @@ let speedMultiplier = baseBallSpeed;
 let speedIncreaseInterval; // To store the interval ID
 let increaseMessage;
 
+// Ajouter un conteneur pour le message de vitesse de balle
+const speedMessageContainer = document.createElement('div');
+speedMessageContainer.classList.add('speed-message-container');
+document.body.appendChild(speedMessageContainer);
+
+// Créer le message
+const speedMessage = document.createElement('div');
+speedMessage.classList.add('message-ball-speed-style');
+
+// Ajouter le message dans le conteneur
+speedMessageContainer.appendChild(speedMessage);
 
 message.classList.add('message-info-style');
 
@@ -382,6 +393,7 @@ function resetDefaultValues() {
     message.classList.remove('message-ball-speed-style');
     message.classList.add('message-info-style');
     speedMultiplier = 0.7;
+    speedMessage.innerHTML = ``;
     clearInterval(speedIncreaseInterval);
 }
 
@@ -399,11 +411,12 @@ function increaseBallSpeed() {
 }
 
 function displayIncreaseMessage(ballSpeed) {
-    // Display the message
+
+    // Calculer le ratio de vitesse
     let ratio = ballSpeed / baseBallSpeed;
-    message.classList.remove('message-info-style');
-    message.innerHTML = `x ${ratio.toFixed(2)}`;
-    message.classList.add('message-ball-speed-style');
+    
+    // Créer le message
+    speedMessage.innerHTML = `x ${ratio.toFixed(2)}`;
 
     // Ajouter l'effet de glow immédiatement
     board.classList.add('board-glow-effect');
@@ -412,12 +425,6 @@ function displayIncreaseMessage(ballSpeed) {
     setTimeout(() => {
         board.classList.remove('board-glow-effect');
     }, 1000);
-
-    // Use setTimeout to clear the message after 2 seconds
-    setTimeout(() => {
-        if ( gameState == 'play' )
-            message.innerHTML = "";
-    }, 2000);
 }
 
 function updateDB(result) {
