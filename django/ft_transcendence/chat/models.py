@@ -8,8 +8,8 @@ from django.db.models import Case, When, Value, DateTimeField, F
 
 class Chat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    fromUser = models.ForeignKey(User, db_index=True,on_delete=models.SET_NULL, null=True,related_name="fromuser")
-    toUser = models.ForeignKey(User, db_index=True,on_delete=models.SET_NULL, null=True,related_name="toUser")
+    fromUser = models.ForeignKey(User, db_index=True,on_delete=models.CASCADE, null=True,related_name="fromuser")
+    toUser = models.ForeignKey(User, db_index=True,on_delete=models.CASCADE, null=True,related_name="toUser")
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     # last_message = models.TextField(null=True, blank=True)
@@ -66,8 +66,8 @@ class Chat(models.Model):
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    author = models.ForeignKey(User, db_index=True, related_name='author', on_delete=models.SET_NULL,null=True)
-    message_receiver = models.ForeignKey(User, db_index=True, related_name='message_receiver', on_delete=models.SET_NULL,null=True)
+    author = models.ForeignKey(User, db_index=True, related_name='author', on_delete=models.CASCADE,null=True)
+    message_receiver = models.ForeignKey(User, db_index=True, related_name='message_receiver', on_delete=models.CASCADE,null=True)
     refChat = models.ForeignKey(Chat, db_index=True,on_delete=models.CASCADE)
     message = models.TextField()
     msg_type = (

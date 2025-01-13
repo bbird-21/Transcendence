@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
 from core.models import FriendRequest
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ from django.shortcuts import render
 from chat.models import Chat
 from core.models import Notification
 from django.urls import reverse
+from django.db.models import Q
 
 def	user_profile(request, search_user_form):
 	searched_username = search_user_form.cleaned_data["username"]
@@ -58,7 +59,16 @@ def get_social_data(request):
 def send_friend_request(request, userID):
     sender = request.user
     receiver   = User.objects.get(id=userID)
-    friend_request, created = FriendRequest.objects.get_or_create(
+
+    if get_friend_request(receiver, sender):
+        request.session['message_to_user'] = "Friend Request already exists"
+        return redirect(reverse('core:social'))
+
+    if sender_is_blocked(receiver, sender):
+        request.session['message_to_user'] = "Do not try to contact them anymore. You are blocked by them."
+        return redirect(reverse('core:social'))
+
+    friend_request = FriendRequest.objects.create(
         sender=sender, receiver=receiver
     )
     Notification.objects.get_or_create(
@@ -66,11 +76,20 @@ def send_friend_request(request, userID):
         friend_request=friend_request
     )
 
-    if created:
-        previous_url = request.META.get('HTTP_REFERER', '/')
-        return HttpResponseRedirect(previous_url)
-    else:
-        return redirect('/social/')
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    return HttpResponseRedirect(previous_url)
+
+def get_friend_request(receiver, sender):
+    friend_request = FriendRequest.objects.filter(Q(sender=sender, receiver=receiver)| Q(sender=receiver, receiver=sender))
+    if friend_request.exists():
+        return True
+    return False
+
+def sender_is_blocked(receiver, sender):
+    for blocked in sender.userprofile.blocked_by_them.all():
+        if blocked  == receiver:
+            return True
+    return False
 
 
 @login_required
@@ -123,15 +142,18 @@ def cancel_friend_request(request, userID):
 def remove_friend(request, friendID):
     all_friends = request.user.userprofile.friends.all()
 
-    for friend in all_friends:
-        if friend.id == friendID:
-            # Remove the friend from the request user
-            request.user.userprofile.friends.remove(friendID)
-            friend = User.objects.get(id=friendID)
-            # Remove the request user from the friend
-            friend.userprofile.friends.remove(request.user)
-            return redirect('/social/')
-    return HttpResponse("Can't remove this friend")
+    try:
+        for friend in all_friends:
+            if friend.id == friendID:
+                # Remove the friend from the request user
+                request.user.userprofile.friends.remove(friendID)
+                friend = User.objects.get(id=friendID)
+                # Remove the request user from the friend
+                friend.userprofile.friends.remove(request.user)
+                remove_chat(request.user, friend)
+    except:
+        return HttpResponse("Can't remove this friend")
+    return redirect('/social/')
 
 def user_is_friend(request, userID):
     all_friends = request.user.userprofile.friends.all()
@@ -145,7 +167,6 @@ def user_is_friend(request, userID):
 @never_cache
 def block_user(request, userID):
     # Check if the user is a friend or not : None, RemoveFriend
-    print("Block User")
     try:
         user_two = User.objects.get(id=userID)
     except Exception as e:
@@ -156,10 +177,7 @@ def block_user(request, userID):
         remove_friend(request, userID)
 
     # Check if a friend request exist for this userID : None, Delete FriendRequest
-    print(f'user_one {request.user}')
-    print(f'user_two {user_two}')
     friend_requestID = getFriendRequest(request.user, user_two)
-    print(f'friend_requestID {friend_requestID}')
     decline_friend_request(request, friend_requestID)
 
     # Retrieve the blocked user
@@ -215,3 +233,11 @@ def getFriendRequest(user_one, user_two):
         return friend_requestID.id
     return -1
 
+def remove_chat(user_one, user_two):
+    # Combine both conditions using Q objects
+    chat = Chat.objects.filter(Q(fromUser=user_one, toUser=user_two) | Q(fromUser=user_two, toUser=user_one))
+
+    if chat.exists():
+        chat.delete()
+    else:
+        raise ValueError("No chat exists between the specified users.")
