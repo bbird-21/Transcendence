@@ -1,13 +1,13 @@
-# route:
-#   receiver: 'Mail-Alert'
+route:
+  receiver: 'Mail-Alert'
 
-# receivers:
-#   - name: 'Mail-Alert'
-#     email_configs:
-#       - smarthost: 'smtp.gmail.com:587'
-#         auth_username: 'justforplay786@gmail.com'
-#         auth_password: 'Mbj.03TK'
-#         from: 'justforplay786@gmail.com>'
-#         to: 'm.gbird21@gmail.com'
-#         headers:
-#           subject: 'ALERT'
+receivers:
+  - name: 'Mail-Alert'
+    email_configs:
+      - smarthost: 'smtp.gmail.com:587'
+        auth_username: 'justforplay786@gmail.com'
+        auth_password: 'Mbj.03TK'
+        from: 'justforplay786@gmail.com>'
+        to: 'm.gbird21@gmail.com'
+        headers:
+          subject: 'ALERT'
