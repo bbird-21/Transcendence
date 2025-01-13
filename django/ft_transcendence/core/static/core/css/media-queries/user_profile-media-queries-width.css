@@ -21,6 +21,7 @@
 
 	.profile--user-avatar.user-avatar-img {
 		width: 6em;
+		height: 6em;
 		margin-bottom: 12px; /* Space under avatar*/
 	}
 
@@ -33,10 +34,6 @@
 	}
 
 	/* ---------- Buttons Container ---------- */
-
-	.profile--buttons-container{
-		margin-top: 28%;
-	}
 
 	.profile--buttons.buttons-design{
 		font-size: 16px;

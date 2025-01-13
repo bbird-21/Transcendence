@@ -37,15 +37,43 @@ let speedMultiplier = baseBallSpeed;
 let speedIncreaseInterval; // To store the interval ID
 let increaseMessage;
 
+// Ajouter un conteneur pour le message de vitesse de balle
+const speedMessageContainer = document.createElement('div');
+speedMessageContainer.classList.add('speed-message-container');
+document.body.appendChild(speedMessageContainer);
+
+// Créer le message
+const speedMessage = document.createElement('div');
+speedMessage.classList.add('message-ball-speed-style');
+
+// Ajouter le message dans le conteneur
+speedMessageContainer.appendChild(speedMessage);
 
 message.classList.add('message-info-style');
 
+
 if ( tournament === true ) {
+    // Appliquer l'animation smoothAppearence uniquement au début
+    board.classList.add('smooth-appearance');
+
+    // Retirer la classe après l'animation pour éviter qu'elle ne soit rejouée
+    setTimeout(() => {
+        board.classList.remove('smooth-appearance');
+    }, 1300); // Durée de l'animation smoothAppearence (1.3s)
+    
     startTournament();
     const players = getTournamentPlayers();
     addPlayersName(players.playerOne, players.playerTwo, 0);
 }
 else {
+    // Appliquer l'animation smoothAppearence uniquement au début
+    board.classList.add('smooth-appearance');
+
+    // Retirer la classe après l'animation pour éviter qu'elle ne soit rejouée
+    setTimeout(() => {
+        board.classList.remove('smooth-appearance');
+    }, 1300); // Durée de l'animation smoothAppearence (1.3s)
+    
     addPlayersName(username, 'Player Two')
     playRound();
 }
@@ -367,6 +395,7 @@ function resetDefaultValues() {
     message.classList.remove('message-ball-speed-style');
     message.classList.add('message-info-style');
     speedMultiplier = 0.7;
+    speedMessage.innerHTML = ``;
     clearInterval(speedIncreaseInterval);
 }
 
@@ -384,17 +413,20 @@ function increaseBallSpeed() {
 }
 
 function displayIncreaseMessage(ballSpeed) {
-    // Display the message
-    let ratio = ballSpeed / baseBallSpeed;
-    message.classList.remove('message-info-style');
-    message.innerHTML = `x ${ratio.toFixed(2)}`;
-    message.classList.add('message-ball-speed-style');
 
-    // Use setTimeout to clear the message after 2 seconds
+    // Calculer le ratio de vitesse
+    let ratio = ballSpeed / baseBallSpeed;
+    
+    // Créer le message
+    speedMessage.innerHTML = `x ${ratio.toFixed(2)}`;
+
+    // Ajouter l'effet de glow immédiatement
+    board.classList.add('board-glow-effect');
+    
+    // Retirer l'effet après 1000 ms (ajustez selon l'effet souhaité)
     setTimeout(() => {
-        if ( gameState == 'play' )
-            message.innerHTML = "";
-    }, 2000);
+        board.classList.remove('board-glow-effect');
+    }, 1000);
 }
 
 function updateDB(result) {

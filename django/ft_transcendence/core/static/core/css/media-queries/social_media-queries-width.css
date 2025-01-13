@@ -35,6 +35,7 @@
     /* Avatar Image */
 	.user-avatar-img{
 		width: 4em; /* Width relative to the size of the police */
+		height: 4em;
 	}
 
     /* ----- Username + Link to Profile Page ----- */
