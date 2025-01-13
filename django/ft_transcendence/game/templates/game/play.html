@@ -34,6 +34,7 @@
     </div>
 
     {{ game_uuid|json_script:"game_uuid" }}
+    {{ user.username|json_script:"username" }}
 
     <script>
         const victoryImagePath = "{% static 'core/images/win-logo3.png' %}";
@@ -41,6 +42,7 @@
         const playURL = "{% url 'game:play' %}";
         const tournament = false;
     </script>
+    <script src="{% static 'game/js/utils.js' %}"></script>
     <script src="{% static 'game/js/play.js' %}"></script>
 
 </body>

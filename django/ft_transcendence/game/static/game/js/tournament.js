@@ -73,16 +73,6 @@ function getTournamentPlayers() {
 	return (players)
 }
 
-function addPlayersName(playerOne, playerTwo, round) {
-	const player1Element = document.querySelector('.player_1_username');
-	const player2Element = document.querySelector('.player_2_username');
-
-	console.log('Add Player Name')
-	player1Element.textContent = playerOne
-	player2Element.textContent = playerTwo
-
-}
-
 function startTournament() {
 		playRound();
 }

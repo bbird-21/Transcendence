@@ -236,6 +236,7 @@ MEDIA_URL = '/media/'
 # 2FA
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
 
-# SECURE_SSL_REDIRECT = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_TRUSTED_ORIGINS = ['https://localhost:2121']
