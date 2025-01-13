@@ -1,4 +1,5 @@
 const gameUUID = JSON.parse(document.getElementById('game_uuid').textContent);
+const username = JSON.parse(document.getElementById('username').textContent);
 let gameState = 'start';
 let paddle_1 = document.querySelector('.paddle_1');
 let paddle_2 = document.querySelector('.paddle_2');
@@ -73,6 +74,7 @@ else {
         board.classList.remove('smooth-appearance');
     }, 1300); // Durée de l'animation smoothAppearence (1.3s)
     
+    addPlayersName(username, 'Player Two')
     playRound();
 }
 
@@ -248,14 +250,14 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
             }
             else {
                 if ( score_1.innerHTML == maxPoints ) {
+                    showVictoryMessage(username)
                     updateDB('add_victory');
                     updateDB('delete_game');
-                    showVictoryMessage("Player One")
                 }
                 else {
+                    showVictoryMessage("Player Two")
                     updateDB('add_defeat');
                     updateDB('delete_game');
-                    showVictoryMessage("Player Two")
                 }
             }
         }
