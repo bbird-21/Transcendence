@@ -21,7 +21,7 @@ let dy = Math.floor(Math.random() * 4) + 3;
 let dxd = Math.floor(Math.random() * 2);
 let dyd = Math.floor(Math.random() * 2);
 
-let maxPoints = 1;
+let maxPoints = 3;
 let round = 0;
 let winners = [];
 

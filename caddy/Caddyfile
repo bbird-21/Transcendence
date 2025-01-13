@@ -4,8 +4,8 @@
 }
 
 localhost {
-	handle /static/* {
-		root * /django/ft_transcendence
+	handle_path /static/* {
+		root * /django/ft_transcendence/staticfiles
 		file_server
 	}
 
