@@ -166,6 +166,11 @@
 		background: #1A003E;
 	}
 
+	.error-message {
+		color: #f44336;
+		font-weight: bold;
+	}
+
 .exception {
 	position: fixed;
 	top: 20px;
