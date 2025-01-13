@@ -109,18 +109,18 @@ services:
     command:
       --config.file=/config/alertmanager.yml --log.level=debug
 
-  # caddy:
-  #   image: caddy
-  #   container_name: caddy
-  #   depends_on:
-  #     django:
-  #       condition: service_started
-  #   build: ./caddy
-  #   volumes:
-  #     - ./django:/django
-  #   networks:
-  #     - app
-  #   ports:
-  #     - 8080:8080
-  #     - 2121:2121
-  #   restart: always
+  caddy:
+    image: caddy
+    container_name: caddy
+    depends_on:
+      django:
+        condition: service_started
+    build: ./caddy
+    volumes:
+      - ./django:/django
+    networks:
+      - app
+    ports:
+      - 8080:8080
+      - 2121:2121
+    restart: always

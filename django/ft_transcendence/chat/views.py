@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 from .chat_utils import get_or_create_chat
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
+from django.urls import reverse
 
 @login_required
 def index(request):
@@ -15,6 +17,13 @@ def index(request):
 
 @login_required
 def room(request, room_name, userID):
+    try:
+        Chat.objects.get(id=room_name)
+    except Exception as e:
+        print(e)
+        request.session['message_to_user'] = 'You are no longer friends with this user.'
+        return redirect(reverse('core:home'))
+    
     user_chats = Chat.get_user_chats(user=request.user)
 
     if not user_chats.exists():
@@ -39,6 +48,8 @@ def room(request, room_name, userID):
     return render(request, "chat/room.html", context)
 
 def get_room_redirect(request, userID):
+    second_user = User.objects.get(id=userID)
+    print(f'main user : {request.user} second user : {second_user}')
     user_profile = User.objects.get(id=userID)
     chat = get_or_create_chat(request, user_profile)
     room_name = chat.id
