@@ -16,23 +16,17 @@ let ball_coord = initial_ball_coord;
 let board_coord = board.getBoundingClientRect();
 let paddle_common =
     document.querySelector('.paddle').getBoundingClientRect();
-
-let dx = Math.floor(Math.random() * 4) + 3;
-let dy = Math.floor(Math.random() * 4) + 3;
-let dxd = Math.floor(Math.random() * 2);
-let dyd = Math.floor(Math.random() * 2);
-
 let maxPoints = 3;
 let round = 0;
 let winners = [];
-
+let randomFloat =  generateRandomFloat(0.5, 1)
 let paddleSpeed = window.innerHeight * 0.015; // Adjust for desired paddle speed
 let paddle1Direction = 0; // -1 for up, 1 for down, 0 for stationary
 let paddle2Direction = 0;
 let animationRunning = false; // To control the paddle animation loop
 
 let lastTime = null; // To track the last frame's timestamp
-let baseBallSpeed = 0.7
+let baseBallSpeed = 1
 let speedMultiplier = baseBallSpeed;
 let speedIncreaseInterval; // To store the interval ID
 let increaseMessage;
@@ -61,7 +55,7 @@ if ( tournament === true ) {
         board.classList.remove('smooth-appearance');
     }, 1300); // Durée de l'animation smoothAppearence (1.3s)
     
-    startTournament();
+    playRound();
     const players = getTournamentPlayers();
     addPlayersName(players.playerOne, players.playerTwo, 0);
 }
@@ -147,16 +141,15 @@ function createHandleKeydown(e) {
     if (e.key === "Enter") {
         if (gameState === "break") return;
 
-        gameState = gameState === "start" ? "play" : "start";
-
-        if (gameState === "play") {
+        if (gameState === "start") {
+            gameState = 'play'
             message.innerHTML = "";
             message.style.left = "42vw";
 
             increaseBallSpeed();
 
             requestAnimationFrame(() => {
-                const dx = Math.floor(Math.random() * 4) + 3;
+                const dx = Math.floor(Math.random() * 4) + 3 + 2000;
                 const dy = Math.floor(Math.random() * 4) + 3;
                 const dxd = Math.floor(Math.random() * 2);
                 const dyd = Math.floor(Math.random() * 2);
@@ -186,16 +179,18 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
     // Calculate movement relative to board size
     const baseSpeed = 0.5; // Adjust this for desired speed; it's a fraction of board size per second
     const velocityX = baseSpeed * board_coord.width * deltaTime * speedMultiplier;
-    const velocityY = baseSpeed * board_coord.height * deltaTime * speedMultiplier;
+    const velocityY = baseSpeed * board_coord.height * deltaTime * speedMultiplier * randomFloat;
 
     const movementX = velocityX * (dxd === 0 ? -1 : 1);
     const movementY = velocityY * (dyd === 0 ? -1 : 1);
 
     // Bounce off top and bottom
     if (ball_coord.top <= board_coord.top) {
+        randomFloat = generateRandomFloat(0.5, 1)
         dyd = 1;
     }
     if (ball_coord.bottom >= board_coord.bottom) {
+        randomFloat = generateRandomFloat(0.5, 1)
         dyd = 0;
     }
 
@@ -203,15 +198,19 @@ function moveBall(dx, dy, dxd, dyd, createHandleKeydown) {
     if (
         ball_coord.left <= paddle_1_coord.right &&
         ball_coord.top >= paddle_1_coord.top &&
-        ball_coord.bottom <= paddle_1_coord.bottom
+        ball_coord.bottom <= paddle_1_coord.bottom &&
+        dxd != 1
     ) {
+        randomFloat = generateRandomFloat(0.5, 1)
         dxd = 1;
     }
     if (
         ball_coord.right >= paddle_2_coord.left &&
         ball_coord.top >= paddle_2_coord.top &&
-        ball_coord.bottom <= paddle_2_coord.bottom
+        ball_coord.bottom <= paddle_2_coord.bottom &&
+        dxd != 0
     ) {
+        randomFloat = generateRandomFloat(0.5, 1)
         dxd = 0;
     }
 
@@ -407,7 +406,8 @@ function displayNextGame() {
 function increaseBallSpeed() {
     clearInterval(speedIncreaseInterval);
     speedIncreaseInterval = setInterval(() => {
-        speedMultiplier += 0.1;
+        if ( speedMultiplier < 2.5 )
+            speedMultiplier += 0.1;
         displayIncreaseMessage(speedMultiplier);
     }, 6000);
 }
@@ -426,7 +426,7 @@ function displayIncreaseMessage(ballSpeed) {
     // Retirer l'effet après 1000 ms (ajustez selon l'effet souhaité)
     setTimeout(() => {
         board.classList.remove('board-glow-effect');
-    }, 1000);
+    }, 5999);
 }
 
 function updateDB(result) {
@@ -436,4 +436,18 @@ function updateDB(result) {
             'Content-Type': 'application/json'
         }
     })
+}
+
+function generateRandomFloat(start, end) {
+    /**
+     * Generate a random float number within the chosen range [start, end].
+     * 
+     * @param {number} start - The lower bound of the range.
+     * @param {number} end - The upper bound of the range.
+     * @returns {number} A random float number within the range.
+     */
+    if (start > end) {
+        throw new Error("Start must be less than or equal to end.");
+    }
+    return Math.random() * (end - start) + start;
 }
