@@ -44,6 +44,7 @@ body {
     height: 100%;
     width: 100%;
     border-radius: 100px;
+    background-color: red;
     animation: spinBall 1s linear infinite;
     box-shadow: inset 0 0 18px #fff,
         inset 6px 0 18px #DC91C2,

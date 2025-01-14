@@ -41,8 +41,8 @@ function loadGameContent() {
         return response.text();
       })
       .then((html) => {
+		gameArea.innerHTML = html; // Insert the HTML into #game-area
 		loadGameJS()
-        gameArea.innerHTML = html; // Insert the HTML into #game-area
       })
       .catch((error) => {
         console.error("Failed to load game content:", error);
@@ -71,8 +71,4 @@ function loadGameJS() {
 function getTournamentPlayers() {
 
 	return (players)
-}
-
-function startTournament() {
-		playRound();
 }
