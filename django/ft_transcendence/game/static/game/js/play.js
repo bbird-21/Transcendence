@@ -147,9 +147,8 @@ function createHandleKeydown(e) {
     if (e.key === "Enter") {
         if (gameState === "break") return;
 
-        gameState = gameState === "start" ? "play" : "start";
-
-        if (gameState === "play") {
+        if (gameState === "start") {
+            gameState = 'play'
             message.innerHTML = "";
             message.style.left = "42vw";
 
